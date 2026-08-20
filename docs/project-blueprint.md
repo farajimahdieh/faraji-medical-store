@@ -104,7 +104,7 @@
     * addresses
   * Schema دقیق هر Feature فقط هنگام طراحی همان Feature نهایی شود؛ نه همه از الان.
 
-* [ ] **۸. Docker / محیط توسعه**
+* [x] **۸. Docker / محیط توسعه**
 
   * Docker Desktop نصب شود.
   * WSL2 روی Windows آماده شود.
@@ -155,7 +155,7 @@
   * Frontend نباید token را مثل داده معمولی دستکاری کند.
   * CSRF protection هنگام طراحی نهایی Auth بررسی شود.
 
-* [ ] **۱۲. OTP SMS Provider**
+* [x] **۱۲. OTP SMS Provider**
 
   * در فاز Development: **MockSmsProvider**
   * قبل از Production یکی انتخاب شود.
