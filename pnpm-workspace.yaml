@@ -3,4 +3,4 @@ packages:
   - "packages/*"
 allowBuilds:
   unrs-resolver: true
-  sharp: false
+  sharp: true

@@ -16,6 +16,10 @@ out/
 # Test coverage
 coverage/
 
+# Locally stored product media (dev) and importer response cache
+apps/api/storage/
+apps/api/.import-cache/
+
 # Logs
 *.log
 

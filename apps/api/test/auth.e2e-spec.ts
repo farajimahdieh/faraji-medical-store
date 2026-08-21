@@ -1,9 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import request from 'supertest';
-import { App } from 'supertest/types';
 
 import { ThrottlerGuard } from '@nestjs/throttler';
 
@@ -18,7 +17,7 @@ const TEST_PHONE = '09300000001';
 const NORMALIZED_PHONE = '+989300000001';
 
 describe('Auth (e2e)', () => {
-  let app: INestApplication<App>;
+  let app: NestExpressApplication;
   let userRepository: Repository<User>;
   let otpRepository: Repository<OtpCode>;
   let sessionRepository: Repository<Session>;
@@ -48,7 +47,7 @@ describe('Auth (e2e)', () => {
       .useValue({ canActivate: () => true })
       .compile();
 
-    app = moduleFixture.createNestApplication();
+    app = moduleFixture.createNestApplication<NestExpressApplication>();
     configureApp(app);
     await app.init();
 

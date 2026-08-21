@@ -20,7 +20,10 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "migration:generate": "node --env-file=.env node_modules/typeorm/cli-ts-node-commonjs.js migration:generate -d src/database/data-source.ts",
     "migration:run": "node --env-file=.env node_modules/typeorm/cli-ts-node-commonjs.js migration:run -d src/database/data-source.ts",
-    "migration:revert": "node --env-file=.env node_modules/typeorm/cli-ts-node-commonjs.js migration:revert -d src/database/data-source.ts"
+    "migration:revert": "node --env-file=.env node_modules/typeorm/cli-ts-node-commonjs.js migration:revert -d src/database/data-source.ts",
+    "seed:catalog": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seeds/catalog.seed.ts",
+    "import:teb-sanat": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/catalog/import/teb-sanat/run-import.ts",
+    "sync:teb-sanat-videos": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/catalog/import/teb-sanat/video-sync/run-video-sync.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -35,6 +38,7 @@
     "pg": "^8.23.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "sharp": "^0.35.3",
     "typeorm": "^1.1.0"
   },
   "devDependencies": {
