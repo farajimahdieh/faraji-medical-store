@@ -2,18 +2,51 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #1f2937;
+  --foreground: #102a43;
+
+  /* Brand design system */
+  --color-primary: #0a7fa4;
+  --color-primary-dark: #086a89;
+  --color-navy: #102a43;
+  --color-secondary-text: #667085;
+  --color-medical-bg: #f3fafc;
+  --color-neutral-bg: #f8fafc;
+  --color-border: #dce7ec;
+  --color-accent-red: #d62839;
+  --color-accent-orange: #f59e0b;
+  --color-accent-coral: #ff6b5f;
+  --color-warm-bg: #fff8f2;
+
+  /* Subtle per-category tint backgrounds — decorative only */
+  --color-tint-blue: #f2fafc;
+  --color-tint-red: #fff5f5;
+  --color-tint-orange: #fff8ee;
+  --color-tint-green: #f4faf7;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-vazirmatn);
+
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-navy: var(--color-navy);
+  --color-secondary-text: var(--color-secondary-text);
+  --color-medical-bg: var(--color-medical-bg);
+  --color-neutral-bg: var(--color-neutral-bg);
+  --color-border: var(--color-border);
+  --color-accent-red: var(--color-accent-red);
+  --color-accent-orange: var(--color-accent-orange);
+  --color-accent-coral: var(--color-accent-coral);
+  --color-warm-bg: var(--color-warm-bg);
+  --color-tint-blue: var(--color-tint-blue);
+  --color-tint-red: var(--color-tint-red);
+  --color-tint-orange: var(--color-tint-orange);
+  --color-tint-green: var(--color-tint-green);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

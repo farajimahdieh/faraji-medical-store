@@ -1,24 +1,29 @@
-import Link from "next/link";
+import { BrandStory } from "@/components/home/BrandStory";
+import { Brands } from "@/components/home/Brands";
+import { BuyingGuides } from "@/components/home/BuyingGuides";
+import { ConsultationCTA } from "@/components/home/ConsultationCTA";
+import { FeaturedProducts } from "@/components/home/FeaturedProducts";
+import { Hero } from "@/components/home/Hero";
+import { ProductCategories } from "@/components/home/ProductCategories";
+import { ShopByNeed } from "@/components/home/ShopByNeed";
+import { SmartConsultation } from "@/components/home/SmartConsultation";
+import { TrustBar } from "@/components/home/TrustBar";
+import { WhyFaraji } from "@/components/home/WhyFaraji";
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-6 px-6 py-24 text-center">
-      <span className="rounded-full bg-green-100 px-4 py-1 text-sm font-medium text-green-700">
-        فروشگاه معتبر تجهیزات پزشکی
-      </span>
-      <h1 className="text-3xl font-bold text-slate-800">
-        فروشگاه تجهیزات پزشکی
-      </h1>
-      <p className="max-w-md leading-7 text-slate-500">
-        این پروژه در حال ساخت است. فعلاً فقط ورود و ثبت‌نام با شماره موبایل
-        فعال شده.
-      </p>
-      <Link
-        href="/login"
-        className="rounded-full bg-red-600 px-8 py-3 font-medium text-white shadow-sm shadow-red-200 transition-colors hover:bg-red-700"
-      >
-        ورود / ثبت‌نام
-      </Link>
-    </div>
+    <>
+      <Hero />
+      <TrustBar />
+      <ProductCategories />
+      <ShopByNeed />
+      <FeaturedProducts />
+      <BrandStory />
+      <SmartConsultation />
+      <WhyFaraji />
+      <BuyingGuides />
+      <Brands />
+      <ConsultationCTA />
+    </>
   );
 }

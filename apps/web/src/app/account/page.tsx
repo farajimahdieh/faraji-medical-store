@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Container } from "@/components/ui/Container";
 import { getMe, logout, type PublicUser } from "@/lib/api";
 
 export default function AccountPage() {
@@ -25,7 +26,7 @@ export default function AccountPage() {
 
   if (loading) {
     return (
-      <p className="px-6 py-24 text-center text-sm text-slate-500">
+      <p className="px-6 py-24 text-center text-sm text-secondary-text">
         در حال بارگذاری...
       </p>
     );
@@ -36,21 +37,21 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center px-6 py-16">
-      <div className="rounded-2xl border border-sky-100 bg-white p-8 shadow-sm">
-        <h1 className="text-xl font-bold text-slate-800">
-          سلام {user.firstName ?? "کاربر"} عزیز 👋
+    <Container className="flex flex-1 flex-col justify-center py-16">
+      <div className="mx-auto w-full max-w-sm rounded-[24px] border border-border bg-white p-8 shadow-sm">
+        <h1 className="text-xl font-bold text-navy">
+          سلام {user.firstName ?? "کاربر"} عزیز
         </h1>
         <dl className="mt-6 text-sm">
-          <div className="flex justify-between border-b border-sky-50 py-3">
-            <dt className="text-slate-500">شماره موبایل</dt>
-            <dd dir="ltr" className="font-medium text-slate-800">
+          <div className="flex justify-between border-b border-border py-3">
+            <dt className="text-secondary-text">شماره موبایل</dt>
+            <dd dir="ltr" className="font-medium text-navy">
               {user.phone}
             </dd>
           </div>
-          <div className="flex justify-between border-b border-sky-50 py-3">
-            <dt className="text-slate-500">نام کامل</dt>
-            <dd className="font-medium text-slate-800">
+          <div className="flex justify-between border-b border-border py-3">
+            <dt className="text-secondary-text">نام کامل</dt>
+            <dd className="font-medium text-navy">
               {user.firstName} {user.lastName}
             </dd>
           </div>
@@ -58,11 +59,11 @@ export default function AccountPage() {
         <button
           onClick={handleLogout}
           disabled={loggingOut}
-          className="mt-6 w-full rounded-lg border border-red-200 px-4 py-2.5 font-medium text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
+          className="mt-6 h-11 w-full rounded-xl border border-accent-red/25 text-sm font-medium text-accent-red transition-colors hover:bg-accent-red/5 disabled:opacity-50"
         >
           {loggingOut ? "در حال خروج..." : "خروج از حساب"}
         </button>
       </div>
-    </div>
+    </Container>
   );
 }
