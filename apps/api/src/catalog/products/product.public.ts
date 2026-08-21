@@ -43,12 +43,18 @@ export interface PublicProductListItem {
   stockStatus: StockStatus;
 }
 
+export interface PublicProductCategory {
+  name: string;
+  slug: string;
+  parent: { name: string; slug: string } | null;
+}
+
 export interface PublicProductDetail {
   id: string;
   slug: string;
   name: string;
   brand: PublicBrand | null;
-  category: { name: string; slug: string } | null;
+  category: PublicProductCategory | null;
   shortDescription: string | null;
   description: string | null;
   features: string[];
@@ -78,7 +84,9 @@ function toPublicVariant(variant: ProductVariant): PublicProductVariant {
   };
 }
 
-function resolvePriceDisplay(variants: ProductVariant[]): PublicPriceDisplay {
+export function resolvePriceDisplay(
+  variants: ProductVariant[],
+): PublicPriceDisplay {
   const knownPrices = variants
     .map((variant) => variant.price)
     .filter((price): price is number => price !== null);
@@ -93,7 +101,7 @@ function resolvePriceDisplay(variants: ProductVariant[]): PublicPriceDisplay {
   };
 }
 
-function resolveStockStatus(variants: ProductVariant[]): StockStatus {
+export function resolveStockStatus(variants: ProductVariant[]): StockStatus {
   const knownStocks = variants
     .map((variant) => variant.stock)
     .filter((stock): stock is number => stock !== null);
@@ -147,7 +155,16 @@ export function toPublicProductDetail(
         }
       : null,
     category: product.category
-      ? { name: product.category.name, slug: product.category.slug }
+      ? {
+          name: product.category.name,
+          slug: product.category.slug,
+          parent: product.category.parent
+            ? {
+                name: product.category.parent.name,
+                slug: product.category.parent.slug,
+              }
+            : null,
+        }
       : null,
     shortDescription: product.shortDescription,
     description: product.description,
@@ -159,4 +176,26 @@ export function toPublicProductDetail(
     videoSource: product.videoSource,
     videoTitle: product.videoTitle,
   };
+}
+
+export interface PublicFacetOption {
+  name: string;
+  slug: string;
+  count: number;
+}
+
+export interface PublicSizeFacetOption {
+  size: string;
+  count: number;
+}
+
+export interface PublicProductFacets {
+  subcategories: PublicFacetOption[];
+  brands: PublicFacetOption[];
+  sizes: PublicSizeFacetOption[];
+  // False whenever no in-scope variant has synced price/stock yet — the
+  // storefront must hide those filters entirely rather than show one that
+  // can never do anything (see product-variant.entity.ts).
+  priceFilterAvailable: boolean;
+  stockFilterAvailable: boolean;
 }

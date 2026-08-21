@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { getMe, logout, type PublicUser } from "@/lib/api";
+import { useWishlist } from "@/components/wishlist/WishlistProvider";
 
 export default function AccountPage() {
   const router = useRouter();
+  const { reset: resetWishlist } = useWishlist();
   const [user, setUser] = useState<PublicUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [loggingOut, setLoggingOut] = useState(false);
@@ -21,6 +23,7 @@ export default function AccountPage() {
   async function handleLogout() {
     setLoggingOut(true);
     await logout();
+    resetWishlist();
     router.push("/login");
   }
 

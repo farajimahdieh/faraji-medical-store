@@ -52,7 +52,9 @@ export function MegaMenu() {
         aria-haspopup="true"
         aria-expanded={open}
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1 text-sm font-medium text-navy transition-colors hover:text-primary"
+        className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary ${
+          open ? "text-primary" : "text-navy"
+        }`}
       >
         دسته‌بندی‌ها
         <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />

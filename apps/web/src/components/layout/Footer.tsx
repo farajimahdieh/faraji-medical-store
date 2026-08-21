@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/Container";
 const footerCategories = [
   { label: "پانسمان و زخم بستر", href: "/categories/dressing-wound-care" },
   { label: "تجهیزات مصرفی پزشکی", href: "/categories/medical-consumables" },
-  { label: "تجهیزات ارتوپدی", href: "/categories/orthopedic-mobility" },
+  { label: "تجهیزات ارتوپدی", href: "/categories/orthopedic-mobility-rehab" },
   { label: "تجهیزات تنفسی", href: "/categories/diagnostics-respiratory" },
   { label: "تجهیزات آزمایشگاهی", href: "/categories/lab-equipment" },
 ];

@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
-import { SizeSelector } from "@/components/catalog/SizeSelector";
+import { ProductVariantWishlist } from "@/components/catalog/ProductVariantWishlist";
 import { VideoSection } from "@/components/catalog/VideoSection";
 import { ProductGallery } from "@/components/catalog/ProductGallery";
+import { Breadcrumb } from "@/components/catalog/Breadcrumb";
 import { ApiError, getProductBySlug } from "@/lib/api";
 
 // Some imported feature lines carry a leading "•" from the source's own
@@ -51,19 +52,24 @@ export default async function ProductDetailPage({
     throw error;
   }
 
+  // Breadcrumb shows the product's root category (e.g. "ارتوپدی، حرکتی و
+  // توانبخشی") rather than its immediate subcategory, matching the
+  // category listing pages' own hierarchy.
+  const breadcrumbCategory = product.category
+    ? (product.category.parent ?? product.category)
+    : null;
+
   return (
     <Container className="py-10">
-      <nav className="mb-6 text-sm text-secondary-text">
-        <span>محصولات</span>
-        {product.category && (
-          <>
-            <span> / </span>
-            <span>{product.category.name}</span>
-          </>
-        )}
-        <span> / </span>
-        <span className="text-navy">{product.name}</span>
-      </nav>
+      <Breadcrumb
+        items={[
+          { label: "خانه", href: "/" },
+          ...(breadcrumbCategory
+            ? [{ label: breadcrumbCategory.name, href: `/categories/${breadcrumbCategory.slug}` }]
+            : [{ label: "محصولات", href: "/products" }]),
+          { label: product.name },
+        ]}
+      />
 
       <div className="grid gap-10 lg:grid-cols-2">
         <ProductGallery images={product.images} productName={product.name} />
@@ -86,7 +92,11 @@ export default async function ProductDetailPage({
             )}
           </div>
 
-          <SizeSelector variants={product.variants} />
+          <ProductVariantWishlist
+            productId={product.id}
+            productName={product.name}
+            variants={product.variants}
+          />
 
           {product.shortDescription && (
             <p className="whitespace-pre-line text-sm leading-7 text-secondary-text">

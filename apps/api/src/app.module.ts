@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CatalogModule } from './catalog/catalog.module';
+import { WishlistModule } from './wishlist/wishlist.module';
 import { typeOrmModuleOptions } from './database/typeorm-options';
 
 @Module({
@@ -23,6 +24,7 @@ import { typeOrmModuleOptions } from './database/typeorm-options';
     UsersModule,
     AuthModule,
     CatalogModule,
+    WishlistModule,
   ],
 
   controllers: [AppController],

@@ -7,6 +7,10 @@
   /* Brand design system */
   --color-primary: #0a7fa4;
   --color-primary-dark: #086a89;
+  /* A more saturated turquoise tint than --color-tint-blue — for hover
+     backgrounds, soft badges, and other spots that need to actually read as
+     "turquoise" rather than the near-white section-background tint. */
+  --color-primary-tint: #dff4f8;
   --color-navy: #102a43;
   --color-secondary-text: #667085;
   --color-medical-bg: #f3fafc;
@@ -31,6 +35,7 @@
 
   --color-primary: var(--color-primary);
   --color-primary-dark: var(--color-primary-dark);
+  --color-primary-tint: var(--color-primary-tint);
   --color-navy: var(--color-navy);
   --color-secondary-text: var(--color-secondary-text);
   --color-medical-bg: var(--color-medical-bg);

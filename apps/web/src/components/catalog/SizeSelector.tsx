@@ -13,14 +13,28 @@ const stockToneClass: Record<"positive" | "negative" | "neutral", string> = {
 
 const UNNAMED_SIZE_LABELS = new Set(["تک سایز", "یک‌سایز", "یکسایز"]);
 
-export function SizeSelector({ variants }: { variants: PublicProductVariant[] }) {
-  const [selectedId, setSelectedId] = useState(variants[0]?.id);
+// True when the variants represent a real size choice worth showing (and
+// worth remembering as a wishlist variant); false for a single placeholder
+// "one size" variant, which should be treated the same as no selection.
+export function hasSelectableSizes(variants: PublicProductVariant[]): boolean {
+  return !(variants.length === 1 && UNNAMED_SIZE_LABELS.has(variants[0].size));
+}
+
+interface SizeSelectorProps {
+  variants: PublicProductVariant[];
+  /** Controlled selection — omit to let the component manage its own state. */
+  selectedId?: string;
+  onSelect?: (variantId: string) => void;
+}
+
+export function SizeSelector({ variants, selectedId: controlledId, onSelect }: SizeSelectorProps) {
+  const [internalId, setInternalId] = useState(variants[0]?.id);
   if (variants.length === 0) return null;
 
+  const selectedId = controlledId ?? internalId;
+  const setSelectedId = onSelect ?? setInternalId;
   const selected = variants.find((variant) => variant.id === selectedId) ?? variants[0];
-  const showSizeButtons = !(
-    variants.length === 1 && UNNAMED_SIZE_LABELS.has(variants[0].size)
-  );
+  const showSizeButtons = hasSelectableSizes(variants);
   const stock = formatStockStatus(
     selected.stock === null ? "unknown" : selected.stock > 0 ? "in_stock" : "out_of_stock",
   );

@@ -4,11 +4,13 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { ApiError, requestOtp, verifyOtp } from "@/lib/api";
+import { useWishlist } from "@/components/wishlist/WishlistProvider";
 
 type Step = "phone" | "otp";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { refresh: refreshWishlist } = useWishlist();
   const [step, setStep] = useState<Step>("phone");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
@@ -35,6 +37,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const { isNewUser } = await verifyOtp(phone, code);
+      await refreshWishlist();
       router.push(isNewUser ? "/complete-profile" : "/account");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "خطایی رخ داد");

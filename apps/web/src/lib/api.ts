@@ -122,12 +122,18 @@ export interface PublicProductListItem {
   stockStatus: StockStatus;
 }
 
+export interface PublicProductCategory {
+  name: string;
+  slug: string;
+  parent: { name: string; slug: string } | null;
+}
+
 export interface PublicProductDetail {
   id: string;
   slug: string;
   name: string;
   brand: PublicBrand | null;
-  category: { name: string; slug: string } | null;
+  category: PublicProductCategory | null;
   shortDescription: string | null;
   description: string | null;
   features: string[];
@@ -146,11 +152,27 @@ export interface PublicProductListResponse {
   limit: number;
 }
 
+export type ProductSortOption = 'newest' | 'name';
+
+export interface ListProductsParams {
+  category?: string;
+  q?: string;
+  brand?: string;
+  size?: string;
+  sort?: ProductSortOption;
+  page?: number;
+  limit?: number;
+}
+
 export function listProducts(
-  params: { category?: string; page?: number; limit?: number } = {},
+  params: ListProductsParams = {},
 ): Promise<PublicProductListResponse> {
   const search = new URLSearchParams();
   if (params.category) search.set('category', params.category);
+  if (params.q) search.set('q', params.q);
+  if (params.brand) search.set('brand', params.brand);
+  if (params.size) search.set('size', params.size);
+  if (params.sort) search.set('sort', params.sort);
   if (params.page) search.set('page', String(params.page));
   if (params.limit) search.set('limit', String(params.limit));
   const qs = search.toString();
@@ -159,4 +181,152 @@ export function listProducts(
 
 export function getProductBySlug(slug: string): Promise<PublicProductDetail> {
   return apiFetch(`/products/${encodeURIComponent(slug)}`);
+}
+
+export interface PublicCategory {
+  id: string;
+  name: string;
+  slug: string;
+  parent: { name: string; slug: string } | null;
+}
+
+export function getCategoryBySlug(slug: string): Promise<PublicCategory> {
+  return apiFetch(`/categories/${encodeURIComponent(slug)}`);
+}
+
+export interface PublicFacetOption {
+  name: string;
+  slug: string;
+  count: number;
+}
+
+export interface PublicSizeFacetOption {
+  size: string;
+  count: number;
+}
+
+export interface PublicProductFacets {
+  subcategories: PublicFacetOption[];
+  brands: PublicFacetOption[];
+  sizes: PublicSizeFacetOption[];
+  priceFilterAvailable: boolean;
+  stockFilterAvailable: boolean;
+}
+
+export function getProductFacets(
+  params: { category?: string; q?: string } = {},
+): Promise<PublicProductFacets> {
+  const search = new URLSearchParams();
+  if (params.category) search.set('category', params.category);
+  if (params.q) search.set('q', params.q);
+  const qs = search.toString();
+  return apiFetch(`/products/facets${qs ? `?${qs}` : ''}`);
+}
+
+export interface PublicProductSuggestion {
+  type: 'product';
+  id: string;
+  label: string;
+  slug: string;
+  brand: string | null;
+  image: string | null;
+}
+
+export interface PublicSubcategorySuggestion {
+  type: 'subcategory';
+  label: string;
+  slug: string;
+}
+
+export interface PublicBrandSuggestion {
+  type: 'brand';
+  label: string;
+  slug: string;
+}
+
+export type PublicSuggestion =
+  | PublicProductSuggestion
+  | PublicSubcategorySuggestion
+  | PublicBrandSuggestion;
+
+export function getProductSuggestions(
+  q: string,
+  limit = 6,
+  options: { signal?: AbortSignal } = {},
+): Promise<{ suggestions: PublicSuggestion[] }> {
+  const search = new URLSearchParams({ q, limit: String(limit) });
+  return apiFetch(`/products/suggestions?${search.toString()}`, {
+    signal: options.signal,
+  });
+}
+
+export interface PublicWishlistItem {
+  wishlistItemId: string;
+  productId: string;
+  productName: string;
+  productSlug: string;
+  brand: PublicBrand | null;
+  primaryImage: PublicProductImage | null;
+  variantId: string | null;
+  size: string | null;
+  price: PublicPriceDisplay;
+  stockStatus: StockStatus;
+  note: string | null;
+  createdAt: string;
+}
+
+export interface PublicWishlistListResponse {
+  items: PublicWishlistItem[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export function addToWishlist(
+  productId: string,
+  variantId?: string | null,
+): Promise<PublicWishlistItem> {
+  return apiFetch('/wishlist', {
+    method: 'POST',
+    body: JSON.stringify({ productId, variantId: variantId ?? undefined }),
+  });
+}
+
+export function listWishlist(
+  params: { page?: number; limit?: number } = {},
+): Promise<PublicWishlistListResponse> {
+  const search = new URLSearchParams();
+  if (params.page) search.set('page', String(params.page));
+  if (params.limit) search.set('limit', String(params.limit));
+  const qs = search.toString();
+  return apiFetch(`/wishlist${qs ? `?${qs}` : ''}`);
+}
+
+export function getWishlistCount(): Promise<{ count: number }> {
+  return apiFetch('/wishlist/count');
+}
+
+export function checkWishlist(
+  productId: string,
+  variantId?: string | null,
+): Promise<{ inWishlist: boolean; wishlistItemId: string | null }> {
+  const search = new URLSearchParams({ productId });
+  if (variantId) search.set('variantId', variantId);
+  return apiFetch(`/wishlist/check?${search.toString()}`);
+}
+
+export function updateWishlistNote(
+  wishlistItemId: string,
+  note: string | null,
+): Promise<PublicWishlistItem> {
+  return apiFetch(`/wishlist/${encodeURIComponent(wishlistItemId)}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ note }),
+  });
+}
+
+export function removeFromWishlist(wishlistItemId: string): Promise<void> {
+  return apiFetch(`/wishlist/${encodeURIComponent(wishlistItemId)}`, {
+    method: 'DELETE',
+  });
 }

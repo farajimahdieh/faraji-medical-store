@@ -1,15 +1,40 @@
-import { Accessibility, Activity, ArrowLeft, FlaskConical, MessageCircle, ShieldCheck, Stethoscope } from "lucide-react";
+import { ArrowLeft, MessageCircle, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 
+// DOM order here maps to visual position under the page's RTL grid
+// auto-placement (column 1 renders on the right): tile 1 -> top-right,
+// tile 2 -> top-left, tile 3 -> bottom-right, tile 4 -> bottom-left.
+const heroTiles: { src: string; alt: string; className?: string }[] = [
+  {
+    src: "/images/home/hero/faraji-hero-medical-care.webp",
+    alt: "کیف و ابزار مراقبت پزشکی",
+    className: "translate-y-4",
+  },
+  {
+    src: "/images/home/hero/faraji-hero-health-monitoring.webp",
+    alt: "دستگاه‌های پایش سلامت مانند فشارسنج و پالس اکسیمتر",
+  },
+  {
+    src: "/images/home/hero/faraji-hero-laboratory.webp",
+    alt: "تجهیزات آزمایشگاهی",
+  },
+  {
+    src: "/images/home/hero/faraji-hero-rehabilitation.webp",
+    alt: "تجهیزات توانبخشی و حرکتی مانند ویلچر و واکر",
+    className: "translate-y-4",
+  },
+];
+
 export function Hero() {
   return (
-    <section className="bg-gradient-to-b from-medical-bg to-white py-10 sm:py-14">
+    <section className="bg-gradient-to-b from-[#EFFAFC] via-[#F7FCFD] to-white py-10 sm:py-14">
       <Container>
-        <div className="grid grid-cols-1 items-center gap-10 rounded-[28px] border border-border bg-medical-bg/60 p-6 sm:p-10 lg:grid-cols-2 lg:gap-16 lg:p-14">
+        <div className="grid grid-cols-1 items-center gap-10 rounded-[28px] border border-primary/15 bg-medical-bg/60 p-6 sm:p-10 lg:grid-cols-2 lg:gap-16 lg:p-14">
           <div className="flex flex-col items-start gap-5">
             <p className="flex items-center gap-2 text-sm font-semibold text-primary">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent-orange" aria-hidden="true" />
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
               تجهیزات پزشکی و آزمایشگاهی فرجی
             </p>
 
@@ -35,7 +60,7 @@ export function Hero() {
               </Link>
               <Link
                 href="/consultation"
-                className="flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-white px-6 text-sm font-semibold text-navy transition-colors hover:border-accent-red/40 hover:text-accent-red"
+                className="flex h-12 items-center justify-center gap-2 rounded-xl border border-primary/30 bg-white px-6 text-sm font-semibold text-navy transition-colors hover:border-primary hover:bg-primary-tint hover:text-primary"
               >
                 <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 مشاوره خرید
@@ -54,10 +79,9 @@ export function Hero() {
           </div>
 
           <div className="relative mx-auto grid aspect-square w-full max-w-md grid-cols-2 gap-4">
-            <HeroVisualTile icon={Stethoscope} className="translate-y-4" color="text-primary" />
-            <HeroVisualTile icon={Activity} color="text-accent-red" />
-            <HeroVisualTile icon={FlaskConical} color="text-accent-orange" />
-            <HeroVisualTile icon={Accessibility} className="translate-y-4" color="text-primary" />
+            {heroTiles.map((tile) => (
+              <HeroVisualTile key={tile.src} {...tile} />
+            ))}
           </div>
         </div>
       </Container>
@@ -66,19 +90,25 @@ export function Hero() {
 }
 
 function HeroVisualTile({
-  icon: Icon,
+  src,
+  alt,
   className = "",
-  color,
 }: {
-  icon: typeof Stethoscope;
+  src: string;
+  alt: string;
   className?: string;
-  color: string;
 }) {
   return (
     <div
-      className={`flex items-center justify-center rounded-3xl border border-border bg-white shadow-sm ${className}`}
+      className={`relative aspect-square overflow-hidden rounded-3xl border border-primary/15 bg-white shadow-sm transition-shadow hover:shadow-lg hover:shadow-primary/15 ${className}`}
     >
-      <Icon className={`h-12 w-12 ${color}`} strokeWidth={1.5} aria-hidden="true" />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(min-width: 640px) 200px, 40vw"
+        className="object-cover"
+      />
     </div>
   );
 }

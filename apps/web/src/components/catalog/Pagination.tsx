@@ -1,24 +1,18 @@
 import Link from "next/link";
+import { buildListingHref, type ListingSearchParams } from "@/lib/query-params";
 
 export function Pagination({
   page,
   totalPages,
   basePath,
-  category,
+  searchParams,
 }: {
   page: number;
   totalPages: number;
   basePath: string;
-  category?: string;
+  searchParams: ListingSearchParams;
 }) {
   if (totalPages <= 1) return null;
-
-  function hrefFor(targetPage: number) {
-    const params = new URLSearchParams();
-    if (category) params.set("category", category);
-    params.set("page", String(targetPage));
-    return `${basePath}?${params.toString()}`;
-  }
 
   return (
     <nav
@@ -29,7 +23,9 @@ export function Pagination({
         (targetPage) => (
           <Link
             key={targetPage}
-            href={hrefFor(targetPage)}
+            href={buildListingHref(basePath, searchParams, {
+              page: String(targetPage),
+            })}
             aria-current={targetPage === page ? "page" : undefined}
             className={`flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-colors ${
               targetPage === page

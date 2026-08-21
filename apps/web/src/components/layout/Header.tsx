@@ -1,13 +1,13 @@
-import { Heart, ShoppingCart, User } from "lucide-react";
+import { ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/icons/Logo";
 import { Container } from "@/components/ui/Container";
 import { mainNavLinks } from "@/data/navigation";
+import { WishlistHeaderLink } from "@/components/wishlist/WishlistHeaderLink";
 import { MegaMenu } from "./MegaMenu";
 import { MobileMenu } from "./MobileMenu";
 import { SearchBar } from "./SearchBar";
 
-const WISHLIST_COUNT = 3;
 const CART_COUNT = 2;
 
 export function Header() {
@@ -32,9 +32,7 @@ export function Header() {
           <HeaderIconLink href="/account" label="حساب کاربری">
             <User className="h-5 w-5" aria-hidden="true" />
           </HeaderIconLink>
-          <HeaderIconLink href="/wishlist" label="علاقه‌مندی‌ها" badge={WISHLIST_COUNT}>
-            <Heart className="h-5 w-5" aria-hidden="true" />
-          </HeaderIconLink>
+          <WishlistHeaderLink />
           <HeaderIconLink href="/cart" label="سبد خرید" badge={CART_COUNT}>
             <ShoppingCart className="h-5 w-5" aria-hidden="true" />
           </HeaderIconLink>

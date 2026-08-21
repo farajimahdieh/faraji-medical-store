@@ -47,6 +47,7 @@ export class Product {
   @JoinColumn({ name: 'brandId' })
   brand: Brand | null;
 
+  @Index()
   @Column({ type: 'uuid', nullable: true })
   brandId: string | null;
 
@@ -54,6 +55,7 @@ export class Product {
   @JoinColumn({ name: 'categoryId' })
   category: Category | null;
 
+  @Index()
   @Column({ type: 'uuid', nullable: true })
   categoryId: string | null;
 

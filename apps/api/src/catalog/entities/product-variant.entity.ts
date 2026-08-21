@@ -36,6 +36,7 @@ export class ProductVariant {
   @Column({ type: 'varchar', nullable: true })
   accountingName: string | null;
 
+  @Index()
   @Column()
   size: string;
 

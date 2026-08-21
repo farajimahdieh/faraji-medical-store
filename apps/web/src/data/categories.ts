@@ -49,7 +49,7 @@ export const categories: Category[] = [
     icon: Stethoscope,
   },
   {
-    slug: "orthopedic-mobility",
+    slug: "orthopedic-mobility-rehab",
     name: "ارتوپدی، حرکتی و توانبخشی",
     description: "ویلچر، واکر، زانوبند و لوازم توانبخشی",
     icon: Accessibility,

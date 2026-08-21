@@ -25,7 +25,7 @@ export function BrandStory() {
           </p>
           <Link
             href="/about"
-            className="mt-2 flex h-11 items-center justify-center rounded-xl bg-navy px-6 text-sm font-semibold text-white transition-colors hover:bg-navy/90"
+            className="mt-2 flex h-11 items-center justify-center rounded-xl bg-primary px-6 text-sm font-semibold text-white shadow-sm shadow-primary/25 transition-colors hover:bg-primary-dark"
           >
             آشنایی با داستان ما
           </Link>

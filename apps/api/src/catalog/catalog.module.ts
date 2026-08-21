@@ -11,6 +11,9 @@ import { SizeGuide } from './entities/size-guide.entity';
 import { ProductSource } from './entities/product-source.entity';
 import { ProductsController } from './products/products.controller';
 import { ProductsService } from './products/products.service';
+import { ProductSuggestionsService } from './products/product-suggestions.service';
+import { CategoriesController } from './categories/categories.controller';
+import { CategoriesService } from './categories/categories.service';
 
 @Module({
   imports: [
@@ -26,8 +29,8 @@ import { ProductsService } from './products/products.service';
       ProductSource,
     ]),
   ],
-  controllers: [ProductsController],
-  providers: [ProductsService],
+  controllers: [ProductsController, CategoriesController],
+  providers: [ProductsService, ProductSuggestionsService, CategoriesService],
   exports: [TypeOrmModule],
 })
 export class CatalogModule {}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ImageIcon } from "lucide-react";
 import { mediaUrl, type PublicProductListItem } from "@/lib/api";
 import { formatPriceDisplay, formatStockStatus } from "@/lib/catalog-format";
+import { WishlistButton } from "@/components/wishlist/WishlistButton";
 
 const stockToneClass: Record<"positive" | "negative" | "neutral", string> = {
   positive: "text-primary",
@@ -18,22 +19,29 @@ export function ProductCard({ product }: { product: PublicProductListItem }) {
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-white transition-shadow hover:shadow-md">
-      <Link
-        href={href}
-        className="relative flex aspect-square items-center justify-center bg-medical-bg"
-      >
-        {product.primaryImage ? (
-          <Image
-            src={mediaUrl(product.primaryImage.url)}
-            alt={product.primaryImage.altText ?? product.name}
-            fill
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-            className="object-contain p-4"
-          />
-        ) : (
-          <ImageIcon className="h-10 w-10 text-primary/40" aria-hidden="true" />
-        )}
-      </Link>
+      <div className="relative">
+        <Link
+          href={href}
+          className="flex aspect-square items-center justify-center bg-medical-bg"
+        >
+          {product.primaryImage ? (
+            <Image
+              src={mediaUrl(product.primaryImage.url)}
+              alt={product.primaryImage.altText ?? product.name}
+              fill
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+              className="object-contain p-4"
+            />
+          ) : (
+            <ImageIcon className="h-10 w-10 text-primary/40" aria-hidden="true" />
+          )}
+        </Link>
+        <WishlistButton
+          productId={product.id}
+          productName={product.name}
+          className="absolute top-3 left-3"
+        />
+      </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
         <Link href={href}>
