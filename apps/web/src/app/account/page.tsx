@@ -1,17 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Container } from "@/components/ui/Container";
-import { getMe, logout, type PublicUser } from "@/lib/api";
+import { getMe, type PublicUser } from "@/lib/api";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { useWishlist } from "@/components/wishlist/WishlistProvider";
+import { AccountNav, type AccountSection } from "@/components/account/AccountNav";
+import { ProfileSection } from "@/components/account/ProfileSection";
+import { AddressesSection } from "@/components/account/AddressesSection";
+import { CouponsSection } from "@/components/account/CouponsSection";
+
+const VALID_SECTIONS: AccountSection[] = ["profile", "addresses", "coupons"];
+
+function isAccountSection(value: string | null): value is AccountSection {
+  return VALID_SECTIONS.includes(value as AccountSection);
+}
 
 export default function AccountPage() {
+  return (
+    <Suspense fallback={null}>
+      <AccountPageContent />
+    </Suspense>
+  );
+}
+
+function AccountPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { logout: authLogout, refresh: authRefresh } = useAuth();
   const { reset: resetWishlist } = useWishlist();
   const [user, setUser] = useState<PublicUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [section, setSection] = useState<AccountSection>(() => {
+    const requested = searchParams.get("section");
+    return isAccountSection(requested) ? requested : "profile";
+  });
 
   useEffect(() => {
     getMe()
@@ -22,9 +47,15 @@ export default function AccountPage() {
 
   async function handleLogout() {
     setLoggingOut(true);
-    await logout();
+    await authLogout();
     resetWishlist();
     router.push("/login");
+  }
+
+  function handleUserChange(updated: PublicUser) {
+    setUser(updated);
+    // Keeps the Header's profile popover (name greeting) in sync immediately.
+    authRefresh();
   }
 
   if (loading) {
@@ -40,32 +71,26 @@ export default function AccountPage() {
   }
 
   return (
-    <Container className="flex flex-1 flex-col justify-center py-16">
-      <div className="mx-auto w-full max-w-sm rounded-[24px] border border-border bg-white p-8 shadow-sm">
-        <h1 className="text-xl font-bold text-navy">
-          سلام {user.firstName ?? "کاربر"} عزیز
-        </h1>
-        <dl className="mt-6 text-sm">
-          <div className="flex justify-between border-b border-border py-3">
-            <dt className="text-secondary-text">شماره موبایل</dt>
-            <dd dir="ltr" className="font-medium text-navy">
-              {user.phone}
-            </dd>
-          </div>
-          <div className="flex justify-between border-b border-border py-3">
-            <dt className="text-secondary-text">نام کامل</dt>
-            <dd className="font-medium text-navy">
-              {user.firstName} {user.lastName}
-            </dd>
-          </div>
-        </dl>
+    <Container className="py-10">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-bold text-navy">سلام، {user.firstName ?? "کاربر"}</h1>
         <button
           onClick={handleLogout}
           disabled={loggingOut}
-          className="mt-6 h-11 w-full rounded-xl border border-accent-red/25 text-sm font-medium text-accent-red transition-colors hover:bg-accent-red/5 disabled:opacity-50"
+          className="h-10 rounded-xl border border-accent-red/25 px-4 text-sm font-medium text-accent-red transition-colors hover:bg-accent-red/5 disabled:opacity-50"
         >
           {loggingOut ? "در حال خروج..." : "خروج از حساب"}
         </button>
+      </div>
+
+      <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-8">
+        <AccountNav active={section} onChange={setSection} />
+
+        <div className="min-w-0 flex-1">
+          {section === "profile" && <ProfileSection user={user} onUserChange={handleUserChange} />}
+          {section === "addresses" && <AddressesSection />}
+          {section === "coupons" && <CouponsSection />}
+        </div>
       </div>
     </Container>
   );

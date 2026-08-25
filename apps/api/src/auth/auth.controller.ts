@@ -79,6 +79,7 @@ export class AuthController {
       user.id,
       dto.firstName,
       dto.lastName,
+      dto.birthDate,
     );
     return { user: toPublicUser(updated) };
   }

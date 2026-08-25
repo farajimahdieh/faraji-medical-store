@@ -9,6 +9,10 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CatalogModule } from './catalog/catalog.module';
 import { WishlistModule } from './wishlist/wishlist.module';
+import { AddressesModule } from './addresses/addresses.module';
+import { CouponsModule } from './coupons/coupons.module';
+import { RecentlyViewedModule } from './recently-viewed/recently-viewed.module';
+import { SearchHistoryModule } from './search-history/search-history.module';
 import { typeOrmModuleOptions } from './database/typeorm-options';
 
 @Module({
@@ -25,6 +29,10 @@ import { typeOrmModuleOptions } from './database/typeorm-options';
     AuthModule,
     CatalogModule,
     WishlistModule,
+    AddressesModule,
+    CouponsModule,
+    RecentlyViewedModule,
+    SearchHistoryModule,
   ],
 
   controllers: [AppController],

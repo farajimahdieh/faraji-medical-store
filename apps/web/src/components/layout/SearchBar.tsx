@@ -12,7 +12,16 @@ import {
   type KeyboardEvent,
   type MouseEvent,
 } from "react";
-import { getProductSuggestions, mediaUrl, type PublicSuggestion } from "@/lib/api";
+import {
+  addSearchHistoryRemote,
+  clearSearchHistoryRemote,
+  getProductSuggestions,
+  listSearchHistoryRemote,
+  mediaUrl,
+  removeSearchHistoryRemote,
+  type PublicSuggestion,
+} from "@/lib/api";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { highlightMatch } from "@/lib/highlight-match";
 import {
   addSearchHistory,
@@ -44,13 +53,16 @@ export function SearchBar({ className = "" }: { className?: string }) {
   const router = useRouter();
   const pathname = usePathname();
   const listboxId = useId();
+  const { status: authStatus } = useAuth();
 
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<PublicSuggestion[]>([]);
   // localStorage isn't available during SSR, hence the guard — but since
   // `history` only affects the dropdown, which stays unrendered until
   // focus, reading it eagerly here (rather than in a mount effect) can't
-  // cause a hydration mismatch.
+  // cause a hydration mismatch. For a logged-in user this is swapped for
+  // their backend history once auth resolves (see the effect below) —
+  // backend is the source of truth there, localStorage only for guests.
   const [history, setHistory] = useState<string[]>(() =>
     typeof window === "undefined" ? [] : getSearchHistory(),
   );
@@ -65,6 +77,24 @@ export function SearchBar({ className = "" }: { className?: string }) {
   // Small client-side cache so retyping a query the user already searched
   // (e.g. cleared then re-typed, or tabbed away and back) doesn't refetch.
   const cache = useRef<Map<string, PublicSuggestion[]>>(new Map());
+  // term -> backend row id, populated only once authenticated -- lets
+  // per-term delete call the real DELETE /search-history/:id endpoint.
+  const remoteIds = useRef<Map<string, string>>(new Map());
+
+  useEffect(() => {
+    if (authStatus !== "authenticated") return;
+    let cancelled = false;
+    listSearchHistoryRemote(MAX_VISIBLE_SEARCH_HISTORY)
+      .then((items) => {
+        if (cancelled) return;
+        remoteIds.current = new Map(items.map((item) => [item.query, item.id]));
+        setHistory(items.map((item) => item.query));
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [authStatus]);
 
   // The header lives in the root layout, outside `{children}` — it never
   // remounts on navigation, so its state would otherwise leak from one
@@ -172,35 +202,68 @@ export function SearchBar({ className = "" }: { className?: string }) {
     if (suggestions.length > 0) setIsOpen(true);
   }
 
+  // Fire-and-forget for the authenticated branch — recording history must
+  // never delay or block the navigation the user is actually waiting on.
+  function recordHistoryTerm(term: string) {
+    if (authStatus === "authenticated") {
+      addSearchHistoryRemote(term)
+        .then((saved) => {
+          remoteIds.current.set(saved.query, saved.id);
+          setHistory((prev) =>
+            [saved.query, ...prev.filter((t) => t !== saved.query)].slice(
+              0,
+              MAX_VISIBLE_SEARCH_HISTORY,
+            ),
+          );
+        })
+        .catch(() => {});
+    } else {
+      setHistory(addSearchHistory(term));
+    }
+  }
+
   function goToSuggestion(suggestion: PublicSuggestion) {
     setIsOpen(false);
     setQuery(suggestion.label);
-    setHistory(addSearchHistory(suggestion.label));
+    recordHistoryTerm(suggestion.label);
     router.push(suggestionHref(suggestion));
   }
 
   function selectHistoryTerm(term: string) {
     setIsOpen(false);
     setQuery(term);
-    setHistory(addSearchHistory(term));
+    recordHistoryTerm(term);
     router.push(`/products?q=${encodeURIComponent(term)}`);
   }
 
   function submitFullSearch() {
     setIsOpen(false);
     const trimmed = query.trim();
-    if (trimmed) setHistory(addSearchHistory(trimmed));
+    if (trimmed) recordHistoryTerm(trimmed);
     router.push(trimmed ? `/products?q=${encodeURIComponent(trimmed)}` : "/products");
   }
 
   function deleteHistoryTerm(term: string, event: MouseEvent) {
     event.stopPropagation();
-    setHistory(removeSearchHistoryItem(term));
+    if (authStatus === "authenticated") {
+      const id = remoteIds.current.get(term);
+      setHistory((prev) => prev.filter((t) => t !== term));
+      remoteIds.current.delete(term);
+      if (id) removeSearchHistoryRemote(id).catch(() => {});
+    } else {
+      setHistory(removeSearchHistoryItem(term));
+    }
     setActiveIndex(-1);
   }
 
   function handleClearHistory() {
-    setHistory(clearSearchHistory());
+    if (authStatus === "authenticated") {
+      setHistory([]);
+      remoteIds.current.clear();
+      clearSearchHistoryRemote().catch(() => {});
+    } else {
+      setHistory(clearSearchHistory());
+    }
     setIsOpen(false);
     setActiveIndex(-1);
   }

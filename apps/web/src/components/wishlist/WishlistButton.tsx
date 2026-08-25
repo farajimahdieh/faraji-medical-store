@@ -1,8 +1,10 @@
 "use client";
 
 import { Heart, Loader2 } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState, type MouseEvent } from "react";
 import { useToast } from "@/components/toast/ToastProvider";
+import { currentPathWithQuery, loginHrefWithReturnTo } from "@/lib/return-to";
 import { useWishlist } from "./WishlistProvider";
 
 interface WishlistButtonProps {
@@ -23,6 +25,8 @@ export function WishlistButton({
 }: WishlistButtonProps) {
   const { status, isSaved, toggle } = useWishlist();
   const { showToast } = useToast();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [pending, setPending] = useState(false);
   const saved = isSaved(productId, variantId);
 
@@ -35,10 +39,11 @@ export function WishlistButton({
     if (pending || status === "loading") return;
 
     if (status === "anonymous") {
+      const returnTo = currentPathWithQuery(pathname, searchParams);
       showToast("برای ذخیره علاقه‌مندی‌ها وارد حساب کاربری شوید.", {
         variant: "info",
         duration: 5000,
-        action: { label: "ورود به حساب", href: "/login" },
+        action: { label: "ورود به حساب", href: loginHrefWithReturnTo(returnTo) },
       });
       return;
     }

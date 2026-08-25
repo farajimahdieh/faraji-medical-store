@@ -1,17 +1,30 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useEffect, useState, type FormEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { ApiError, completeProfile, getMe } from "@/lib/api";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { getSafeReturnTo } from "@/lib/return-to";
 
 export default function CompleteProfilePage() {
+  return (
+    <Suspense fallback={null}>
+      <CompleteProfilePageContent />
+    </Suspense>
+  );
+}
+
+function CompleteProfilePageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { refresh: refreshAuth } = useAuth();
   const [checkingSession, setCheckingSession] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [returnTo] = useState(() => searchParams.get("returnTo"));
 
   useEffect(() => {
     getMe()
@@ -25,7 +38,8 @@ export default function CompleteProfilePage() {
     setLoading(true);
     try {
       await completeProfile(firstName, lastName);
-      router.push("/account");
+      await refreshAuth();
+      router.push(getSafeReturnTo(returnTo));
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "خطایی رخ داد");
     } finally {

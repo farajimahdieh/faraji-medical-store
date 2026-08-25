@@ -1,8 +1,10 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import type { ReactElement } from "react";
 import { SearchBar } from "./SearchBar";
 import { SearchInput } from "@/components/catalog/SearchInput";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 import * as api from "@/lib/api";
 
 const mockPush = vi.fn();
@@ -20,8 +22,13 @@ vi.mock("@/lib/api", async () => {
   return {
     ...actual,
     getProductSuggestions: vi.fn().mockResolvedValue({ suggestions: [] }),
+    getMe: vi.fn().mockRejectedValue(new actual.ApiError(401, "not authenticated")),
   };
 });
+
+function withAuth(ui: ReactElement) {
+  return <AuthProvider>{ui}</AuthProvider>;
+}
 
 describe("SearchBar", () => {
   beforeEach(() => {
@@ -35,14 +42,14 @@ describe("SearchBar", () => {
   });
 
   it("uses a plain text input, not a native search input", () => {
-    render(<SearchBar />);
+    render(withAuth(<SearchBar />));
     const input = screen.getByRole("combobox", { name: "جستجو در محصولات" });
     expect(input).toHaveAttribute("type", "text");
   });
 
   it("shows exactly one clear button once there is a query, and none when empty", async () => {
     const user = userEvent.setup();
-    render(<SearchBar />);
+    render(withAuth(<SearchBar />));
     const input = screen.getByRole("combobox", { name: "جستجو در محصولات" });
 
     expect(
@@ -58,10 +65,12 @@ describe("SearchBar", () => {
   it("clears its own query, without touching a sibling SearchInput's value", async () => {
     const user = userEvent.setup();
     render(
-      <div>
-        <SearchBar />
-        <SearchInput placeholder="جستجو در محصولات ارتوپدی..." />
-      </div>,
+      withAuth(
+        <div>
+          <SearchBar />
+          <SearchInput placeholder="جستجو در محصولات ارتوپدی..." />
+        </div>,
+      ),
     );
 
     const headerInput = screen.getByRole("combobox", { name: "جستجو در محصولات" });
@@ -84,10 +93,12 @@ describe("SearchBar", () => {
   it("Header and Category search bars stay independent while typing", async () => {
     const user = userEvent.setup();
     render(
-      <div>
-        <SearchBar />
-        <SearchInput placeholder="جستجو در محصولات ارتوپدی..." />
-      </div>,
+      withAuth(
+        <div>
+          <SearchBar />
+          <SearchInput placeholder="جستجو در محصولات ارتوپدی..." />
+        </div>,
+      ),
     );
 
     const headerInput = screen.getByRole("combobox", { name: "جستجو در محصولات" });
@@ -104,14 +115,14 @@ describe("SearchBar", () => {
 
   it("resets its query when the route changes", async () => {
     const user = userEvent.setup();
-    const { rerender } = render(<SearchBar />);
+    const { rerender } = render(withAuth(<SearchBar />));
     const input = screen.getByRole("combobox", { name: "جستجو در محصولات" });
 
     await user.type(input, "گردنبند");
     expect(input).toHaveValue("گردنبند");
 
     mockPathname = "/categories/orthopedic-mobility-rehab";
-    rerender(<SearchBar />);
+    rerender(withAuth(<SearchBar />));
 
     expect(screen.getByRole("combobox", { name: "جستجو در محصولات" })).toHaveValue("");
   });
@@ -119,21 +130,21 @@ describe("SearchBar", () => {
   it("closes any open dropdown when the route changes", async () => {
     const user = userEvent.setup();
     localStorage.setItem("faraji:search-history", JSON.stringify(["زانوبند"]));
-    const { rerender } = render(<SearchBar />);
+    const { rerender } = render(withAuth(<SearchBar />));
     const input = screen.getByRole("combobox", { name: "جستجو در محصولات" });
 
     await user.click(input);
     expect(screen.getByRole("listbox")).toBeInTheDocument();
 
     mockPathname = "/products";
-    rerender(<SearchBar />);
+    rerender(withAuth(<SearchBar />));
 
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 
   it("keeps search history across a route change", async () => {
     const user = userEvent.setup();
-    const { rerender } = render(<SearchBar />);
+    const { rerender } = render(withAuth(<SearchBar />));
     const input = screen.getByRole("combobox", { name: "جستجو در محصولات" });
 
     await user.type(input, "زانوبند");
@@ -142,7 +153,7 @@ describe("SearchBar", () => {
 
     // Simulate the navigation this Enter press triggered.
     mockPathname = "/products";
-    rerender(<SearchBar />);
+    rerender(withAuth(<SearchBar />));
 
     expect(JSON.parse(localStorage.getItem("faraji:search-history") ?? "[]")).toEqual([
       "زانوبند",

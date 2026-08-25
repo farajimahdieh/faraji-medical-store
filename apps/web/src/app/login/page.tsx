@@ -1,21 +1,38 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState, type FormEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { ApiError, requestOtp, verifyOtp } from "@/lib/api";
+import { useAuth } from "@/components/auth/AuthProvider";
 import { useWishlist } from "@/components/wishlist/WishlistProvider";
+import { getSafeReturnTo } from "@/lib/return-to";
 
 type Step = "phone" | "otp";
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
+  );
+}
+
+function LoginPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { refresh: refreshWishlist } = useWishlist();
+  const { refresh: refreshAuth } = useAuth();
   const [step, setStep] = useState<Step>("phone");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Read once via useState's lazy initializer: this is only ever consumed
+  // after a successful verify, and the user's location doesn't change while
+  // the login form itself is on screen, so it never needs to re-read live.
+  const [returnTo] = useState(() => searchParams.get("returnTo"));
 
   async function handlePhoneSubmit(event: FormEvent) {
     event.preventDefault();
@@ -38,7 +55,13 @@ export default function LoginPage() {
     try {
       const { isNewUser } = await verifyOtp(phone, code);
       await refreshWishlist();
-      router.push(isNewUser ? "/complete-profile" : "/account");
+      await refreshAuth();
+      const safeReturnTo = getSafeReturnTo(returnTo);
+      router.push(
+        isNewUser
+          ? `/complete-profile?returnTo=${encodeURIComponent(safeReturnTo)}`
+          : safeReturnTo,
+      );
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "خطایی رخ داد");
     } finally {

@@ -1,14 +1,13 @@
-import { ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/icons/Logo";
 import { Container } from "@/components/ui/Container";
 import { mainNavLinks } from "@/data/navigation";
 import { WishlistHeaderLink } from "@/components/wishlist/WishlistHeaderLink";
+import { ProfilePopover } from "./ProfilePopover";
+import { CartPopover } from "./CartPopover";
 import { MegaMenu } from "./MegaMenu";
 import { MobileMenu } from "./MobileMenu";
 import { SearchBar } from "./SearchBar";
-
-const CART_COUNT = 2;
 
 export function Header() {
   return (
@@ -29,13 +28,9 @@ export function Header() {
         <SearchBar className="hidden max-w-md flex-1 lg:block" />
 
         <div className="flex items-center gap-1">
-          <HeaderIconLink href="/account" label="حساب کاربری">
-            <User className="h-5 w-5" aria-hidden="true" />
-          </HeaderIconLink>
+          <ProfilePopover />
           <WishlistHeaderLink />
-          <HeaderIconLink href="/cart" label="سبد خرید" badge={CART_COUNT}>
-            <ShoppingCart className="h-5 w-5" aria-hidden="true" />
-          </HeaderIconLink>
+          <CartPopover />
           <MobileMenu />
         </div>
       </Container>
@@ -55,32 +50,5 @@ export function Header() {
         </Container>
       </div>
     </header>
-  );
-}
-
-function HeaderIconLink({
-  href,
-  label,
-  badge,
-  children,
-}: {
-  href: string;
-  label: string;
-  badge?: number;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      aria-label={label}
-      className="relative flex h-11 w-11 items-center justify-center rounded-xl text-navy transition-colors hover:bg-medical-bg hover:text-primary"
-    >
-      {children}
-      {typeof badge === "number" && badge > 0 && (
-        <span className="absolute top-1 left-1 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-accent-red px-1 text-[10px] font-semibold text-white">
-          {badge}
-        </span>
-      )}
-    </Link>
   );
 }

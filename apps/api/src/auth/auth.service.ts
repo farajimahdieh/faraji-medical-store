@@ -112,11 +112,20 @@ export class AuthService {
     userId: string,
     firstName: string,
     lastName: string,
+    birthDate?: string,
   ): Promise<User> {
+    if (birthDate && new Date(birthDate).getTime() > Date.now()) {
+      throw new BadRequestException('تاریخ تولد نمی‌تواند در آینده باشد');
+    }
+
     const beforeUpdate = await this.usersService.findById(userId);
     const isFirstTimeNamed = !beforeUpdate?.firstName;
 
-    const user = await this.usersService.setName(userId, firstName, lastName);
+    const user = await this.usersService.updateProfile(userId, {
+      firstName,
+      lastName,
+      birthDate,
+    });
 
     if (isFirstTimeNamed) {
       await this.smsProvider.sendWelcome(user.phone, firstName);

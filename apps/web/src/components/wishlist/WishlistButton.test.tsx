@@ -7,6 +7,11 @@ import { WishlistButton } from "./WishlistButton";
 import * as api from "@/lib/api";
 import type { PublicWishlistItem } from "@/lib/api";
 
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/products/lumbar-belt",
+  useSearchParams: () => new URLSearchParams(),
+}));
+
 vi.mock("@/lib/api", async () => {
   const actual = await vi.importActual<typeof api>("@/lib/api");
   return {
@@ -89,7 +94,10 @@ describe("WishlistButton", () => {
     expect(
       await screen.findByText("برای ذخیره علاقه‌مندی‌ها وارد حساب کاربری شوید."),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "ورود به حساب" })).toHaveAttribute("href", "/login");
+    expect(screen.getByRole("link", { name: "ورود به حساب" })).toHaveAttribute(
+      "href",
+      "/login?returnTo=%2Fproducts%2Flumbar-belt",
+    );
     expect(api.addToWishlist).not.toHaveBeenCalled();
   });
 

@@ -43,6 +43,7 @@ export interface PublicUser {
   phone: string;
   firstName: string | null;
   lastName: string | null;
+  birthDate: string | null;
   role: 'customer' | 'admin';
 }
 
@@ -66,10 +67,11 @@ export function verifyOtp(
 export function completeProfile(
   firstName: string,
   lastName: string,
+  birthDate?: string,
 ): Promise<{ user: PublicUser }> {
   return apiFetch('/auth/profile', {
     method: 'PATCH',
-    body: JSON.stringify({ firstName, lastName }),
+    body: JSON.stringify({ firstName, lastName, birthDate }),
   });
 }
 
@@ -329,4 +331,116 @@ export function removeFromWishlist(wishlistItemId: string): Promise<void> {
   return apiFetch(`/wishlist/${encodeURIComponent(wishlistItemId)}`, {
     method: 'DELETE',
   });
+}
+
+export interface PublicUserAddress {
+  id: string;
+  title: string;
+  recipientName: string;
+  recipientPhone: string;
+  province: string;
+  city: string;
+  addressLine: string;
+  postalCode: string;
+  buildingNumber: string | null;
+  unit: string | null;
+  isDefault: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AddressInput {
+  title: string;
+  recipientName: string;
+  recipientPhone: string;
+  province: string;
+  city: string;
+  addressLine: string;
+  postalCode: string;
+  buildingNumber?: string | null;
+  unit?: string | null;
+  isDefault?: boolean;
+}
+
+export function listAddresses(): Promise<PublicUserAddress[]> {
+  return apiFetch('/addresses');
+}
+
+export function createAddress(input: AddressInput): Promise<PublicUserAddress> {
+  return apiFetch('/addresses', { method: 'POST', body: JSON.stringify(input) });
+}
+
+export function updateAddress(
+  id: string,
+  input: Partial<AddressInput>,
+): Promise<PublicUserAddress> {
+  return apiFetch(`/addresses/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
+}
+
+export function setDefaultAddress(id: string): Promise<PublicUserAddress> {
+  return apiFetch(`/addresses/${encodeURIComponent(id)}/default`, { method: 'PATCH' });
+}
+
+export function deleteAddress(id: string): Promise<void> {
+  return apiFetch(`/addresses/${encodeURIComponent(id)}`, { method: 'DELETE' });
+}
+
+export type DiscountType = 'percentage' | 'fixed_amount';
+
+export interface PublicDiscountCode {
+  id: string;
+  code: string;
+  type: DiscountType;
+  value: number;
+  startsAt: string | null;
+  expiresAt: string | null;
+  minimumOrderAmount: number | null;
+  isPersonal: boolean;
+}
+
+export function listMyCoupons(): Promise<PublicDiscountCode[]> {
+  return apiFetch('/coupons/mine');
+}
+
+export interface PublicRecentlyViewedItem extends PublicProductListItem {
+  viewedAt: string;
+}
+
+export function recordRecentlyViewed(productId: string): Promise<void> {
+  return apiFetch(`/recently-viewed/${encodeURIComponent(productId)}`, { method: 'POST' });
+}
+
+export function listRecentlyViewed(limit = 10): Promise<PublicRecentlyViewedItem[]> {
+  return apiFetch(`/recently-viewed?limit=${limit}`);
+}
+
+export function clearRecentlyViewed(): Promise<void> {
+  return apiFetch('/recently-viewed', { method: 'DELETE' });
+}
+
+export interface PublicSearchHistoryItem {
+  id: string;
+  query: string;
+  searchedAt: string;
+}
+
+// Suffixed "Remote" throughout -- @/lib/search-history.ts already owns the
+// (unprefixed) guest/localStorage names, and SearchBar needs to import both.
+export function addSearchHistoryRemote(query: string): Promise<PublicSearchHistoryItem> {
+  return apiFetch('/search-history', { method: 'POST', body: JSON.stringify({ query }) });
+}
+
+export function listSearchHistoryRemote(limit = 5): Promise<PublicSearchHistoryItem[]> {
+  return apiFetch(`/search-history?limit=${limit}`);
+}
+
+export function removeSearchHistoryRemote(id: string): Promise<void> {
+  return apiFetch(`/search-history/${encodeURIComponent(id)}`, { method: 'DELETE' });
+}
+
+export function clearSearchHistoryRemote(): Promise<void> {
+  return apiFetch('/search-history', { method: 'DELETE' });
 }

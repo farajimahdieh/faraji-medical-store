@@ -23,14 +23,18 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async setName(
+  async updateProfile(
     userId: string,
-    firstName: string,
-    lastName: string,
+    updates: { firstName: string; lastName: string; birthDate?: string },
   ): Promise<User> {
     const user = await this.usersRepository.findOneByOrFail({ id: userId });
-    user.firstName = firstName;
-    user.lastName = lastName;
+    user.firstName = updates.firstName;
+    user.lastName = updates.lastName;
+    // Only touch birthDate when the caller explicitly sent it, so a
+    // name-only update never wipes a previously-set birth date.
+    if (updates.birthDate !== undefined) {
+      user.birthDate = updates.birthDate;
+    }
     return this.usersRepository.save(user);
   }
 }

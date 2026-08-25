@@ -7,6 +7,11 @@ import WishlistPage from "./page";
 import * as api from "@/lib/api";
 import type { PublicWishlistItem } from "@/lib/api";
 
+vi.mock("next/navigation", () => ({
+  usePathname: () => "/wishlist",
+  useSearchParams: () => new URLSearchParams(),
+}));
+
 vi.mock("@/lib/api", async () => {
   const actual = await vi.importActual<typeof api>("@/lib/api");
   return {

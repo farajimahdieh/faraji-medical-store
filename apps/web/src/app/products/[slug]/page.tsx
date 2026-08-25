@@ -4,6 +4,7 @@ import { ProductVariantWishlist } from "@/components/catalog/ProductVariantWishl
 import { VideoSection } from "@/components/catalog/VideoSection";
 import { ProductGallery } from "@/components/catalog/ProductGallery";
 import { Breadcrumb } from "@/components/catalog/Breadcrumb";
+import { RecentlyViewedSection } from "@/components/catalog/RecentlyViewedSection";
 import { ApiError, getProductBySlug } from "@/lib/api";
 
 // Some imported feature lines carry a leading "•" from the source's own
@@ -137,6 +138,8 @@ export default async function ProductDetailPage({
           )}
         </div>
       </div>
+
+      <RecentlyViewedSection product={product} />
     </Container>
   );
 }

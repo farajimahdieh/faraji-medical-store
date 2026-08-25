@@ -46,7 +46,7 @@ async function buildTestingService(overrides?: {
     findByPhone: jest.fn(),
     createByPhone: jest.fn(),
     findById: jest.fn(),
-    setName: jest.fn(),
+    updateProfile: jest.fn(),
   };
   const smsProvider = {
     sendOtp: jest.fn().mockResolvedValue(undefined),
@@ -219,21 +219,22 @@ describe('AuthService', () => {
         lastName: null,
         role: UserRole.CUSTOMER,
       });
-      usersService.setName.mockResolvedValue({
+      usersService.updateProfile.mockResolvedValue({
         id: 'user-1',
         phone: '+989123456789',
         firstName: 'Ali',
         lastName: 'Rezaei',
+        birthDate: null,
         role: UserRole.CUSTOMER,
       });
 
       await service.completeProfile('user-1', 'Ali', 'Rezaei');
 
-      expect(usersService.setName).toHaveBeenCalledWith(
-        'user-1',
-        'Ali',
-        'Rezaei',
-      );
+      expect(usersService.updateProfile).toHaveBeenCalledWith('user-1', {
+        firstName: 'Ali',
+        lastName: 'Rezaei',
+        birthDate: undefined,
+      });
       expect(smsProvider.sendWelcome).toHaveBeenCalledWith(
         '+989123456789',
         'Ali',
@@ -250,17 +251,57 @@ describe('AuthService', () => {
         lastName: 'Rezaei',
         role: UserRole.CUSTOMER,
       });
-      usersService.setName.mockResolvedValue({
+      usersService.updateProfile.mockResolvedValue({
         id: 'user-1',
         phone: '+989123456789',
         firstName: 'Ali',
         lastName: 'Rezaei-Updated',
+        birthDate: null,
         role: UserRole.CUSTOMER,
       });
 
       await service.completeProfile('user-1', 'Ali', 'Rezaei-Updated');
 
       expect(smsProvider.sendWelcome).not.toHaveBeenCalled();
+    });
+
+    it('forwards a valid birthDate to updateProfile', async () => {
+      const { service, usersService } = await buildTestingService();
+      usersService.findById.mockResolvedValue({
+        id: 'user-1',
+        phone: '+989123456789',
+        firstName: 'Ali',
+        lastName: 'Rezaei',
+        role: UserRole.CUSTOMER,
+      });
+      usersService.updateProfile.mockResolvedValue({
+        id: 'user-1',
+        phone: '+989123456789',
+        firstName: 'Ali',
+        lastName: 'Rezaei',
+        birthDate: '1990-05-12',
+        role: UserRole.CUSTOMER,
+      });
+
+      await service.completeProfile('user-1', 'Ali', 'Rezaei', '1990-05-12');
+
+      expect(usersService.updateProfile).toHaveBeenCalledWith('user-1', {
+        firstName: 'Ali',
+        lastName: 'Rezaei',
+        birthDate: '1990-05-12',
+      });
+    });
+
+    it('rejects a birthDate in the future', async () => {
+      const { service, usersService } = await buildTestingService();
+      const futureDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .slice(0, 10);
+
+      await expect(
+        service.completeProfile('user-1', 'Ali', 'Rezaei', futureDate),
+      ).rejects.toBeInstanceOf(BadRequestException);
+      expect(usersService.updateProfile).not.toHaveBeenCalled();
     });
   });
 
