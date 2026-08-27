@@ -102,6 +102,7 @@ function buildPlaceholderItem(productId: string, variantId?: string | null): Pub
     size: null,
     price: { status: "unavailable", minPrice: null, maxPrice: null },
     stockStatus: "unknown",
+    variants: [],
     note: null,
     createdAt: new Date().toISOString(),
   };

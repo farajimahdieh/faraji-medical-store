@@ -80,6 +80,7 @@ export function buildLocalEntryFromDetail(product: PublicProductDetail): LocalRe
     brand: product.brand,
     primaryImage,
     sizes: product.variants.map((variant) => variant.size),
+    variants: product.variants,
     price,
     stockStatus,
     viewedAt: new Date().toISOString(),

@@ -4,6 +4,7 @@ import { RecentlyViewedSection } from "./RecentlyViewedSection";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { ToastProvider } from "@/components/toast/ToastProvider";
 import { WishlistProvider } from "@/components/wishlist/WishlistProvider";
+import { CartProvider } from "@/components/cart/CartProvider";
 import * as api from "@/lib/api";
 import type { PublicProductDetail, PublicProductListItem } from "@/lib/api";
 
@@ -15,6 +16,7 @@ vi.mock("@/lib/api", async () => {
     recordRecentlyViewed: vi.fn(),
     listRecentlyViewed: vi.fn(),
     listWishlist: vi.fn(),
+    getCart: vi.fn(),
   };
 });
 
@@ -46,6 +48,7 @@ function buildListItem(overrides?: Partial<PublicProductListItem>): PublicProduc
     brand: null,
     primaryImage: null,
     sizes: ["M"],
+    variants: [{ id: "v1", size: "M", price: null, stock: null, isActive: true }],
     price: { status: "unavailable", minPrice: null, maxPrice: null },
     stockStatus: "unknown",
     ...overrides,
@@ -57,7 +60,9 @@ function renderSection(product: PublicProductDetail) {
     <ToastProvider>
       <AuthProvider>
         <WishlistProvider>
-          <RecentlyViewedSection product={product} />
+          <CartProvider>
+            <RecentlyViewedSection product={product} />
+          </CartProvider>
         </WishlistProvider>
       </AuthProvider>
     </ToastProvider>,
@@ -70,6 +75,7 @@ describe("RecentlyViewedSection", () => {
     vi.mocked(api.recordRecentlyViewed).mockReset().mockResolvedValue(undefined);
     vi.mocked(api.listRecentlyViewed).mockReset();
     vi.mocked(api.listWishlist).mockReset().mockRejectedValue(new api.ApiError(401, "no session"));
+    vi.mocked(api.getCart).mockReset().mockRejectedValue(new api.ApiError(401, "no session"));
   });
 
   it("guest: stays hidden when fewer than 2 other products have been viewed", async () => {

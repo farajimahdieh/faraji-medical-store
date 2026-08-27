@@ -3,6 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ToastProvider } from "@/components/toast/ToastProvider";
 import { WishlistProvider } from "@/components/wishlist/WishlistProvider";
+import { CartProvider } from "@/components/cart/CartProvider";
 import WishlistPage from "./page";
 import * as api from "@/lib/api";
 import type { PublicWishlistItem } from "@/lib/api";
@@ -19,6 +20,7 @@ vi.mock("@/lib/api", async () => {
     listWishlist: vi.fn(),
     removeFromWishlist: vi.fn(),
     updateWishlistNote: vi.fn(),
+    getCart: vi.fn(),
   };
 });
 
@@ -34,6 +36,7 @@ function buildItem(overrides: Partial<PublicWishlistItem> = {}): PublicWishlistI
     size: "M",
     price: { status: "unavailable", minPrice: null, maxPrice: null },
     stockStatus: "unknown",
+    variants: [],
     note: null,
     createdAt: new Date().toISOString(),
     ...overrides,
@@ -44,7 +47,9 @@ function renderPage() {
   return render(
     <ToastProvider>
       <WishlistProvider>
-        <WishlistPage />
+        <CartProvider>
+          <WishlistPage />
+        </CartProvider>
       </WishlistProvider>
     </ToastProvider>,
   );
@@ -55,6 +60,7 @@ describe("WishlistPage", () => {
     vi.mocked(api.listWishlist).mockReset();
     vi.mocked(api.removeFromWishlist).mockReset();
     vi.mocked(api.updateWishlistNote).mockReset();
+    vi.mocked(api.getCart).mockReset().mockRejectedValue(new api.ApiError(401, "no session"));
   });
 
   it("prompts login when the user is not authenticated", async () => {

@@ -54,6 +54,12 @@ export class DiscountCode {
   @Column({ type: 'integer', nullable: true })
   minimumOrderAmount: number | null;
 
+  // PERCENTAGE only -- caps the computed discount at this many Toman so a
+  // "20% off" code can't blow out on an unexpectedly large order. Ignored
+  // for FIXED_AMOUNT (the value itself is already the cap).
+  @Column({ type: 'integer', nullable: true })
+  maxDiscountAmount: number | null;
+
   @Column({ default: true })
   isActive: boolean;
 

@@ -39,6 +39,11 @@ export interface PublicProductListItem {
   brand: PublicBrand | null;
   primaryImage: PublicProductImage | null;
   sizes: string[];
+  // Full variants (not just their sizes) -- needed so "add to cart" from a
+  // listing card can resolve a variantId without a second round-trip. The
+  // `variants` relation is already loaded for this query for `sizes`/
+  // `price`/`stockStatus` below, so this adds no extra query.
+  variants: PublicProductVariant[];
   price: PublicPriceDisplay;
   stockStatus: StockStatus;
 }
@@ -74,7 +79,7 @@ function toPublicImage(image: ProductImage): PublicProductImage {
   };
 }
 
-function toPublicVariant(variant: ProductVariant): PublicProductVariant {
+export function toPublicVariant(variant: ProductVariant): PublicProductVariant {
   return {
     id: variant.id,
     size: variant.size,
@@ -127,6 +132,7 @@ export function toPublicProductListItem(
       : null,
     primaryImage: primaryImage ? toPublicImage(primaryImage) : null,
     sizes: variants.map((variant) => variant.size),
+    variants: variants.map(toPublicVariant),
     price: resolvePriceDisplay(variants),
     stockStatus: resolveStockStatus(variants),
   };

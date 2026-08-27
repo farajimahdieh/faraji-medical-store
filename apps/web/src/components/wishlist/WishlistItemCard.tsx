@@ -8,6 +8,7 @@ import { mediaUrl, type PublicWishlistItem } from "@/lib/api";
 import { formatPriceDisplay, formatStockStatus } from "@/lib/catalog-format";
 import { useWishlist } from "./WishlistProvider";
 import { WishlistNoteEditor } from "./WishlistNoteEditor";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 
 const stockToneClass: Record<"positive" | "negative" | "neutral", string> = {
   positive: "text-primary",
@@ -99,13 +100,22 @@ export function WishlistItemCard({ item }: WishlistItemCardProps) {
           </button>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <span
-            className={priceAvailable ? "text-sm font-bold text-navy" : "text-xs font-medium text-secondary-text"}
-          >
-            {priceLabel}
-          </span>
-          <span className={`text-xs font-medium ${stockToneClass[stock.tone]}`}>{stock.label}</span>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <span
+              className={priceAvailable ? "text-sm font-bold text-navy" : "text-xs font-medium text-secondary-text"}
+            >
+              {priceLabel}
+            </span>
+            <span className={`text-xs font-medium ${stockToneClass[stock.tone]}`}>{stock.label}</span>
+          </div>
+          {href && (
+            <AddToCartButton
+              productName={displayName}
+              variantId={item.variantId ?? undefined}
+              variants={item.variantId ? undefined : item.variants}
+            />
+          )}
         </div>
 
         <WishlistNoteEditor

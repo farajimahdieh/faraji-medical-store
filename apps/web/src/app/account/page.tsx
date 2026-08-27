@@ -6,12 +6,14 @@ import { Container } from "@/components/ui/Container";
 import { getMe, type PublicUser } from "@/lib/api";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { useWishlist } from "@/components/wishlist/WishlistProvider";
+import { useCart } from "@/components/cart/CartProvider";
 import { AccountNav, type AccountSection } from "@/components/account/AccountNav";
 import { ProfileSection } from "@/components/account/ProfileSection";
 import { AddressesSection } from "@/components/account/AddressesSection";
 import { CouponsSection } from "@/components/account/CouponsSection";
+import { OrdersSection } from "@/components/account/OrdersSection";
 
-const VALID_SECTIONS: AccountSection[] = ["profile", "addresses", "coupons"];
+const VALID_SECTIONS: AccountSection[] = ["profile", "addresses", "coupons", "orders"];
 
 function isAccountSection(value: string | null): value is AccountSection {
   return VALID_SECTIONS.includes(value as AccountSection);
@@ -30,6 +32,7 @@ function AccountPageContent() {
   const searchParams = useSearchParams();
   const { logout: authLogout, refresh: authRefresh } = useAuth();
   const { reset: resetWishlist } = useWishlist();
+  const { reset: resetCart } = useCart();
   const [user, setUser] = useState<PublicUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [loggingOut, setLoggingOut] = useState(false);
@@ -49,6 +52,7 @@ function AccountPageContent() {
     setLoggingOut(true);
     await authLogout();
     resetWishlist();
+    resetCart();
     router.push("/login");
   }
 
@@ -90,6 +94,7 @@ function AccountPageContent() {
           {section === "profile" && <ProfileSection user={user} onUserChange={handleUserChange} />}
           {section === "addresses" && <AddressesSection />}
           {section === "coupons" && <CouponsSection />}
+          {section === "orders" && <OrdersSection />}
         </div>
       </div>
     </Container>

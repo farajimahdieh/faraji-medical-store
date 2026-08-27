@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx jest *)",
+      "Bash(pnpm --filter api test)",
+      "Bash(pnpm --filter api build)",
+      "Bash(pnpm migration:run)",
+      "Bash(npx tsc *)",
+      "Bash(pnpm --filter web test)",
+      "Bash(npx vitest *)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/products)",
+      "Bash(cat /tmp/api-server.pid 2>&1; ls -la d:/projects/faraji-medical-store/apps/api/dist 2>&1 | head; ps aux | grep node 2>&1 | head -20)",
+      "Bash(curl -sv http://127.0.0.1:3001/products)"
+    ]
+  }
+}

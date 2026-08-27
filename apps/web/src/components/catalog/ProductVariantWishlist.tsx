@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { SizeSelector, hasSelectableSizes } from "./SizeSelector";
 import { WishlistButton } from "@/components/wishlist/WishlistButton";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import type { PublicProductVariant } from "@/lib/api";
 
 interface ProductVariantWishlistProps {
@@ -26,12 +27,19 @@ export function ProductVariantWishlist({
   return (
     <div className="flex flex-col gap-3">
       <SizeSelector variants={variants} selectedId={selectedId} onSelect={setSelectedId} />
-      <WishlistButton
-        productId={productId}
-        variantId={variantId}
-        productName={productName}
-        variant="labeled"
-      />
+      <div className="flex gap-3">
+        <AddToCartButton
+          productName={productName}
+          variantId={selectedId}
+          className="h-11 flex-1 text-sm"
+        />
+        <WishlistButton
+          productId={productId}
+          variantId={variantId}
+          productName={productName}
+          variant="labeled"
+        />
+      </div>
     </div>
   );
 }

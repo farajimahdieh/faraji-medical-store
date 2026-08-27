@@ -13,6 +13,9 @@ import { AddressesModule } from './addresses/addresses.module';
 import { CouponsModule } from './coupons/coupons.module';
 import { RecentlyViewedModule } from './recently-viewed/recently-viewed.module';
 import { SearchHistoryModule } from './search-history/search-history.module';
+import { CartModule } from './cart/cart.module';
+import { OrdersModule } from './orders/orders.module';
+import { PaymentsModule } from './payments/payments.module';
 import { typeOrmModuleOptions } from './database/typeorm-options';
 
 @Module({
@@ -33,6 +36,9 @@ import { typeOrmModuleOptions } from './database/typeorm-options';
     CouponsModule,
     RecentlyViewedModule,
     SearchHistoryModule,
+    CartModule,
+    OrdersModule,
+    PaymentsModule,
   ],
 
   controllers: [AppController],

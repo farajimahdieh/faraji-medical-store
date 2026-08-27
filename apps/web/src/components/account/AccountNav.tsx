@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Heart, MapPin, Ticket, User } from "lucide-react";
+import { Heart, MapPin, Package, Ticket, User } from "lucide-react";
 import { useWishlist } from "@/components/wishlist/WishlistProvider";
 
-export type AccountSection = "profile" | "addresses" | "coupons";
+export type AccountSection = "profile" | "addresses" | "coupons" | "orders";
 
 const TAB_ITEMS: { id: AccountSection; label: string; icon: typeof User }[] = [
   { id: "profile", label: "اطلاعات حساب", icon: User },
+  { id: "orders", label: "سفارش‌های من", icon: Package },
   { id: "addresses", label: "آدرس‌های من", icon: MapPin },
   { id: "coupons", label: "کدهای تخفیف من", icon: Ticket },
 ];

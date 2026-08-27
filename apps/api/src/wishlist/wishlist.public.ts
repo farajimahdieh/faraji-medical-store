@@ -1,9 +1,11 @@
 import { WishlistItem } from './entities/wishlist-item.entity';
 import {
   PublicPriceDisplay,
+  PublicProductVariant,
   resolvePriceDisplay,
   resolveStockStatus,
   StockStatus,
+  toPublicVariant,
 } from '../catalog/products/product.public';
 
 export interface PublicWishlistBrand {
@@ -30,6 +32,10 @@ export interface PublicWishlistItem {
   // detail endpoints already use, so the frontend can reuse one formatter.
   price: PublicPriceDisplay;
   stockStatus: StockStatus;
+  // Full product variants -- lets "add to cart" resolve/pick a variant
+  // straight from the wishlist without a second request, same as the
+  // product listing cards.
+  variants: PublicProductVariant[];
   note: string | null;
   createdAt: Date;
 }
@@ -57,6 +63,7 @@ export function toPublicWishlistItem(item: WishlistItem): PublicWishlistItem {
     size: item.variant?.size ?? null,
     price: resolvePriceDisplay(priceStockVariants),
     stockStatus: resolveStockStatus(priceStockVariants),
+    variants: (item.product.variants ?? []).map(toPublicVariant),
     note: item.note,
     createdAt: item.createdAt,
   };

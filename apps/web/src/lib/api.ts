@@ -120,6 +120,7 @@ export interface PublicProductListItem {
   brand: PublicBrand | null;
   primaryImage: PublicProductImage | null;
   sizes: string[];
+  variants: PublicProductVariant[];
   price: PublicPriceDisplay;
   stockStatus: StockStatus;
 }
@@ -273,6 +274,7 @@ export interface PublicWishlistItem {
   size: string | null;
   price: PublicPriceDisplay;
   stockStatus: StockStatus;
+  variants: PublicProductVariant[];
   note: string | null;
   createdAt: string;
 }
@@ -403,6 +405,173 @@ export interface PublicDiscountCode {
 
 export function listMyCoupons(): Promise<PublicDiscountCode[]> {
   return apiFetch('/coupons/mine');
+}
+
+export interface PublicCartItem {
+  id: string;
+  productId: string;
+  productName: string;
+  productSlug: string;
+  brand: PublicBrand | null;
+  primaryImage: PublicProductImage | null;
+  variantId: string;
+  size: string;
+  quantity: number;
+  unitPrice: number | null;
+  lineTotal: number | null;
+  stockStatus: StockStatus;
+  maxQuantity: number | null;
+  unavailable: boolean;
+  unavailableReason: string | null;
+}
+
+export interface PublicCartCoupon {
+  code: string;
+  type: DiscountType;
+  value: number;
+}
+
+export interface PublicCartSummary {
+  subtotal: number;
+  discountAmount: number;
+  shippingAmount: number;
+  taxAmount: number;
+  totalAmount: number;
+  itemCount: number;
+}
+
+export interface PublicCart {
+  items: PublicCartItem[];
+  summary: PublicCartSummary;
+  coupon: PublicCartCoupon | null;
+  couponError: string | null;
+}
+
+export function getCart(): Promise<PublicCart> {
+  return apiFetch('/cart');
+}
+
+export function addCartItem(variantId: string, quantity = 1): Promise<PublicCart> {
+  return apiFetch('/cart/items', { method: 'POST', body: JSON.stringify({ variantId, quantity }) });
+}
+
+export function updateCartItem(itemId: string, quantity: number): Promise<PublicCart> {
+  return apiFetch(`/cart/items/${encodeURIComponent(itemId)}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ quantity }),
+  });
+}
+
+export function removeCartItem(itemId: string): Promise<PublicCart> {
+  return apiFetch(`/cart/items/${encodeURIComponent(itemId)}`, { method: 'DELETE' });
+}
+
+export function clearCart(): Promise<PublicCart> {
+  return apiFetch('/cart', { method: 'DELETE' });
+}
+
+export function applyCoupon(code: string): Promise<PublicCart> {
+  return apiFetch('/cart/coupon', { method: 'POST', body: JSON.stringify({ code }) });
+}
+
+export function removeCoupon(): Promise<PublicCart> {
+  return apiFetch('/cart/coupon', { method: 'DELETE' });
+}
+
+export type OrderStatus =
+  | 'pending_payment'
+  | 'paid'
+  | 'processing'
+  | 'shipped'
+  | 'delivered'
+  | 'cancelled'
+  | 'refunded';
+
+export type PaymentStatus = 'pending' | 'paid' | 'failed';
+
+export interface PublicOrderItem {
+  id: string;
+  productId: string | null;
+  productSlug: string | null;
+  productName: string;
+  variantSize: string | null;
+  sku: string | null;
+  primaryImage: PublicProductImage | null;
+  unitPrice: number;
+  quantity: number;
+  lineTotal: number;
+}
+
+export interface PublicOrderAddress {
+  recipientName: string;
+  recipientPhone: string;
+  province: string;
+  city: string;
+  addressLine: string;
+  postalCode: string;
+  buildingNumber: string | null;
+  unit: string | null;
+}
+
+export interface PublicOrderSummary {
+  id: string;
+  orderNumber: string;
+  status: OrderStatus;
+  paymentStatus: PaymentStatus;
+  itemCount: number;
+  totalAmount: number;
+  createdAt: string;
+}
+
+export interface PublicOrderDetail extends PublicOrderSummary {
+  subtotal: number;
+  discountAmount: number;
+  shippingAmount: number;
+  taxAmount: number;
+  shippingMethod: string | null;
+  notes: string | null;
+  address: PublicOrderAddress;
+  items: PublicOrderItem[];
+}
+
+export interface PublicOrderListResponse {
+  items: PublicOrderSummary[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface CreateOrderInput {
+  addressId: string;
+  shippingMethod?: string;
+  notes?: string;
+}
+
+export function createOrder(input: CreateOrderInput): Promise<PublicOrderDetail> {
+  return apiFetch('/orders', { method: 'POST', body: JSON.stringify(input) });
+}
+
+export function listOrders(
+  params: { page?: number; limit?: number } = {},
+): Promise<PublicOrderListResponse> {
+  const search = new URLSearchParams();
+  if (params.page) search.set('page', String(params.page));
+  if (params.limit) search.set('limit', String(params.limit));
+  const qs = search.toString();
+  return apiFetch(`/orders${qs ? `?${qs}` : ''}`);
+}
+
+export function getOrder(id: string): Promise<PublicOrderDetail> {
+  return apiFetch(`/orders/${encodeURIComponent(id)}`);
+}
+
+export interface ReorderResult {
+  addedCount: number;
+  skipped: { productName: string; reason: string }[];
+}
+
+export function reorderOrder(id: string): Promise<ReorderResult> {
+  return apiFetch(`/orders/${encodeURIComponent(id)}/reorder`, { method: 'POST' });
 }
 
 export interface PublicRecentlyViewedItem extends PublicProductListItem {

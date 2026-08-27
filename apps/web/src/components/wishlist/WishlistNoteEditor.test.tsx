@@ -23,6 +23,7 @@ function buildItem(note: string | null): PublicWishlistItem {
     size: null,
     price: { status: "unavailable", minPrice: null, maxPrice: null },
     stockStatus: "unknown",
+    variants: [],
     note,
     createdAt: new Date().toISOString(),
   };

@@ -4,6 +4,7 @@ import { ImageIcon } from "lucide-react";
 import { mediaUrl, type PublicProductListItem } from "@/lib/api";
 import { formatPriceDisplay, formatStockStatus } from "@/lib/catalog-format";
 import { WishlistButton } from "@/components/wishlist/WishlistButton";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 
 const stockToneClass: Record<"positive" | "negative" | "neutral", string> = {
   positive: "text-primary",
@@ -78,12 +79,7 @@ export function ProductCard({ product }: { product: PublicProductListItem }) {
           >
             {priceLabel}
           </span>
-          <Link
-            href={href}
-            className="shrink-0 rounded-xl bg-medical-bg px-3 py-2 text-center text-xs font-medium text-primary transition-colors hover:bg-primary hover:text-white"
-          >
-            مشاهده محصول
-          </Link>
+          <AddToCartButton productName={product.name} variants={product.variants} className="shrink-0" />
         </div>
       </div>
     </div>
