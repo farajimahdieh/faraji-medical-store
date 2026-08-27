@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, MoreThan, Repository } from 'typeorm';
 import { createHash, createHmac, randomBytes, randomInt } from 'crypto';
 
-import { OtpCode } from './entities/otp-code.entity';
+import { OtpCode, OtpPurpose } from './entities/otp-code.entity';
 import { Session } from './entities/session.entity';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
@@ -34,7 +34,10 @@ export class AuthService {
     private readonly smsProvider: SmsProvider,
   ) {}
 
-  async requestOtp(rawPhone: string): Promise<void> {
+  async requestOtp(
+    rawPhone: string,
+    purpose: OtpPurpose = OtpPurpose.CUSTOMER_LOGIN,
+  ): Promise<void> {
     const phone = this.normalizeOrThrow(rawPhone);
 
     const cooldownSeconds = Number(
@@ -61,6 +64,7 @@ export class AuthService {
     await this.otpRepository.save(
       this.otpRepository.create({
         phone,
+        purpose,
         codeHash: this.hashCode(code),
         expiresAt: new Date(Date.now() + expiryMinutes * 60 * 1000),
       }),
@@ -71,9 +75,32 @@ export class AuthService {
 
   async verifyOtp(rawPhone: string, code: string): Promise<VerifyOtpResult> {
     const phone = this.normalizeOrThrow(rawPhone);
+    await this.consumeOtp(phone, code, OtpPurpose.CUSTOMER_LOGIN);
 
+    const existingUser = await this.usersService.findByPhone(phone);
+    const user = existingUser ?? (await this.usersService.createByPhone(phone));
+
+    const session = await this.createSession(user.id);
+
+    return {
+      user,
+      isNewUser: !existingUser,
+      sessionToken: session.token,
+      sessionExpiresAt: session.expiresAt,
+    };
+  }
+
+  // Shared OTP-mechanics (lookup/expiry/attempt-limit/hash check), reused by
+  // the admin login flow -- everything after "the code is valid" (who the
+  // user is, whether a session gets created) is purpose-specific and stays
+  // with each caller.
+  async consumeOtp(
+    phone: string,
+    code: string,
+    purpose: OtpPurpose,
+  ): Promise<void> {
     const otp = await this.otpRepository.findOne({
-      where: { phone, consumedAt: IsNull() },
+      where: { phone, purpose, consumedAt: IsNull() },
       order: { createdAt: 'DESC' },
     });
 
@@ -94,18 +121,6 @@ export class AuthService {
 
     otp.consumedAt = new Date();
     await this.otpRepository.save(otp);
-
-    const existingUser = await this.usersService.findByPhone(phone);
-    const user = existingUser ?? (await this.usersService.createByPhone(phone));
-
-    const session = await this.createSession(user.id);
-
-    return {
-      user,
-      isNewUser: !existingUser,
-      sessionToken: session.token,
-      sessionExpiresAt: session.expiresAt,
-    };
   }
 
   async completeProfile(
@@ -152,7 +167,7 @@ export class AuthService {
     await this.sessionRepository.delete({ tokenHash: this.hashToken(token) });
   }
 
-  private async createSession(
+  async createSession(
     userId: string,
   ): Promise<{ token: string; expiresAt: Date }> {
     const token = randomBytes(32).toString('hex');
@@ -170,7 +185,7 @@ export class AuthService {
     return { token, expiresAt };
   }
 
-  private normalizeOrThrow(rawPhone: string): string {
+  normalizeOrThrow(rawPhone: string): string {
     const phone = normalizeIranPhone(rawPhone);
     if (!phone) {
       throw new BadRequestException('شماره موبایل نامعتبر است');

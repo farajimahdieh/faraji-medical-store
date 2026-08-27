@@ -5,6 +5,7 @@ import { Test } from '@nestjs/testing';
 import { RecentlyViewedService } from './recently-viewed.service';
 import { RecentlyViewedProduct } from './entities/recently-viewed-product.entity';
 import { Product, ProductStatus } from '../catalog/entities/product.entity';
+import { StorageService } from '../storage/storage.service';
 
 function buildQueryBuilderMock(result: unknown[] = []) {
   const qb: Record<string, jest.Mock> = {};
@@ -52,6 +53,7 @@ async function buildTestingService() {
         useValue: recentlyViewedRepository,
       },
       { provide: getRepositoryToken(Product), useValue: productRepository },
+      { provide: StorageService, useValue: { resolveUrl: jest.fn((key: string) => `https://cdn.test/${key}`) } },
     ],
   }).compile();
 

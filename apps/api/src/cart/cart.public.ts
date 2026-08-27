@@ -1,7 +1,7 @@
 import { CartItem } from './entities/cart-item.entity';
 import { ProductStatus } from '../catalog/entities/product.entity';
 import { DiscountCode, DiscountType } from '../coupons/entities/discount-code.entity';
-import type { StockStatus } from '../catalog/products/product.public';
+import { resolveProductImageUrl, type StockStatus } from '../catalog/products/product.public';
 
 export interface PublicCartItem {
   id: string;
@@ -21,7 +21,10 @@ export interface PublicCartItem {
   unavailableReason: string | null;
 }
 
-export function toPublicCartItem(item: CartItem): PublicCartItem {
+export function toPublicCartItem(
+  item: CartItem,
+  resolveUrl: (key: string) => string,
+): PublicCartItem {
   const { product, variant } = item;
   const images = product.images ?? [];
   const primaryImage = images.find((image) => image.isPrimary) ?? images[0] ?? null;
@@ -50,7 +53,7 @@ export function toPublicCartItem(item: CartItem): PublicCartItem {
     productSlug: product.slug,
     brand: product.brand ? { name: product.brand.name, slug: product.brand.slug } : null,
     primaryImage: primaryImage
-      ? { url: primaryImage.url, altText: primaryImage.altText }
+      ? { url: resolveProductImageUrl(primaryImage, resolveUrl), altText: primaryImage.altText }
       : null,
     variantId: item.variantId,
     size: variant.size,

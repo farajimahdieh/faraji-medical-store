@@ -12,8 +12,14 @@ import { ProductSource } from './entities/product-source.entity';
 import { ProductsController } from './products/products.controller';
 import { ProductsService } from './products/products.service';
 import { ProductSuggestionsService } from './products/product-suggestions.service';
+import { AdminProductsController } from './products/admin-products.controller';
+import { AdminProductsService } from './products/admin-products.service';
+import { ProductImagesController } from './products/product-images.controller';
+import { ProductImagesService } from './products/product-images.service';
 import { CategoriesController } from './categories/categories.controller';
 import { CategoriesService } from './categories/categories.service';
+import { AuthModule } from '../auth/auth.module';
+import { StorageModule } from '../storage/storage.module';
 
 @Module({
   imports: [
@@ -28,9 +34,22 @@ import { CategoriesService } from './categories/categories.service';
       SizeGuide,
       ProductSource,
     ]),
+    AuthModule,
+    StorageModule,
   ],
-  controllers: [ProductsController, CategoriesController],
-  providers: [ProductsService, ProductSuggestionsService, CategoriesService],
+  controllers: [
+    ProductsController,
+    CategoriesController,
+    AdminProductsController,
+    ProductImagesController,
+  ],
+  providers: [
+    ProductsService,
+    ProductSuggestionsService,
+    CategoriesService,
+    AdminProductsService,
+    ProductImagesService,
+  ],
   exports: [TypeOrmModule],
 })
 export class CatalogModule {}

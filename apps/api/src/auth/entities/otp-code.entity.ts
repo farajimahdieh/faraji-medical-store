@@ -6,6 +6,11 @@ import {
   Index,
 } from 'typeorm';
 
+export enum OtpPurpose {
+  CUSTOMER_LOGIN = 'customer_login',
+  ADMIN_LOGIN = 'admin_login',
+}
+
 @Entity('otp_codes')
 export class OtpCode {
   @PrimaryGeneratedColumn('uuid')
@@ -14,6 +19,16 @@ export class OtpCode {
   @Index()
   @Column()
   phone: string;
+
+  // Isolates a code issued for one login flow from being replayed in the
+  // other -- an admin's phone requesting a customer OTP (or vice versa)
+  // must not be verifiable by a code sent for the other purpose.
+  @Column({
+    type: 'enum',
+    enum: OtpPurpose,
+    default: OtpPurpose.CUSTOMER_LOGIN,
+  })
+  purpose: OtpPurpose;
 
   @Column()
   codeHash: string;

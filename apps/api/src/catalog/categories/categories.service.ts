@@ -12,6 +12,18 @@ export class CategoriesService {
     private readonly categoryRepo: Repository<Category>,
   ) {}
 
+  // Flat list (not a tree) -- callers that need the hierarchy (e.g. an
+  // admin dropdown) group by `parent` themselves using the name/slug
+  // already included on each item.
+  async listAll(): Promise<PublicCategory[]> {
+    const categories = await this.categoryRepo.find({
+      where: { isActive: true },
+      relations: { parent: true },
+      order: { sortOrder: 'ASC', name: 'ASC' },
+    });
+    return categories.map(toPublicCategory);
+  }
+
   async getBySlug(slug: string): Promise<PublicCategory> {
     const category = await this.categoryRepo.findOne({
       where: { slug, isActive: true },

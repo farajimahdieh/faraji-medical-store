@@ -19,6 +19,7 @@ import {
   toPublicCartCoupon,
   toPublicCartItem,
 } from './cart.public';
+import { StorageService } from '../storage/storage.service';
 
 // Postgres error code for a unique-constraint violation.
 const UNIQUE_VIOLATION = '23505';
@@ -37,6 +38,7 @@ export class CartService {
     @InjectRepository(DiscountCode)
     private readonly discountCodeRepo: Repository<DiscountCode>,
     private readonly couponValidation: CouponValidationService,
+    private readonly storageService: StorageService,
   ) {}
 
   async getCart(userId: string): Promise<PublicCart> {
@@ -263,7 +265,7 @@ export class CartService {
     const totalAmount = Math.max(0, subtotal - discountAmount) + shippingAmount + taxAmount;
 
     return {
-      items: items.map(toPublicCartItem),
+      items: items.map((item) => toPublicCartItem(item, (key) => this.storageService.resolveUrl(key))),
       summary: {
         subtotal,
         discountAmount,

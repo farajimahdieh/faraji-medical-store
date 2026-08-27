@@ -3,6 +3,7 @@ import {
   PublicPriceDisplay,
   PublicProductVariant,
   resolvePriceDisplay,
+  resolveProductImageUrl,
   resolveStockStatus,
   StockStatus,
   toPublicVariant,
@@ -40,7 +41,10 @@ export interface PublicWishlistItem {
   createdAt: Date;
 }
 
-export function toPublicWishlistItem(item: WishlistItem): PublicWishlistItem {
+export function toPublicWishlistItem(
+  item: WishlistItem,
+  resolveUrl: (key: string) => string,
+): PublicWishlistItem {
   const images = item.product.images ?? [];
   const primaryImage =
     images.find((image) => image.isPrimary) ?? images[0] ?? null;
@@ -57,7 +61,7 @@ export function toPublicWishlistItem(item: WishlistItem): PublicWishlistItem {
       ? { name: item.product.brand.name, slug: item.product.brand.slug }
       : null,
     primaryImage: primaryImage
-      ? { url: primaryImage.url, altText: primaryImage.altText }
+      ? { url: resolveProductImageUrl(primaryImage, resolveUrl), altText: primaryImage.altText }
       : null,
     variantId: item.variantId,
     size: item.variant?.size ?? null,

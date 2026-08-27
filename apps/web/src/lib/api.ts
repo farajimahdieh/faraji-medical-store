@@ -1,9 +1,11 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
 
-// Product image `url`s from the API are storage-relative (e.g.
-// "/media/products/..."); this resolves them against the API origin.
+// Product image `url`s from the API are usually storage-relative (e.g.
+// "/media/products/..."), resolved against the API origin -- but
+// admin-uploaded images can carry an already-absolute URL (Arvan/CDN), so
+// this passes those through unchanged.
 export function mediaUrl(path: string): string {
-  return `${API_URL}${path}`;
+  return /^https?:\/\//.test(path) ? path : `${API_URL}${path}`;
 }
 
 export class ApiError extends Error {
@@ -44,7 +46,7 @@ export interface PublicUser {
   firstName: string | null;
   lastName: string | null;
   birthDate: string | null;
-  role: 'customer' | 'admin';
+  role: 'customer' | 'admin' | 'super_admin';
 }
 
 export function requestOtp(phone: string): Promise<{ message: string }> {
@@ -191,6 +193,10 @@ export interface PublicCategory {
   name: string;
   slug: string;
   parent: { name: string; slug: string } | null;
+}
+
+export function listCategories(): Promise<PublicCategory[]> {
+  return apiFetch('/categories');
 }
 
 export function getCategoryBySlug(slug: string): Promise<PublicCategory> {

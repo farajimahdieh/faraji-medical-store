@@ -25,6 +25,7 @@ import {
   toPublicOrderSummary,
 } from './order.public';
 import { generateOrderNumber } from './order-number.util';
+import { StorageService } from '../storage/storage.service';
 
 const DETAIL_RELATIONS = { items: { product: { images: true } } } as const;
 
@@ -50,6 +51,7 @@ export class OrdersService {
     private readonly couponValidation: CouponValidationService,
     @Inject(PAYMENT_PROVIDER)
     private readonly paymentProvider: PaymentProvider,
+    private readonly storageService: StorageService,
   ) {}
 
   async create(userId: string, dto: CreateOrderDto): Promise<PublicOrderDetail> {
@@ -209,7 +211,7 @@ export class OrdersService {
     if (!order) {
       throw new NotFoundException('سفارش مورد نظر یافت نشد');
     }
-    return toPublicOrderDetail(order);
+    return toPublicOrderDetail(order, (key) => this.storageService.resolveUrl(key));
   }
 
   async reorder(userId: string, id: string): Promise<ReorderResult> {

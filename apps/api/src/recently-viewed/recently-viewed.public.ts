@@ -10,9 +10,10 @@ export interface PublicRecentlyViewedItem extends PublicProductListItem {
 
 export function toPublicRecentlyViewedItem(
   entry: RecentlyViewedProduct,
+  resolveUrl: (key: string) => string,
 ): PublicRecentlyViewedItem {
   return {
-    ...toPublicProductListItem(entry.product),
+    ...toPublicProductListItem(entry.product, resolveUrl),
     viewedAt: entry.viewedAt,
   };
 }

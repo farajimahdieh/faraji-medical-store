@@ -12,6 +12,7 @@ import { CouponValidationService } from '../coupons/coupon-validation.service';
 import { CartService } from '../cart/cart.service';
 import { CartStatus } from '../cart/entities/cart.entity';
 import { PAYMENT_PROVIDER } from '../payments/payment-provider.interface';
+import { StorageService } from '../storage/storage.service';
 
 function buildQueryBuilderMock(affected = 1) {
   const qb: Record<string, jest.Mock> = {};
@@ -66,6 +67,7 @@ async function buildTestingService() {
       { provide: CartService, useValue: cartService },
       { provide: CouponValidationService, useValue: couponValidation },
       { provide: PAYMENT_PROVIDER, useValue: paymentProvider },
+      { provide: StorageService, useValue: { resolveUrl: jest.fn((key: string) => `https://cdn.test/${key}`) } },
     ],
   }).compile();
 

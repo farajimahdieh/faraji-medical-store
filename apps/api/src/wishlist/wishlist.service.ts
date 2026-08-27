@@ -15,6 +15,7 @@ import {
   PublicWishlistListResponse,
   toPublicWishlistItem,
 } from './wishlist.public';
+import { StorageService } from '../storage/storage.service';
 
 // Postgres error code for a unique-constraint violation.
 const UNIQUE_VIOLATION = '23505';
@@ -33,7 +34,11 @@ export class WishlistService {
     private readonly productRepo: Repository<Product>,
     @InjectRepository(ProductVariant)
     private readonly variantRepo: Repository<ProductVariant>,
+    private readonly storageService: StorageService,
   ) {}
+
+  private toPublicItem = (item: WishlistItem): PublicWishlistItem =>
+    toPublicWishlistItem(item, (key) => this.storageService.resolveUrl(key));
 
   async add(
     userId: string,
@@ -44,7 +49,7 @@ export class WishlistService {
 
     const existing = await this.findOwnItem(userId, dto.productId, variantId);
     if (existing) {
-      return toPublicWishlistItem(existing);
+      return this.toPublicItem(existing);
     }
 
     const item = this.wishlistRepo.create({
@@ -62,7 +67,7 @@ export class WishlistService {
       // whichever row actually won.
       if (this.isUniqueViolation(error)) {
         const raced = await this.findOwnItem(userId, dto.productId, variantId);
-        if (raced) return toPublicWishlistItem(raced);
+        if (raced) return this.toPublicItem(raced);
       }
       throw error;
     }
@@ -71,7 +76,7 @@ export class WishlistService {
       where: { id: item.id },
       relations: ITEM_RELATIONS,
     });
-    return toPublicWishlistItem(saved!);
+    return this.toPublicItem(saved!);
   }
 
   async findAllForUser(
@@ -88,7 +93,7 @@ export class WishlistService {
     });
 
     return {
-      items: items.map(toPublicWishlistItem),
+      items: items.map(this.toPublicItem),
       total,
       page,
       limit,
@@ -132,7 +137,7 @@ export class WishlistService {
       where: { id },
       relations: ITEM_RELATIONS,
     });
-    return toPublicWishlistItem(saved!);
+    return this.toPublicItem(saved!);
   }
 
   async remove(userId: string, id: string): Promise<void> {

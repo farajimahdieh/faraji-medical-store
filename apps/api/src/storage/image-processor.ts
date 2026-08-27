@@ -12,6 +12,7 @@ export interface ProcessedImageVariant {
 // to a square by the source site.
 async function toSquareWebp(source: Buffer, size: number): Promise<Buffer> {
   return sharp(source)
+    .rotate() // auto-orient from EXIF before resizing
     .resize(size, size, {
       fit: 'contain',
       background: { r: 255, g: 255, b: 255, alpha: 1 },

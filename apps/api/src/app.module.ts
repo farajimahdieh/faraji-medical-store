@@ -7,7 +7,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { AdminModule } from './admin/admin.module';
 import { CatalogModule } from './catalog/catalog.module';
+import { StorageModule } from './storage/storage.module';
 import { WishlistModule } from './wishlist/wishlist.module';
 import { AddressesModule } from './addresses/addresses.module';
 import { CouponsModule } from './coupons/coupons.module';
@@ -30,6 +32,8 @@ import { typeOrmModuleOptions } from './database/typeorm-options';
 
     UsersModule,
     AuthModule,
+    AdminModule,
+    StorageModule,
     CatalogModule,
     WishlistModule,
     AddressesModule,

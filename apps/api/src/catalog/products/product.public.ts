@@ -4,8 +4,20 @@ import { ProductImage } from '../entities/product-image.entity';
 
 export interface PublicProductImage {
   url: string;
+  thumbnailUrl: string;
   altText: string | null;
   isPrimary: boolean;
+}
+
+// Resolves a stored image to its public URL. Admin-uploaded images only
+// store an `objectKey` (StorageService resolves it, so a future CDN base
+// change is a config change, not a DB rewrite); legacy imported images
+// still carry an already-resolved `url`.
+export function resolveProductImageUrl(
+  image: Pick<ProductImage, 'url' | 'objectKey'>,
+  resolveUrl: (key: string) => string,
+): string {
+  return image.objectKey ? resolveUrl(image.objectKey) : image.url;
 }
 
 export interface PublicProductVariant {
@@ -71,9 +83,14 @@ export interface PublicProductDetail {
   videoTitle: string | null;
 }
 
-function toPublicImage(image: ProductImage): PublicProductImage {
+function toPublicImage(
+  image: ProductImage,
+  resolveUrl: (key: string) => string,
+): PublicProductImage {
+  const url = resolveProductImageUrl(image, resolveUrl);
   return {
-    url: image.url,
+    url,
+    thumbnailUrl: image.thumbnailKey ? resolveUrl(image.thumbnailKey) : url,
     altText: image.altText,
     isPrimary: image.isPrimary,
   };
@@ -117,6 +134,7 @@ export function resolveStockStatus(variants: ProductVariant[]): StockStatus {
 
 export function toPublicProductListItem(
   product: Product,
+  resolveUrl: (key: string) => string,
 ): PublicProductListItem {
   const images = product.images ?? [];
   const variants = product.variants ?? [];
@@ -130,7 +148,7 @@ export function toPublicProductListItem(
     brand: product.brand
       ? { name: product.brand.name, slug: product.brand.slug }
       : null,
-    primaryImage: primaryImage ? toPublicImage(primaryImage) : null,
+    primaryImage: primaryImage ? toPublicImage(primaryImage, resolveUrl) : null,
     sizes: variants.map((variant) => variant.size),
     variants: variants.map(toPublicVariant),
     price: resolvePriceDisplay(variants),
@@ -141,6 +159,7 @@ export function toPublicProductListItem(
 export function toPublicProductDetail(
   product: Product,
   sourceCode: string | null,
+  resolveUrl: (key: string) => string,
 ): PublicProductDetail {
   const images = [...(product.images ?? [])].sort(
     (a, b) => a.sortOrder - b.sortOrder,
@@ -175,7 +194,7 @@ export function toPublicProductDetail(
     shortDescription: product.shortDescription,
     description: product.description,
     features,
-    images: images.map(toPublicImage),
+    images: images.map((image) => toPublicImage(image, resolveUrl)),
     variants: (product.variants ?? []).map(toPublicVariant),
     sourceCode,
     videoUrl: product.videoUrl,

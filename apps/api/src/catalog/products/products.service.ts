@@ -5,6 +5,7 @@ import { Brackets, In, Repository, SelectQueryBuilder } from 'typeorm';
 import { Product, ProductStatus } from '../entities/product.entity';
 import { ProductSource } from '../entities/product-source.entity';
 import { CategoriesService } from '../categories/categories.service';
+import { StorageService } from '../../storage/storage.service';
 import {
   ListProductsQueryDto,
   ProductSortOption,
@@ -45,7 +46,11 @@ export class ProductsService {
     @InjectRepository(ProductSource)
     private readonly sourceRepo: Repository<ProductSource>,
     private readonly categoriesService: CategoriesService,
+    private readonly storageService: StorageService,
   ) {}
+
+  private readonly resolveUrl = (key: string) =>
+    this.storageService.resolveUrl(key);
 
   async list(query: ListProductsQueryDto): Promise<PublicProductListResponse> {
     const { page, limit } = query;
@@ -81,7 +86,9 @@ export class ProductsService {
       .filter((product): product is Product => product !== undefined);
 
     return {
-      items: ordered.map(toPublicProductListItem),
+      items: ordered.map((product) =>
+        toPublicProductListItem(product, this.resolveUrl),
+      ),
       total,
       page,
       limit,
@@ -191,7 +198,11 @@ export class ProductsService {
       order: { createdAt: 'ASC' },
     });
 
-    return toPublicProductDetail(product, source?.externalProductCode ?? null);
+    return toPublicProductDetail(
+      product,
+      source?.externalProductCode ?? null,
+      this.resolveUrl,
+    );
   }
 
   private orderByFor(sort: ProductSortOption): [string, 'ASC' | 'DESC'] {

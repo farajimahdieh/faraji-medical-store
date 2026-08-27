@@ -22,8 +22,17 @@ export class ProductImage {
   @Column({ type: 'uuid' })
   productId: string;
 
+  // Legacy field: the resolved URL as stored by the teb-sanat importer.
+  // New (admin-uploaded) images use objectKey/thumbnailKey instead -- see
+  // product.public.ts for how a URL is resolved for each case.
   @Column()
   url: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  objectKey: string | null;
+
+  @Column({ type: 'varchar', nullable: true })
+  thumbnailKey: string | null;
 
   @Column({ type: 'varchar', nullable: true })
   altText: string | null;

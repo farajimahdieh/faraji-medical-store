@@ -9,6 +9,7 @@ import { ProductVariant } from '../catalog/entities/product-variant.entity';
 import { Product, ProductStatus } from '../catalog/entities/product.entity';
 import { DiscountCode } from '../coupons/entities/discount-code.entity';
 import { CouponValidationService } from '../coupons/coupon-validation.service';
+import { StorageService } from '../storage/storage.service';
 
 function buildRepositoryMock() {
   return {
@@ -42,6 +43,7 @@ async function buildTestingService() {
       { provide: getRepositoryToken(ProductVariant), useValue: variantRepository },
       { provide: getRepositoryToken(DiscountCode), useValue: discountCodeRepository },
       { provide: CouponValidationService, useValue: couponValidation },
+      { provide: StorageService, useValue: { resolveUrl: jest.fn((key: string) => `https://cdn.test/${key}`) } },
     ],
   }).compile();
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { mkdir, writeFile, access } from 'node:fs/promises';
+import { mkdir, writeFile, unlink, access } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { StorageProvider, StoredFile } from './storage-provider.interface';
 
@@ -27,7 +27,15 @@ export class LocalDiskStorageProvider implements StorageProvider {
     const filePath = join(this.rootDir, key);
     await mkdir(dirname(filePath), { recursive: true });
     await writeFile(filePath, data);
-    return { url: `${this.urlPrefix}/${key.split(/[\\/]/).join('/')}` };
+    return { url: this.resolveUrl(key) };
+  }
+
+  async delete(key: string): Promise<void> {
+    try {
+      await unlink(join(this.rootDir, key));
+    } catch {
+      // Already gone -- deleting is idempotent.
+    }
   }
 
   async exists(key: string): Promise<boolean> {
@@ -37,5 +45,9 @@ export class LocalDiskStorageProvider implements StorageProvider {
     } catch {
       return false;
     }
+  }
+
+  resolveUrl(key: string): string {
+    return `${this.urlPrefix}/${key.split(/[\\/]/).join('/')}`;
   }
 }

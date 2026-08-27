@@ -1,5 +1,6 @@
 import { Order, OrderStatus, PaymentStatus } from './entities/order.entity';
 import { OrderItem } from './entities/order-item.entity';
+import { resolveProductImageUrl } from '../catalog/products/product.public';
 
 export interface PublicOrderItem {
   id: string;
@@ -14,7 +15,10 @@ export interface PublicOrderItem {
   lineTotal: number;
 }
 
-function toPublicOrderItem(item: OrderItem): PublicOrderItem {
+function toPublicOrderItem(
+  item: OrderItem,
+  resolveUrl: (key: string) => string,
+): PublicOrderItem {
   const images = item.product?.images ?? [];
   const primaryImage = images.find((image) => image.isPrimary) ?? images[0] ?? null;
 
@@ -26,7 +30,7 @@ function toPublicOrderItem(item: OrderItem): PublicOrderItem {
     variantSize: item.variantSize,
     sku: item.sku,
     primaryImage: primaryImage
-      ? { url: primaryImage.url, altText: primaryImage.altText }
+      ? { url: resolveProductImageUrl(primaryImage, resolveUrl), altText: primaryImage.altText }
       : null,
     unitPrice: item.unitPrice,
     quantity: item.quantity,
@@ -82,7 +86,10 @@ export function toPublicOrderSummary(order: Order): PublicOrderSummary {
   };
 }
 
-export function toPublicOrderDetail(order: Order): PublicOrderDetail {
+export function toPublicOrderDetail(
+  order: Order,
+  resolveUrl: (key: string) => string,
+): PublicOrderDetail {
   return {
     ...toPublicOrderSummary(order),
     subtotal: order.subtotal,
@@ -101,6 +108,6 @@ export function toPublicOrderDetail(order: Order): PublicOrderDetail {
       buildingNumber: order.shippingBuildingNumber,
       unit: order.shippingUnit,
     },
-    items: (order.items ?? []).map(toPublicOrderItem),
+    items: (order.items ?? []).map((item) => toPublicOrderItem(item, resolveUrl)),
   };
 }

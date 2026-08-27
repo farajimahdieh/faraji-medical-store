@@ -8,10 +8,13 @@ import { UserAddress } from '../addresses/entities/user-address.entity';
 import { DiscountCode } from '../coupons/entities/discount-code.entity';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
+import { AdminOrdersController } from './admin-orders.controller';
+import { AdminOrdersService } from './admin-orders.service';
 import { AuthModule } from '../auth/auth.module';
 import { CartModule } from '../cart/cart.module';
 import { CouponsModule } from '../coupons/coupons.module';
 import { PaymentsModule } from '../payments/payments.module';
+import { StorageModule } from '../storage/storage.module';
 
 @Module({
   imports: [
@@ -20,8 +23,9 @@ import { PaymentsModule } from '../payments/payments.module';
     CartModule,
     CouponsModule,
     PaymentsModule,
+    StorageModule,
   ],
-  controllers: [OrdersController],
-  providers: [OrdersService],
+  controllers: [OrdersController, AdminOrdersController],
+  providers: [OrdersService, AdminOrdersService],
 })
 export class OrdersModule {}

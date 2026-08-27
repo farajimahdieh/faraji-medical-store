@@ -8,6 +8,7 @@ import {
   PublicRecentlyViewedItem,
   toPublicRecentlyViewedItem,
 } from './recently-viewed.public';
+import { StorageService } from '../storage/storage.service';
 
 const MAX_STORED_PER_USER = 20;
 
@@ -18,6 +19,7 @@ export class RecentlyViewedService {
     private readonly recentlyViewedRepo: Repository<RecentlyViewedProduct>,
     @InjectRepository(Product)
     private readonly productRepo: Repository<Product>,
+    private readonly storageService: StorageService,
   ) {}
 
   async recordView(userId: string, productId: string): Promise<void> {
@@ -63,7 +65,9 @@ export class RecentlyViewedService {
       .take(limit)
       .getMany();
 
-    return entries.map(toPublicRecentlyViewedItem);
+    return entries.map((entry) =>
+      toPublicRecentlyViewedItem(entry, (key) => this.storageService.resolveUrl(key)),
+    );
   }
 
   async clearForUser(userId: string): Promise<void> {

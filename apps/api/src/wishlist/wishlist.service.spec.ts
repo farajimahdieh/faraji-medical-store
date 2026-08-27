@@ -6,6 +6,11 @@ import { WishlistService } from './wishlist.service';
 import { WishlistItem } from './entities/wishlist-item.entity';
 import { Product, ProductStatus } from '../catalog/entities/product.entity';
 import { ProductVariant } from '../catalog/entities/product-variant.entity';
+import { StorageService } from '../storage/storage.service';
+
+function buildStorageServiceMock() {
+  return { resolveUrl: jest.fn((key: string) => `https://cdn.test/${key}`) };
+}
 
 function buildWishlistRepositoryMock() {
   return {
@@ -43,6 +48,7 @@ async function buildTestingService() {
         provide: getRepositoryToken(ProductVariant),
         useValue: variantRepository,
       },
+      { provide: StorageService, useValue: buildStorageServiceMock() },
     ],
   }).compile();
 

@@ -77,6 +77,11 @@ export class Product {
   @Column({ type: 'enum', enum: ProductStatus, default: ProductStatus.DRAFT })
   status: ProductStatus;
 
+  // Set by a reviewer on rejection (see AdminProductsService.reject) so the
+  // creating admin knows what to fix; cleared on approval or resubmission.
+  @Column({ type: 'text', nullable: true })
+  rejectionReason: string | null;
+
   @Column({ default: false })
   isFeatured: boolean;
 
