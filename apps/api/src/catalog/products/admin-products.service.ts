@@ -7,18 +7,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 
 import { Product, ProductStatus } from '../entities/product.entity';
-import { ProductVariant } from '../entities/product-variant.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { CreateVariantDto } from './dto/create-variant.dto';
-import { UpdateVariantDto } from './dto/update-variant.dto';
 import { AdminListProductsQueryDto } from './dto/admin-list-products-query.dto';
 
 const ADMIN_DETAIL_RELATIONS = {
   brand: true,
   category: true,
   images: true,
-  variants: true,
 } as const;
 
 // The "hasn't been decided on yet" states -- a newly created product starts
@@ -37,8 +33,6 @@ export class AdminProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepo: Repository<Product>,
-    @InjectRepository(ProductVariant)
-    private readonly variantRepo: Repository<ProductVariant>,
   ) {}
 
   async list(query: AdminListProductsQueryDto) {
@@ -142,45 +136,6 @@ export class AdminProductsService {
     product.rejectionReason = reason;
     await this.productRepo.save(product);
     return this.getById(id);
-  }
-
-  async addVariant(
-    productId: string,
-    dto: CreateVariantDto,
-  ): Promise<ProductVariant> {
-    await this.getById(productId);
-    return this.variantRepo.save(
-      this.variantRepo.create({
-        productId,
-        size: dto.size,
-        isActive: dto.isActive ?? true,
-      }),
-    );
-  }
-
-  async updateVariant(
-    productId: string,
-    variantId: string,
-    dto: UpdateVariantDto,
-  ): Promise<ProductVariant> {
-    const variant = await this.variantRepo.findOne({
-      where: { id: variantId, productId },
-    });
-    if (!variant) {
-      throw new NotFoundException('این سایز متعلق به این محصول نیست');
-    }
-
-    if (dto.size !== undefined) variant.size = dto.size;
-    if (dto.isActive !== undefined) variant.isActive = dto.isActive;
-
-    return this.variantRepo.save(variant);
-  }
-
-  async removeVariant(productId: string, variantId: string): Promise<void> {
-    const result = await this.variantRepo.delete({ id: variantId, productId });
-    if (result.affected === 0) {
-      throw new NotFoundException('این سایز متعلق به این محصول نیست');
-    }
   }
 
   private async uniqueSlug(candidate: string): Promise<string> {

@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   ParseUUIDPipe,
@@ -13,8 +12,6 @@ import {
 import { AdminProductsService } from './admin-products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { CreateVariantDto } from './dto/create-variant.dto';
-import { UpdateVariantDto } from './dto/update-variant.dto';
 import { RejectProductDto } from './dto/reject-product.dto';
 import { AdminListProductsQueryDto } from './dto/admin-list-products-query.dto';
 import { AdminOnly } from '../../auth/decorators/admin-guards.decorator';
@@ -60,32 +57,10 @@ export class AdminProductsController {
   }
 
   @Patch(':id/reject')
-  reject(@Param('id', ParseUUIDPipe) id: string, @Body() dto: RejectProductDto) {
+  reject(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: RejectProductDto,
+  ) {
     return this.adminProductsService.reject(id, dto.reason);
-  }
-
-  @Post(':id/variants')
-  addVariant(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() dto: CreateVariantDto,
-  ) {
-    return this.adminProductsService.addVariant(id, dto);
-  }
-
-  @Patch(':id/variants/:variantId')
-  updateVariant(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Param('variantId', ParseUUIDPipe) variantId: string,
-    @Body() dto: UpdateVariantDto,
-  ) {
-    return this.adminProductsService.updateVariant(id, variantId, dto);
-  }
-
-  @Delete(':id/variants/:variantId')
-  removeVariant(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Param('variantId', ParseUUIDPipe) variantId: string,
-  ) {
-    return this.adminProductsService.removeVariant(id, variantId);
   }
 }

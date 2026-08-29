@@ -23,6 +23,7 @@
     "migration:revert": "node --env-file=.env node_modules/typeorm/cli-ts-node-commonjs.js migration:revert -d src/database/data-source.ts",
     "seed:catalog": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seeds/catalog.seed.ts",
     "seed:super-admin": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seeds/admin.seed.ts",
+    "seed:categories": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seeds/restructure-categories.seed.ts",
     "import:teb-sanat": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/catalog/import/teb-sanat/run-import.ts",
     "sync:teb-sanat-videos": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/catalog/import/teb-sanat/video-sync/run-video-sync.ts"
   },

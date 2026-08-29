@@ -6,15 +6,12 @@ import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
 import { ApiError, mediaUrl } from "@/lib/api";
 import {
-  addProductVariant,
   deleteProductImage,
   getAdminProduct,
-  removeProductVariant,
   reorderProductImages,
   replaceProductImage,
   updateAdminProduct,
   updateProductImage,
-  updateProductVariant,
   uploadProductImages,
   type AdminProductDetail,
 } from "@/lib/admin-api";
@@ -40,7 +37,6 @@ export default function EditProductPage() {
       <h1 className="text-2xl font-bold text-navy">ویرایش محصول</h1>
       <ProductForm product={product} onSaved={reload} setSaving={setSaving} />
       <ImagesPanel product={product} onChanged={reload} />
-      <VariantsPanel product={product} onChanged={reload} />
       <Button type="submit" form={PRODUCT_FORM_ID} disabled={saving} className="self-start">
         {saving ? "در حال ذخیره..." : "ذخیره تغییرات"}
       </Button>
@@ -209,77 +205,6 @@ function ImagesPanel({ product, onChanged }: { product: AdminProductDetail; onCh
         ))}
         {images.length === 0 && <p className="col-span-full text-sm text-secondary-text">هنوز عکسی اضافه نشده است.</p>}
       </div>
-    </div>
-  );
-}
-
-function VariantsPanel({ product, onChanged }: { product: AdminProductDetail; onChanged: () => void }) {
-  const [size, setSize] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
-  async function handleAdd(event: FormEvent) {
-    event.preventDefault();
-    setError(null);
-    try {
-      await addProductVariant(product.id, { size });
-      setSize("");
-      onChanged();
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : "خطایی رخ داد");
-    }
-  }
-
-  async function handleToggleActive(variantId: string, isActive: boolean) {
-    await updateProductVariant(product.id, variantId, { isActive });
-    onChanged();
-  }
-
-  async function handleRemove(variantId: string) {
-    await removeProductVariant(product.id, variantId);
-    onChanged();
-  }
-
-  return (
-    <div className="rounded-2xl border border-border bg-white p-6">
-      <h2 className="mb-1 font-bold text-navy">سایزها / Variantها</h2>
-      <p className="mb-4 text-xs text-secondary-text">
-        قیمت فقط از طریق همگام‌سازی حسابداری به‌روزرسانی می‌شود و در اینجا قابل ویرایش نیست.
-      </p>
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-b border-border text-right text-secondary-text">
-            <th className="p-2 font-medium">سایز</th>
-            <th className="p-2 font-medium">قیمت</th>
-            <th className="p-2 font-medium">فعال</th>
-            <th className="p-2" />
-          </tr>
-        </thead>
-        <tbody>
-          {product.variants.map((variant) => (
-            <tr key={variant.id} className="border-b border-border last:border-0">
-              <td className="p-2 text-navy">{variant.size}</td>
-              <td className="p-2 text-secondary-text">{variant.price ?? "—"}</td>
-              <td className="p-2">
-                <input
-                  type="checkbox"
-                  checked={variant.isActive}
-                  onChange={(e) => handleToggleActive(variant.id, e.target.checked)}
-                />
-              </td>
-              <td className="p-2">
-                <button onClick={() => handleRemove(variant.id)} className="text-xs text-accent-red hover:underline">
-                  حذف
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <form onSubmit={handleAdd} className="mt-4 flex items-end gap-3">
-        <TextField label="سایز جدید" value={size} onChange={(e) => setSize(e.target.value)} required />
-        <Button type="submit">افزودن</Button>
-      </form>
-      {error && <p className="mt-2 text-sm text-accent-red">{error}</p>}
     </div>
   );
 }

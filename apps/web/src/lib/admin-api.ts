@@ -42,14 +42,6 @@ export interface AdminProductImage {
   sortOrder: number;
 }
 
-export interface AdminProductVariant {
-  id: string;
-  size: string;
-  price: number | null;
-  stock: number | null;
-  isActive: boolean;
-}
-
 export interface AdminProductListItem {
   id: string;
   name: string;
@@ -66,7 +58,6 @@ export interface AdminProductDetail extends AdminProductListItem {
   shortDescription: string | null;
   description: string | null;
   isFeatured: boolean;
-  variants: AdminProductVariant[];
 }
 
 export interface AdminProductListResponse {
@@ -122,28 +113,6 @@ export function approveProduct(id: string): Promise<AdminProductDetail> {
 
 export function rejectProduct(id: string, reason: string): Promise<AdminProductDetail> {
   return apiFetch(`/admin/products/${id}/reject`, { method: 'PATCH', body: JSON.stringify({ reason }) });
-}
-
-export function addProductVariant(
-  productId: string,
-  input: { size: string; isActive?: boolean },
-): Promise<AdminProductVariant> {
-  return apiFetch(`/admin/products/${productId}/variants`, { method: 'POST', body: JSON.stringify(input) });
-}
-
-export function updateProductVariant(
-  productId: string,
-  variantId: string,
-  input: { size?: string; isActive?: boolean },
-): Promise<AdminProductVariant> {
-  return apiFetch(`/admin/products/${productId}/variants/${variantId}`, {
-    method: 'PATCH',
-    body: JSON.stringify(input),
-  });
-}
-
-export function removeProductVariant(productId: string, variantId: string): Promise<void> {
-  return apiFetch(`/admin/products/${productId}/variants/${variantId}`, { method: 'DELETE' });
 }
 
 export function uploadProductImages(productId: string, files: File[]): Promise<AdminProductImage[]> {
