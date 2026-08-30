@@ -8,6 +8,10 @@ import dataSource from '../data-source';
 import { User, UserRole } from '../../users/entities/user.entity';
 import { AdminProfile } from '../../auth/entities/admin-profile.entity';
 import { normalizeIranPhone } from '../../common/phone.util';
+import {
+  STRONG_PASSWORD_MIN_LENGTH,
+  STRONG_PASSWORD_PATTERN,
+} from '../../auth/dto/activate-admin.dto';
 
 async function seed() {
   const rawPhone = process.env.SUPER_ADMIN_PHONE;
@@ -22,8 +26,13 @@ async function seed() {
     );
     process.exit(1);
   }
-  if (password.length < 8) {
-    console.error('SUPER_ADMIN_PASSWORD must be at least 8 characters');
+  if (
+    password.length < STRONG_PASSWORD_MIN_LENGTH ||
+    !STRONG_PASSWORD_PATTERN.test(password)
+  ) {
+    console.error(
+      `SUPER_ADMIN_PASSWORD must be at least ${STRONG_PASSWORD_MIN_LENGTH} characters and include upper/lower case, a digit, and a special character`,
+    );
     process.exit(1);
   }
 
@@ -47,9 +56,16 @@ async function seed() {
   if (existingProfile) {
     existingProfile.passwordHash = passwordHash;
     existingProfile.isActive = true;
+    existingProfile.activatedAt ??= new Date();
     await adminProfileRepo.save(existingProfile);
   } else {
-    await adminProfileRepo.save(adminProfileRepo.create({ userId: user.id, passwordHash }));
+    await adminProfileRepo.save(
+      adminProfileRepo.create({
+        userId: user.id,
+        passwordHash,
+        activatedAt: new Date(),
+      }),
+    );
   }
 
   console.log(`super_admin ready: ${phone}`);

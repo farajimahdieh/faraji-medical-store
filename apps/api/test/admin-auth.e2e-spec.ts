@@ -75,6 +75,8 @@ describe('Admin auth + RBAC (e2e)', () => {
       ADMIN_PHONE_NORMALIZED,
       SUPER_ADMIN_PHONE_NORMALIZED,
       CUSTOMER_PHONE_NORMALIZED,
+      '+989300000099',
+      '+989300000098',
     ]) {
       await otpRepo.delete({ phone });
       const user = await userRepo.findOneBy({ phone });
@@ -94,6 +96,7 @@ describe('Admin auth + RBAC (e2e)', () => {
       adminProfileRepo.create({
         userId: user.id,
         passwordHash: await bcrypt.hash(PASSWORD, 4),
+        activatedAt: new Date(),
       }),
     );
     return user;
@@ -158,5 +161,61 @@ describe('Admin auth + RBAC (e2e)', () => {
     const adminAgent = request.agent(app.getHttpServer());
     await loginAsAdmin(ADMIN_PHONE_NORMALIZED, adminAgent);
     await adminAgent.get('/admin/admins').expect(403);
+  });
+
+  it('a plain admin cannot create a new admin, only super_admin can', async () => {
+    const adminAgent = request.agent(app.getHttpServer());
+    await loginAsAdmin(ADMIN_PHONE_NORMALIZED, adminAgent);
+    await adminAgent
+      .post('/admin/admins')
+      .send({ phone: '09300000099', firstName: 'X', lastName: 'Y' })
+      .expect(403);
+
+    const superAgent = request.agent(app.getHttpServer());
+    await loginAsAdmin(SUPER_ADMIN_PHONE_NORMALIZED, superAgent);
+    await superAgent
+      .post('/admin/admins')
+      .send({ phone: '09300000099', firstName: 'X', lastName: 'Y' })
+      .expect(201);
+  });
+
+  it('invite -> activation -> login: a pending admin has no password and cannot log in until activated', async () => {
+    const superAgent = request.agent(app.getHttpServer());
+    await loginAsAdmin(SUPER_ADMIN_PHONE_NORMALIZED, superAgent);
+
+    const invitePhone = '09300000098';
+    const invitePhoneNormalized = '+989300000098';
+    await superAgent
+      .post('/admin/admins')
+      .send({ phone: invitePhone, firstName: 'New', lastName: 'Admin' })
+      .expect(201);
+
+    // Pending admin has no password yet -- login-password never sends an OTP.
+    await request(app.getHttpServer())
+      .post('/admin/auth/login-password')
+      .send({ phone: invitePhone, password: 'whatever' })
+      .expect(200);
+    expect(sentCodes.has(invitePhoneNormalized)).toBe(false);
+
+    // A weak password is rejected by the activation endpoint itself.
+    await request(app.getHttpServer())
+      .post('/admin/auth/activate-request')
+      .send({ phone: invitePhone })
+      .expect(200);
+    const activationCode = sentCodes.get(invitePhoneNormalized);
+    expect(activationCode).toMatch(/^\d{6}$/);
+    await request(app.getHttpServer())
+      .post('/admin/auth/activate-verify')
+      .send({ phone: invitePhone, code: activationCode, password: 'weak' })
+      .expect(400);
+
+    // A strong password activates the account and logs it straight in.
+    const activateAgent = request.agent(app.getHttpServer());
+    const activateRes = await activateAgent
+      .post('/admin/auth/activate-verify')
+      .send({ phone: invitePhone, code: activationCode, password: 'Str0ng!Passw0rd' })
+      .expect(200);
+    expect(activateRes.body.user.role).toBe('admin');
+    await activateAgent.get('/admin/products').expect(200);
   });
 });

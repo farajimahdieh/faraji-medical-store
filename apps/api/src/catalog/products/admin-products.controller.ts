@@ -15,6 +15,8 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { RejectProductDto } from './dto/reject-product.dto';
 import { AdminListProductsQueryDto } from './dto/admin-list-products-query.dto';
 import { AdminOnly } from '../../auth/decorators/admin-guards.decorator';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { User } from '../../users/entities/user.entity';
 
 @AdminOnly()
 @Controller('admin/products')
@@ -39,16 +41,17 @@ export class AdminProductsController {
   }
 
   @Post()
-  create(@Body() dto: CreateProductDto) {
-    return this.adminProductsService.create(dto);
+  create(@CurrentUser() currentUser: User, @Body() dto: CreateProductDto) {
+    return this.adminProductsService.create(dto, currentUser.id);
   }
 
   @Patch(':id')
   update(
+    @CurrentUser() currentUser: User,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateProductDto,
   ) {
-    return this.adminProductsService.update(id, dto);
+    return this.adminProductsService.update(id, dto, currentUser.id);
   }
 
   @Patch(':id/approve')

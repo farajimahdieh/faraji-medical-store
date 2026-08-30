@@ -98,7 +98,11 @@ describe('Admin products + images (e2e)', () => {
     );
     adminUserId = user.id;
     await adminProfileRepo.save(
-      adminProfileRepo.create({ userId: user.id, passwordHash: await bcrypt.hash(PASSWORD, 4) }),
+      adminProfileRepo.create({
+        userId: user.id,
+        passwordHash: await bcrypt.hash(PASSWORD, 4),
+        activatedAt: new Date(),
+      }),
     );
 
     // Logs in through the real password+OTP flow -- the login flow itself is

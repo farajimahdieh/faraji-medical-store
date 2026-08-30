@@ -1,7 +1,13 @@
 import { CartItem } from './entities/cart-item.entity';
 import { ProductStatus } from '../catalog/entities/product.entity';
-import { DiscountCode, DiscountType } from '../coupons/entities/discount-code.entity';
-import { resolveProductImageUrl, type StockStatus } from '../catalog/products/product.public';
+import {
+  DiscountCode,
+  DiscountType,
+} from '../coupons/entities/discount-code.entity';
+import {
+  resolveProductImageUrl,
+  type StockStatus,
+} from '../catalog/products/product.public';
 
 export interface PublicCartItem {
   id: string;
@@ -27,12 +33,15 @@ export function toPublicCartItem(
 ): PublicCartItem {
   const { product, variant } = item;
   const images = product.images ?? [];
-  const primaryImage = images.find((image) => image.isPrimary) ?? images[0] ?? null;
+  const primaryImage =
+    images.find((image) => image.isPrimary) ?? images[0] ?? null;
 
   const productUnavailable =
     product.status !== ProductStatus.ACTIVE || !variant.isActive;
-  const insufficientStock = variant.stock !== null && variant.stock < item.quantity;
-  const unavailable = productUnavailable || variant.price === null || insufficientStock;
+  const insufficientStock =
+    variant.stock !== null && variant.stock < item.quantity;
+  const unavailable =
+    productUnavailable || variant.price === null || insufficientStock;
 
   let unavailableReason: string | null = null;
   if (productUnavailable) {
@@ -44,16 +53,25 @@ export function toPublicCartItem(
   }
 
   const stockStatus: StockStatus =
-    variant.stock === null ? 'unknown' : variant.stock > 0 ? 'in_stock' : 'out_of_stock';
+    variant.stock === null
+      ? 'unknown'
+      : variant.stock > 0
+        ? 'in_stock'
+        : 'out_of_stock';
 
   return {
     id: item.id,
     productId: item.productId,
     productName: product.name,
     productSlug: product.slug,
-    brand: product.brand ? { name: product.brand.name, slug: product.brand.slug } : null,
+    brand: product.brand
+      ? { name: product.brand.name, slug: product.brand.slug }
+      : null,
     primaryImage: primaryImage
-      ? { url: resolveProductImageUrl(primaryImage, resolveUrl), altText: primaryImage.altText }
+      ? {
+          url: resolveProductImageUrl(primaryImage, resolveUrl),
+          altText: primaryImage.altText,
+        }
       : null,
     variantId: item.variantId,
     size: variant.size,

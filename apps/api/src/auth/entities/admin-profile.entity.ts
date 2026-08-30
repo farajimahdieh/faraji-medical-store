@@ -26,8 +26,13 @@ export class AdminProfile {
   @Column({ type: 'uuid' })
   userId: string;
 
-  @Column()
-  passwordHash: string;
+  // Null until the invited admin completes activation (see AdminAuthService
+  // .activate) -- a pending admin has no password yet and can't log in.
+  @Column({ type: 'varchar', nullable: true })
+  passwordHash: string | null;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  activatedAt: Date | null;
 
   @Column({ default: true })
   isActive: boolean;

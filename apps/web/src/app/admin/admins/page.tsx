@@ -15,12 +15,17 @@ export default function AdminsPage() {
   );
 }
 
+function statusLabel(admin: AdminAccount): string {
+  if (!admin.activatedAt) return "در انتظار فعال‌سازی";
+  return admin.isActive ? "فعال" : "غیرفعال";
+}
+
 function AdminsPageContent() {
   const [admins, setAdmins] = useState<AdminAccount[]>([]);
   const [phone, setPhone] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
+  const [role, setRole] = useState<"admin" | "super_admin">("admin");
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -35,11 +40,11 @@ function AdminsPageContent() {
     setError(null);
     setSaving(true);
     try {
-      await createAdmin({ phone, firstName, lastName, password });
+      await createAdmin({ phone, firstName, lastName, role });
       setPhone("");
       setFirstName("");
       setLastName("");
-      setPassword("");
+      setRole("admin");
       reload();
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "خطایی رخ داد");
@@ -74,11 +79,13 @@ function AdminsPageContent() {
                 <td className="p-3 text-navy">{admin.firstName} {admin.lastName}</td>
                 <td className="p-3 text-navy">{admin.phone}</td>
                 <td className="p-3 text-navy">{admin.role === "super_admin" ? "سوپر ادمین" : "ادمین"}</td>
-                <td className="p-3">{admin.isActive ? "فعال" : "غیرفعال"}</td>
+                <td className="p-3">{statusLabel(admin)}</td>
                 <td className="p-3">
-                  <button onClick={() => toggleActive(admin)} className="text-xs text-primary hover:underline">
-                    {admin.isActive ? "غیرفعال کردن" : "فعال کردن"}
-                  </button>
+                  {admin.activatedAt && (
+                    <button onClick={() => toggleActive(admin)} className="text-xs text-primary hover:underline">
+                      {admin.isActive ? "غیرفعال کردن" : "فعال کردن"}
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
@@ -87,20 +94,28 @@ function AdminsPageContent() {
       </div>
 
       <form onSubmit={handleCreate} className="flex flex-col gap-4 rounded-2xl border border-border bg-white p-6">
-        <h2 className="font-bold text-navy">افزودن ادمین جدید</h2>
+        <h2 className="font-bold text-navy">دعوت ادمین جدید</h2>
+        <p className="text-xs text-secondary-text">
+          پس از ثبت، فرد باید از طریق شماره موبایل خودش در صفحه فعال‌سازی، حساب را با کد تایید پیامکی فعال و رمز
+          عبور خود را تعیین کند.
+        </p>
         <TextField label="شماره موبایل" value={phone} onChange={(e) => setPhone(e.target.value)} required />
         <TextField label="نام" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
         <TextField label="نام خانوادگی" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-        <TextField
-          label="رمز عبور"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <label className="flex flex-col gap-1.5 text-sm text-secondary-text">
+          نقش
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value as "admin" | "super_admin")}
+            className="h-11 rounded-xl border border-border px-3 text-navy outline-none focus:border-primary focus:ring-2 focus:ring-primary/15"
+          >
+            <option value="admin">ادمین</option>
+            <option value="super_admin">سوپر ادمین</option>
+          </select>
+        </label>
         {error && <p className="text-sm text-accent-red">{error}</p>}
         <Button type="submit" disabled={saving} className="self-start">
-          {saving ? "در حال ایجاد..." : "ایجاد ادمین"}
+          {saving ? "در حال ایجاد..." : "دعوت ادمین"}
         </Button>
       </form>
     </div>

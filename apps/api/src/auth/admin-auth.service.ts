@@ -11,6 +11,7 @@ import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 
 const INVALID_LOGIN_MESSAGE = 'اطلاعات ورود نامعتبر است';
+const BCRYPT_ROUNDS = 12;
 
 interface AdminLoginVerifyResult {
   user: User;
@@ -40,9 +41,11 @@ export class AdminAuthService {
       return;
     }
 
+    // findActiveProfileByPhone already excludes profiles with no
+    // passwordHash (still-pending invites).
     const passwordMatches = await bcrypt.compare(
       password,
-      profile.passwordHash,
+      profile.passwordHash!,
     );
     if (!passwordMatches) {
       await this.registerFailedAttempt(profile);
@@ -83,6 +86,62 @@ export class AdminAuthService {
     };
   }
 
+  // Step 1 of activation: an invited admin (passwordHash still null)
+  // requests an OTP on their own phone. Same non-enumeration stance as
+  // everywhere else -- silent no-op for any phone that isn't a pending
+  // invite.
+  async requestActivation(rawPhone: string): Promise<void> {
+    const phone = this.authService.normalizeOrThrow(rawPhone);
+    const profile = await this.findPendingProfileByPhone(phone);
+    if (!profile) return;
+
+    await this.authService.requestOtp(phone, OtpPurpose.ADMIN_ACTIVATION);
+  }
+
+  // Step 2: verify the OTP and let the admin set their own permanent
+  // password in the same request -- activates the account and logs them
+  // straight in, same as a normal login would.
+  async activate(
+    rawPhone: string,
+    code: string,
+    password: string,
+  ): Promise<AdminLoginVerifyResult> {
+    const phone = this.authService.normalizeOrThrow(rawPhone);
+    await this.authService.consumeOtp(phone, code, OtpPurpose.ADMIN_ACTIVATION);
+
+    const profile = await this.findPendingProfileByPhone(phone);
+    if (!profile) {
+      throw new BadRequestException(INVALID_LOGIN_MESSAGE);
+    }
+
+    profile.passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
+    profile.activatedAt = new Date();
+    profile.lastLoginAt = new Date();
+    await this.adminProfileRepository.save(profile);
+
+    const session = await this.authService.createSession(profile.userId);
+    const user = await this.usersService.findById(profile.userId);
+    return {
+      user: user!,
+      sessionToken: session.token,
+      sessionExpiresAt: session.expiresAt,
+    };
+  }
+
+  private async findPendingProfileByPhone(
+    phone: string,
+  ): Promise<AdminProfile | null> {
+    const user = await this.usersService.findByPhone(phone);
+    if (!user) return null;
+
+    const profile = await this.adminProfileRepository.findOne({
+      where: { userId: user.id },
+    });
+    if (!profile || !profile.isActive || profile.activatedAt) return null;
+
+    return profile;
+  }
+
   private async findActiveProfileByPhone(
     phone: string,
   ): Promise<AdminProfile | null> {
@@ -92,7 +151,8 @@ export class AdminAuthService {
     const profile = await this.adminProfileRepository.findOne({
       where: { userId: user.id },
     });
-    if (!profile || !profile.isActive) return null;
+    // Not active, or still pending activation (no password set yet).
+    if (!profile || !profile.isActive || !profile.passwordHash) return null;
 
     return profile;
   }

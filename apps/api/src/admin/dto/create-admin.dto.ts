@@ -1,5 +1,8 @@
-import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { UserRole } from '../../users/entities/user.entity';
 
+// No password here -- the invited admin sets their own via the OTP
+// activation flow (AdminAuthService.activate). See ADR-0007.
 export class CreateAdminDto {
   @IsString()
   @IsNotEmpty()
@@ -13,7 +16,7 @@ export class CreateAdminDto {
   @IsNotEmpty()
   lastName: string;
 
-  @IsString()
-  @MinLength(8)
-  password: string;
+  @IsOptional()
+  @IsIn([UserRole.ADMIN, UserRole.SUPER_ADMIN])
+  role?: UserRole.ADMIN | UserRole.SUPER_ADMIN;
 }

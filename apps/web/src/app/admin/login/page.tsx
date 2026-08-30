@@ -2,8 +2,10 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { TextField } from "@/components/ui/TextField";
+import { PasswordField } from "@/components/ui/PasswordField";
 import { Button } from "@/components/ui/Button";
 import { ApiError } from "@/lib/api";
 import { adminLoginPassword, adminLoginVerify } from "@/lib/admin-api";
@@ -66,9 +68,8 @@ export default function AdminLoginPage() {
               onChange={(e) => setPhone(e.target.value)}
               required
             />
-            <TextField
+            <PasswordField
               label="رمز عبور"
-              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -77,6 +78,12 @@ export default function AdminLoginPage() {
             <Button type="submit" disabled={loading}>
               {loading ? "در حال بررسی..." : "ادامه"}
             </Button>
+            <Link
+              href="/admin/activate"
+              className="text-center text-sm text-primary underline underline-offset-2 hover:text-primary-dark"
+            >
+              حساب خود را فعال نکرده‌اید؟ فعال‌سازی حساب
+            </Link>
           </form>
         )}
 

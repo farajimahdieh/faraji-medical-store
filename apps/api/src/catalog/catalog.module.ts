@@ -20,6 +20,7 @@ import { CategoriesController } from './categories/categories.controller';
 import { CategoriesService } from './categories/categories.service';
 import { AuthModule } from '../auth/auth.module';
 import { StorageModule } from '../storage/storage.module';
+import { AdminModule } from '../admin/admin.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { StorageModule } from '../storage/storage.module';
     ]),
     AuthModule,
     StorageModule,
+    AdminModule,
   ],
   controllers: [
     ProductsController,

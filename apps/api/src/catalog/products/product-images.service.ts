@@ -10,6 +10,7 @@ import { ProductImage } from '../entities/product-image.entity';
 import { ImageService } from '../../storage/image.service';
 import { StorageService } from '../../storage/storage.service';
 import { UpdateProductImageDto } from './dto/update-product-image.dto';
+import { AuditLogService } from '../../admin/audit-log.service';
 
 // Kept separate from AdminProductsService so image handling (upload/replace/
 // delete/reorder, all backed by ImageService + StorageService) doesn't grow
@@ -21,11 +22,13 @@ export class ProductImagesService {
     private readonly imageRepo: Repository<ProductImage>,
     private readonly imageService: ImageService,
     private readonly storageService: StorageService,
+    private readonly auditLog: AuditLogService,
   ) {}
 
   async upload(
     productId: string,
     files: Express.Multer.File[],
+    actorId: string,
   ): Promise<ProductImage[]> {
     if (files.length === 0) {
       throw new BadRequestException('حداقل یک فایل ارسال کنید');
@@ -52,6 +55,15 @@ export class ProductImagesService {
         ),
       );
     }
+    await this.auditLog.record(
+      actorId,
+      'product-image.upload',
+      'product',
+      productId,
+      {
+        count: created.length,
+      },
+    );
     return created;
   }
 
@@ -59,6 +71,7 @@ export class ProductImagesService {
     productId: string,
     imageId: string,
     file: Express.Multer.File,
+    actorId: string,
   ): Promise<ProductImage> {
     const image = await this.findOwn(productId, imageId);
     const { objectKey, thumbnailKey } =
@@ -73,6 +86,15 @@ export class ProductImagesService {
     // Delete the old files only after the new ones are safely stored and
     // saved -- a failed upload never leaves the product imageless.
     await this.imageService.deleteProductImage(oldObjectKey, oldThumbnailKey);
+    await this.auditLog.record(
+      actorId,
+      'product-image.replace',
+      'product',
+      productId,
+      {
+        imageId,
+      },
+    );
     return image;
   }
 
@@ -112,7 +134,11 @@ export class ProductImagesService {
     );
   }
 
-  async remove(productId: string, imageId: string): Promise<void> {
+  async remove(
+    productId: string,
+    imageId: string,
+    actorId: string,
+  ): Promise<void> {
     const image = await this.findOwn(productId, imageId);
     await this.imageService.deleteProductImage(
       image.objectKey,
@@ -130,6 +156,16 @@ export class ProductImagesService {
         await this.imageRepo.save(next);
       }
     }
+
+    await this.auditLog.record(
+      actorId,
+      'product-image.delete',
+      'product',
+      productId,
+      {
+        imageId,
+      },
+    );
   }
 
   private async findOwn(

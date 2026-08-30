@@ -19,6 +19,7 @@ import { CartModule } from './cart/cart.module';
 import { OrdersModule } from './orders/orders.module';
 import { PaymentsModule } from './payments/payments.module';
 import { AiModule } from './ai/ai.module';
+import { ContentModule } from './content/content.module';
 import { typeOrmModuleOptions } from './database/typeorm-options';
 
 @Module({
@@ -45,6 +46,7 @@ import { typeOrmModuleOptions } from './database/typeorm-options';
     OrdersModule,
     PaymentsModule,
     AiModule,
+    ContentModule,
   ],
 
   controllers: [AppController],

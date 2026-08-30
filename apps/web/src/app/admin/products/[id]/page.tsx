@@ -34,7 +34,19 @@ export default function EditProductPage() {
 
   return (
     <div className="flex max-w-3xl flex-col gap-8">
-      <h1 className="text-2xl font-bold text-navy">ویرایش محصول</h1>
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-2xl font-bold text-navy">ویرایش محصول</h1>
+        {product.status === "active" && (
+          <a
+            href={`/products/${product.slug}`}
+            target="_blank"
+            rel="noopener"
+            className="text-sm text-primary underline underline-offset-2 hover:text-primary-dark"
+          >
+            مشاهده در فروشگاه
+          </a>
+        )}
+      </div>
       <ProductForm product={product} onSaved={reload} setSaving={setSaving} />
       <ImagesPanel product={product} onChanged={reload} />
       <Button type="submit" form={PRODUCT_FORM_ID} disabled={saving} className="self-start">

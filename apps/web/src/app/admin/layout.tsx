@@ -11,12 +11,16 @@ const NAV_ITEMS = [
   { href: "/admin/products", label: "محصولات" },
   { href: "/admin/products/pending", label: "محصولات در انتظار بررسی" },
   { href: "/admin/orders", label: "سفارش‌ها" },
+  { href: "/admin/coupons", label: "کوپن‌ها" },
+  { href: "/admin/content", label: "محتوا" },
 ];
+
+const PUBLIC_ADMIN_ROUTES = ["/admin/login", "/admin/activate"];
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
-  if (pathname === "/admin/login") {
+  if (pathname && PUBLIC_ADMIN_ROUTES.includes(pathname)) {
     return <>{children}</>;
   }
 
@@ -31,7 +35,11 @@ function AdminShell({ pathname, children }: { pathname: string; children: ReactN
   const { user, logout } = useAuth();
   const navItems =
     user?.role === "super_admin"
-      ? [...NAV_ITEMS, { href: "/admin/admins", label: "مدیریت ادمین‌ها" }]
+      ? [
+          ...NAV_ITEMS,
+          { href: "/admin/admins", label: "مدیریت ادمین‌ها" },
+          { href: "/admin/audit-logs", label: "لاگ‌های حسابرسی" },
+        ]
       : NAV_ITEMS;
 
   return (

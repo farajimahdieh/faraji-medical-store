@@ -17,6 +17,8 @@ import { ProductImagesService } from './product-images.service';
 import { UpdateProductImageDto } from './dto/update-product-image.dto';
 import { ReorderProductImagesDto } from './dto/reorder-product-images.dto';
 import { AdminOnly } from '../../auth/decorators/admin-guards.decorator';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { User } from '../../users/entities/user.entity';
 
 const MAX_FILES_PER_UPLOAD = 10;
 const upload = { storage: memoryStorage() };
@@ -29,10 +31,11 @@ export class ProductImagesController {
   @Post()
   @UseInterceptors(FilesInterceptor('files', MAX_FILES_PER_UPLOAD, upload))
   uploadImages(
+    @CurrentUser() currentUser: User,
     @Param('id', ParseUUIDPipe) productId: string,
     @UploadedFiles() files: Express.Multer.File[],
   ) {
-    return this.productImagesService.upload(productId, files);
+    return this.productImagesService.upload(productId, files, currentUser.id);
   }
 
   // Declared before ':imageId' so it isn't swallowed as a param value --
@@ -48,11 +51,17 @@ export class ProductImagesController {
   @Post(':imageId/replace')
   @UseInterceptors(FileInterceptor('file', upload))
   replaceImage(
+    @CurrentUser() currentUser: User,
     @Param('id', ParseUUIDPipe) productId: string,
     @Param('imageId', ParseUUIDPipe) imageId: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.productImagesService.replace(productId, imageId, file);
+    return this.productImagesService.replace(
+      productId,
+      imageId,
+      file,
+      currentUser.id,
+    );
   }
 
   @Patch(':imageId')
@@ -66,9 +75,10 @@ export class ProductImagesController {
 
   @Delete(':imageId')
   removeImage(
+    @CurrentUser() currentUser: User,
     @Param('id', ParseUUIDPipe) productId: string,
     @Param('imageId', ParseUUIDPipe) imageId: string,
   ) {
-    return this.productImagesService.remove(productId, imageId);
+    return this.productImagesService.remove(productId, imageId, currentUser.id);
   }
 }

@@ -9,6 +9,7 @@ import {
 export enum OtpPurpose {
   CUSTOMER_LOGIN = 'customer_login',
   ADMIN_LOGIN = 'admin_login',
+  ADMIN_ACTIVATION = 'admin_activation',
 }
 
 @Entity('otp_codes')

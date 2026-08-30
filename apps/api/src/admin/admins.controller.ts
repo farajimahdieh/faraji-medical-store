@@ -37,12 +37,15 @@ export class AdminsController {
     @Param('id', ParseUUIDPipe) id: string,
   ) {
     this.assertNotSelf(currentUser, id);
-    return this.adminsService.setActive(id, false);
+    return this.adminsService.setActive(id, false, currentUser.id);
   }
 
   @Patch(':id/enable')
-  enable(@Param('id', ParseUUIDPipe) id: string) {
-    return this.adminsService.setActive(id, true);
+  enable(
+    @CurrentUser() currentUser: User,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
+    return this.adminsService.setActive(id, true, currentUser.id);
   }
 
   @Patch(':id/role')
@@ -52,7 +55,7 @@ export class AdminsController {
     @Body() dto: SetAdminRoleDto,
   ) {
     this.assertNotSelf(currentUser, id);
-    return this.adminsService.setRole(id, dto.role);
+    return this.adminsService.setRole(id, dto.role, currentUser.id);
   }
 
   // A super_admin disabling or demoting their own account would lock

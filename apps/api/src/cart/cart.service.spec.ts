@@ -1,4 +1,8 @@
-import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test } from '@nestjs/testing';
 
@@ -40,10 +44,21 @@ async function buildTestingService() {
       CartService,
       { provide: getRepositoryToken(Cart), useValue: cartRepository },
       { provide: getRepositoryToken(CartItem), useValue: cartItemRepository },
-      { provide: getRepositoryToken(ProductVariant), useValue: variantRepository },
-      { provide: getRepositoryToken(DiscountCode), useValue: discountCodeRepository },
+      {
+        provide: getRepositoryToken(ProductVariant),
+        useValue: variantRepository,
+      },
+      {
+        provide: getRepositoryToken(DiscountCode),
+        useValue: discountCodeRepository,
+      },
       { provide: CouponValidationService, useValue: couponValidation },
-      { provide: StorageService, useValue: { resolveUrl: jest.fn((key: string) => `https://cdn.test/${key}`) } },
+      {
+        provide: StorageService,
+        useValue: {
+          resolveUrl: jest.fn((key: string) => `https://cdn.test/${key}`),
+        },
+      },
     ],
   }).compile();
 
@@ -71,7 +86,12 @@ function buildCart(overrides?: Partial<Cart>): Cart {
 }
 
 function buildProduct(overrides?: Partial<Product>): Product {
-  return { id: 'product-1', name: 'گان جراحی', status: ProductStatus.ACTIVE, ...overrides } as Product;
+  return {
+    id: 'product-1',
+    name: 'گان جراحی',
+    status: ProductStatus.ACTIVE,
+    ...overrides,
+  } as Product;
 }
 
 function buildVariant(overrides?: Partial<ProductVariant>): ProductVariant {
@@ -92,7 +112,10 @@ describe('CartService', () => {
       const { service, cartRepository, cartItemRepository, variantRepository } =
         await buildTestingService();
       const variant = buildVariant();
-      variantRepository.findOne.mockResolvedValue({ ...variant, product: buildProduct() });
+      variantRepository.findOne.mockResolvedValue({
+        ...variant,
+        product: buildProduct(),
+      });
       cartRepository.findOne.mockResolvedValue(buildCart());
       cartItemRepository.findOne.mockResolvedValueOnce(null); // existing-item lookup
       cartItemRepository.find.mockResolvedValue([]); // buildPublicCart refetch
@@ -100,7 +123,11 @@ describe('CartService', () => {
       await service.addItem('user-1', { variantId: 'variant-1', quantity: 2 });
 
       expect(cartItemRepository.save).toHaveBeenCalledWith(
-        expect.objectContaining({ cartId: 'cart-1', variantId: 'variant-1', quantity: 2 }),
+        expect.objectContaining({
+          cartId: 'cart-1',
+          variantId: 'variant-1',
+          quantity: 2,
+        }),
       );
     });
 
@@ -112,7 +139,12 @@ describe('CartService', () => {
         product: buildProduct(),
       });
       cartRepository.findOne.mockResolvedValue(buildCart());
-      const existing = { id: 'item-1', cartId: 'cart-1', variantId: 'variant-1', quantity: 1 };
+      const existing = {
+        id: 'item-1',
+        cartId: 'cart-1',
+        variantId: 'variant-1',
+        quantity: 1,
+      };
       cartItemRepository.findOne.mockResolvedValueOnce(existing);
       cartItemRepository.find.mockResolvedValue([]);
 
@@ -153,17 +185,19 @@ describe('CartService', () => {
 
   describe('updateQuantity', () => {
     it('rejects when the item does not belong to the user cart', async () => {
-      const { service, cartRepository, cartItemRepository } = await buildTestingService();
+      const { service, cartRepository, cartItemRepository } =
+        await buildTestingService();
       cartRepository.findOne.mockResolvedValue(buildCart());
       cartItemRepository.findOne.mockResolvedValue(null);
 
-      await expect(service.updateQuantity('user-1', 'item-1', 2)).rejects.toBeInstanceOf(
-        NotFoundException,
-      );
+      await expect(
+        service.updateQuantity('user-1', 'item-1', 2),
+      ).rejects.toBeInstanceOf(NotFoundException);
     });
 
     it('rejects a quantity above the current stock', async () => {
-      const { service, cartRepository, cartItemRepository } = await buildTestingService();
+      const { service, cartRepository, cartItemRepository } =
+        await buildTestingService();
       cartRepository.findOne.mockResolvedValue(buildCart());
       cartItemRepository.findOne.mockResolvedValue({
         id: 'item-1',
@@ -171,37 +205,40 @@ describe('CartService', () => {
         variant: buildVariant({ stock: 2 }),
       });
 
-      await expect(service.updateQuantity('user-1', 'item-1', 3)).rejects.toBeInstanceOf(
-        BadRequestException,
-      );
+      await expect(
+        service.updateQuantity('user-1', 'item-1', 3),
+      ).rejects.toBeInstanceOf(BadRequestException);
     });
   });
 
   describe('removeItem', () => {
     it('rejects when nothing was deleted (not owned / not found)', async () => {
-      const { service, cartRepository, cartItemRepository } = await buildTestingService();
+      const { service, cartRepository, cartItemRepository } =
+        await buildTestingService();
       cartRepository.findOne.mockResolvedValue(buildCart());
       cartItemRepository.delete.mockResolvedValue({ affected: 0 });
 
-      await expect(service.removeItem('user-1', 'item-1')).rejects.toBeInstanceOf(
-        NotFoundException,
-      );
+      await expect(
+        service.removeItem('user-1', 'item-1'),
+      ).rejects.toBeInstanceOf(NotFoundException);
     });
   });
 
   describe('getSummaryForCheckout', () => {
     it('rejects an empty cart', async () => {
-      const { service, cartRepository, cartItemRepository } = await buildTestingService();
+      const { service, cartRepository, cartItemRepository } =
+        await buildTestingService();
       cartRepository.findOne.mockResolvedValue(buildCart());
       cartItemRepository.find.mockResolvedValue([]);
 
-      await expect(service.getSummaryForCheckout('user-1')).rejects.toBeInstanceOf(
-        BadRequestException,
-      );
+      await expect(
+        service.getSummaryForCheckout('user-1'),
+      ).rejects.toBeInstanceOf(BadRequestException);
     });
 
     it('rejects when a line item no longer has enough stock', async () => {
-      const { service, cartRepository, cartItemRepository } = await buildTestingService();
+      const { service, cartRepository, cartItemRepository } =
+        await buildTestingService();
       cartRepository.findOne.mockResolvedValue(buildCart());
       cartItemRepository.find.mockResolvedValue([
         {
@@ -211,16 +248,21 @@ describe('CartService', () => {
         },
       ]);
 
-      await expect(service.getSummaryForCheckout('user-1')).rejects.toBeInstanceOf(
-        ConflictException,
-      );
+      await expect(
+        service.getSummaryForCheckout('user-1'),
+      ).rejects.toBeInstanceOf(ConflictException);
     });
 
     it('returns the live subtotal for a valid cart', async () => {
-      const { service, cartRepository, cartItemRepository } = await buildTestingService();
+      const { service, cartRepository, cartItemRepository } =
+        await buildTestingService();
       cartRepository.findOne.mockResolvedValue(buildCart());
       cartItemRepository.find.mockResolvedValue([
-        { quantity: 2, product: buildProduct(), variant: buildVariant({ price: 50_000 }) },
+        {
+          quantity: 2,
+          product: buildProduct(),
+          variant: buildVariant({ price: 50_000 }),
+        },
       ]);
 
       const result = await service.getSummaryForCheckout('user-1');

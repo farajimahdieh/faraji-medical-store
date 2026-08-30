@@ -11,6 +11,7 @@ import { Cart, CartStatus } from './entities/cart.entity';
 import { CartItem } from './entities/cart-item.entity';
 import { ProductVariant } from '../catalog/entities/product-variant.entity';
 import { ProductStatus } from '../catalog/entities/product.entity';
+import { UserRole } from '../users/entities/user.entity';
 import { DiscountCode } from '../coupons/entities/discount-code.entity';
 import { CouponValidationService } from '../coupons/coupon-validation.service';
 import { AddCartItemDto } from './dto/add-cart-item.dto';
@@ -24,7 +25,10 @@ import { StorageService } from '../storage/storage.service';
 // Postgres error code for a unique-constraint violation.
 const UNIQUE_VIOLATION = '23505';
 
-const ITEM_RELATIONS = { product: { images: true, brand: true }, variant: true } as const;
+const ITEM_RELATIONS = {
+  product: { images: true, brand: true },
+  variant: true,
+} as const;
 
 @Injectable()
 export class CartService {
@@ -51,7 +55,11 @@ export class CartService {
       where: { id: dto.variantId },
       relations: { product: true },
     });
-    if (!variant || !variant.product || variant.product.status !== ProductStatus.ACTIVE) {
+    if (
+      !variant ||
+      !variant.product ||
+      variant.product.status !== ProductStatus.ACTIVE
+    ) {
       throw new NotFoundException('محصول یافت نشد');
     }
 
@@ -111,7 +119,10 @@ export class CartService {
 
   async removeItem(userId: string, itemId: string): Promise<PublicCart> {
     const cart = await this.getOrCreateActiveCart(userId);
-    const result = await this.cartItemRepo.delete({ id: itemId, cartId: cart.id });
+    const result = await this.cartItemRepo.delete({
+      id: itemId,
+      cartId: cart.id,
+    });
     if (result.affected === 0) {
       throw new NotFoundException('این کالا در سبد خرید شما یافت نشد');
     }
@@ -128,12 +139,21 @@ export class CartService {
     return this.buildPublicCart(cart, userId);
   }
 
-  async applyCoupon(userId: string, code: string): Promise<PublicCart> {
+  async applyCoupon(
+    userId: string,
+    code: string,
+    role?: UserRole,
+  ): Promise<PublicCart> {
     const cart = await this.getOrCreateActiveCart(userId);
     const items = await this.loadItemsWithRelations(cart.id);
     const subtotal = this.computeSubtotal(items);
 
-    const { coupon } = await this.couponValidation.previewByCode(code, userId, subtotal);
+    const { coupon } = await this.couponValidation.previewByCode(
+      code,
+      userId,
+      subtotal,
+      role,
+    );
     cart.appliedCouponId = coupon.id;
     await this.cartRepo.save(cart);
     return this.buildPublicCart(cart, userId, items);
@@ -166,7 +186,9 @@ export class CartService {
         throw new ConflictException(`«${product.name}» دیگر موجود نیست`);
       }
       if (variant.price === null) {
-        throw new ConflictException(`قیمت «${product.name}» هنوز مشخص نشده است`);
+        throw new ConflictException(
+          `قیمت «${product.name}» هنوز مشخص نشده است`,
+        );
       }
       if (variant.stock !== null && variant.stock < item.quantity) {
         throw new ConflictException(
@@ -217,7 +239,10 @@ export class CartService {
   }
 
   private computeSubtotal(items: CartItem[]): number {
-    return items.reduce((sum, item) => sum + (item.variant.price ?? 0) * item.quantity, 0);
+    return items.reduce(
+      (sum, item) => sum + (item.variant.price ?? 0) * item.quantity,
+      0,
+    );
   }
 
   private assertStock(variant: ProductVariant, desiredQuantity: number): void {
@@ -225,7 +250,9 @@ export class CartService {
       throw new BadRequestException('این کالا دیگر موجود نیست');
     }
     if (variant.stock !== null && desiredQuantity > variant.stock) {
-      throw new BadRequestException(`موجودی کافی نیست (${variant.stock} عدد موجود است)`);
+      throw new BadRequestException(
+        `موجودی کافی نیست (${variant.stock} عدد موجود است)`,
+      );
     }
   }
 
@@ -234,7 +261,8 @@ export class CartService {
     userId: string,
     preloadedItems?: CartItem[],
   ): Promise<PublicCart> {
-    const items = preloadedItems ?? (await this.loadItemsWithRelations(cart.id));
+    const items =
+      preloadedItems ?? (await this.loadItemsWithRelations(cart.id));
     const subtotal = this.computeSubtotal(items);
 
     let discountAmount = 0;
@@ -246,14 +274,20 @@ export class CartService {
         where: { id: cart.appliedCouponId },
       });
       try {
-        if (!discountCode) throw new BadRequestException('کد تخفیف نامعتبر است');
-        const result = await this.couponValidation.revalidate(discountCode, userId, subtotal);
+        if (!discountCode)
+          throw new BadRequestException('کد تخفیف نامعتبر است');
+        const result = await this.couponValidation.revalidate(
+          discountCode,
+          userId,
+          subtotal,
+        );
         discountAmount = result.discountAmount;
         publicCoupon = toPublicCartCoupon(discountCode);
       } catch (error) {
         couponError =
           error instanceof BadRequestException
-            ? ((error.getResponse() as { message?: string }).message ?? 'کد تخفیف دیگر معتبر نیست')
+            ? ((error.getResponse() as { message?: string }).message ??
+              'کد تخفیف دیگر معتبر نیست')
             : 'کد تخفیف دیگر معتبر نیست';
         // Don't keep re-failing on every future fetch -- drop the now-invalid coupon.
         await this.cartRepo.update({ id: cart.id }, { appliedCouponId: null });
@@ -262,10 +296,13 @@ export class CartService {
 
     const shippingAmount = 0;
     const taxAmount = 0;
-    const totalAmount = Math.max(0, subtotal - discountAmount) + shippingAmount + taxAmount;
+    const totalAmount =
+      Math.max(0, subtotal - discountAmount) + shippingAmount + taxAmount;
 
     return {
-      items: items.map((item) => toPublicCartItem(item, (key) => this.storageService.resolveUrl(key))),
+      items: items.map((item) =>
+        toPublicCartItem(item, (key) => this.storageService.resolveUrl(key)),
+      ),
       summary: {
         subtotal,
         discountAmount,

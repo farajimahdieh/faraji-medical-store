@@ -4,6 +4,8 @@ import { ILike, Repository, type EntityManager } from 'typeorm';
 
 import { DiscountCode, DiscountType } from './entities/discount-code.entity';
 import { CouponRedemption } from './entities/coupon-redemption.entity';
+import { CouponAudienceService } from './coupon-audience.service';
+import { UserRole } from '../users/entities/user.entity';
 
 export interface CouponValidationResult {
   coupon: DiscountCode;
@@ -22,17 +24,23 @@ export class CouponValidationService {
     private readonly discountCodeRepo: Repository<DiscountCode>,
     @InjectRepository(CouponRedemption)
     private readonly redemptionRepo: Repository<CouponRedemption>,
+    private readonly couponAudience: CouponAudienceService,
   ) {}
 
+  // `role` is only ever passed at the "apply to cart" entry point (see
+  // CartService.applyCoupon) -- staff can never get a coupon into their
+  // cart's appliedCouponId in the first place, so revalidate()/redeem()
+  // (which only ever re-check an already-applied coupon) don't need it too.
   async previewByCode(
     code: string,
     userId: string,
     subtotal: number,
+    role?: UserRole,
   ): Promise<CouponValidationResult> {
     const coupon = await this.discountCodeRepo.findOne({
       where: { code: ILike(code) },
     });
-    return this.validate(coupon, userId, subtotal, this.redemptionRepo);
+    return this.validate(coupon, userId, subtotal, this.redemptionRepo, role);
   }
 
   // Re-checks a coupon already known to be applied (e.g. while rendering the
@@ -87,9 +95,13 @@ export class CouponValidationService {
     userId: string,
     subtotal: number,
     redemptionRepo: Repository<CouponRedemption>,
+    role?: UserRole,
   ): Promise<CouponValidationResult> {
     if (!coupon || !coupon.isActive) {
       throw new BadRequestException('کد تخفیف نامعتبر است');
+    }
+    if (role && role !== UserRole.CUSTOMER) {
+      throw new BadRequestException('این کد تخفیف مخصوص مشتریان است');
     }
 
     const now = new Date();
@@ -102,6 +114,7 @@ export class CouponValidationService {
     if (coupon.userId && coupon.userId !== userId) {
       throw new BadRequestException('این کد تخفیف مخصوص شما نیست');
     }
+    await this.couponAudience.assertEligible(coupon, userId);
     if (coupon.minimumOrderAmount && subtotal < coupon.minimumOrderAmount) {
       throw new BadRequestException(
         `حداقل مبلغ سفارش برای این کد ${coupon.minimumOrderAmount.toLocaleString('fa-IR')} تومان است`,
@@ -112,7 +125,9 @@ export class CouponValidationService {
         where: { discountCodeId: coupon.id },
       });
       if (totalUses >= coupon.usageLimit) {
-        throw new BadRequestException('ظرفیت استفاده از این کد تخفیف تمام شده است');
+        throw new BadRequestException(
+          'ظرفیت استفاده از این کد تخفیف تمام شده است',
+        );
       }
     }
     if (coupon.usagePerUser !== null) {
@@ -120,7 +135,9 @@ export class CouponValidationService {
         where: { discountCodeId: coupon.id, userId },
       });
       if (userUses >= coupon.usagePerUser) {
-        throw new BadRequestException('شما قبلاً از این کد تخفیف استفاده کرده‌اید');
+        throw new BadRequestException(
+          'شما قبلاً از این کد تخفیف استفاده کرده‌اید',
+        );
       }
     }
 

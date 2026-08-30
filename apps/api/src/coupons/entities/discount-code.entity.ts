@@ -15,6 +15,17 @@ export enum DiscountType {
   FIXED_AMOUNT = 'fixed_amount',
 }
 
+// Who a coupon is eligible for, checked at apply/redeem time by
+// CouponAudienceService -- no rule engine, just these five fixed shapes.
+export enum CouponAudienceType {
+  ALL = 'all',
+  SPECIFIC_USERS = 'specific_users',
+  NO_ORDERS_EVER = 'no_orders_ever',
+  NO_ORDERS_IN_MONTHS = 'no_orders_in_months',
+  MIN_ORDERS = 'min_orders',
+  MIN_SPEND = 'min_spend',
+}
+
 // A code is either general-purpose (userId null -- anyone can use it,
 // subject to future checkout logic enforcing usageLimit/usagePerUser) or
 // issued to one specific user (e.g. a future birthday-campaign grant) --
@@ -71,6 +82,35 @@ export class DiscountCode {
   @Index()
   @Column({ type: 'uuid', nullable: true })
   userId: string | null;
+
+  @Column({
+    type: 'enum',
+    enum: CouponAudienceType,
+    default: CouponAudienceType.ALL,
+  })
+  audienceType: CouponAudienceType;
+
+  // Only meaningful for NO_ORDERS_IN_MONTHS.
+  @Column({ type: 'integer', nullable: true })
+  audienceMonths: number | null;
+
+  // Only meaningful for MIN_ORDERS.
+  @Column({ type: 'integer', nullable: true })
+  audienceMinOrders: number | null;
+
+  // Only meaningful for MIN_SPEND (Toman).
+  @Column({ type: 'integer', nullable: true })
+  audienceMinSpend: number | null;
+
+  // Internal bookkeeping -- never shown to customers.
+  @Column({ type: 'uuid', nullable: true })
+  createdByAdminId: string | null;
+
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  internalReason: string | null;
+
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  campaignName: string | null;
 
   @CreateDateColumn()
   createdAt: Date;

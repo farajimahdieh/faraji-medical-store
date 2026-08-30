@@ -10,6 +10,7 @@ import { Product, ProductStatus } from '../entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AdminListProductsQueryDto } from './dto/admin-list-products-query.dto';
+import { AuditLogService } from '../../admin/audit-log.service';
 
 const ADMIN_DETAIL_RELATIONS = {
   brand: true,
@@ -33,6 +34,7 @@ export class AdminProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepo: Repository<Product>,
+    private readonly auditLog: AuditLogService,
   ) {}
 
   async list(query: AdminListProductsQueryDto) {
@@ -79,7 +81,7 @@ export class AdminProductsService {
     return product;
   }
 
-  async create(dto: CreateProductDto): Promise<Product> {
+  async create(dto: CreateProductDto, actorId: string): Promise<Product> {
     const name = dto.name.trim();
     const existing = await this.productRepo.findOneBy({ name });
     if (existing) {
@@ -99,10 +101,21 @@ export class AdminProductsService {
         status: ProductStatus.DRAFT,
       }),
     );
+    await this.auditLog.record(
+      actorId,
+      'product.create',
+      'product',
+      product.id,
+      { name },
+    );
     return this.getById(product.id);
   }
 
-  async update(id: string, dto: UpdateProductDto): Promise<Product> {
+  async update(
+    id: string,
+    dto: UpdateProductDto,
+    actorId: string,
+  ): Promise<Product> {
     const product = await this.getById(id);
 
     if (dto.name !== undefined) product.name = dto.name;
@@ -117,6 +130,7 @@ export class AdminProductsService {
     if (dto.isFeatured !== undefined) product.isFeatured = dto.isFeatured;
 
     await this.productRepo.save(product);
+    await this.auditLog.record(actorId, 'product.update', 'product', id);
     return this.getById(id);
   }
 

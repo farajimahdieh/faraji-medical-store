@@ -43,7 +43,10 @@ export class CartController {
   }
 
   @Delete('items/:id')
-  removeItem(@CurrentUser() user: User, @Param('id', ParseUUIDPipe) id: string) {
+  removeItem(
+    @CurrentUser() user: User,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
     return this.cartService.removeItem(user.id, id);
   }
 
@@ -54,7 +57,7 @@ export class CartController {
 
   @Post('coupon')
   applyCoupon(@CurrentUser() user: User, @Body() dto: ApplyCouponDto) {
-    return this.cartService.applyCoupon(user.id, dto.code);
+    return this.cartService.applyCoupon(user.id, dto.code, user.role);
   }
 
   @Delete('coupon')

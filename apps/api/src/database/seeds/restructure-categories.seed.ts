@@ -13,12 +13,28 @@ import { Category } from '../../catalog/entities/category.entity';
 
 const ROOT_CATEGORIES = [
   { name: 'پانسمان و زخم بستر', slug: 'dressing-wound-care', sortOrder: 1 },
-  { name: 'ابزار جراحی و تجهیزات مطب', slug: 'surgical-instruments', sortOrder: 2 },
-  { name: 'تشخیص، پایش سلامت و تجهیزات تنفسی', slug: 'diagnostics-respiratory', sortOrder: 3 },
+  {
+    name: 'ابزار جراحی و تجهیزات مطب',
+    slug: 'surgical-instruments',
+    sortOrder: 2,
+  },
+  {
+    name: 'تشخیص، پایش سلامت و تجهیزات تنفسی',
+    slug: 'diagnostics-respiratory',
+    sortOrder: 3,
+  },
   { name: 'بهداشت و ضدعفونی', slug: 'hygiene-disinfection', sortOrder: 4 },
   { name: 'کفش و کفی طبی', slug: 'medical-footwear', sortOrder: 5 },
-  { name: 'تجهیزات مصرفی پزشکی و بیمارستانی', slug: 'medical-consumables', sortOrder: 6 },
-  { name: 'ارتوپدی، حرکتی و توانبخشی', slug: 'orthopedic-mobility-rehab', sortOrder: 7 },
+  {
+    name: 'تجهیزات مصرفی پزشکی و بیمارستانی',
+    slug: 'medical-consumables',
+    sortOrder: 6,
+  },
+  {
+    name: 'ارتوپدی، حرکتی و توانبخشی',
+    slug: 'orthopedic-mobility-rehab',
+    sortOrder: 7,
+  },
   { name: 'تجهیزات و ملزومات آزمایشگاهی', slug: 'lab-equipment', sortOrder: 8 },
 ] as const;
 

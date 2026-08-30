@@ -8,6 +8,7 @@ export interface PublicAdmin {
   lastName: string | null;
   role: UserRole;
   isActive: boolean;
+  activatedAt: Date | null;
   lastLoginAt: Date | null;
   createdAt: Date;
 }
@@ -20,6 +21,7 @@ export function toPublicAdmin(user: User, profile: AdminProfile): PublicAdmin {
     lastName: user.lastName,
     role: user.role,
     isActive: profile.isActive,
+    activatedAt: profile.activatedAt,
     lastLoginAt: profile.lastLoginAt,
     createdAt: profile.createdAt,
   };
