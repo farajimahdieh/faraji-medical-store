@@ -50,6 +50,6 @@ import { StorageModule } from '../storage/storage.module';
     AdminProductsService,
     ProductImagesService,
   ],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, ProductsService],
 })
 export class CatalogModule {}

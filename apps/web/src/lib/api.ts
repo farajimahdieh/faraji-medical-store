@@ -619,3 +619,20 @@ export function removeSearchHistoryRemote(id: string): Promise<void> {
 export function clearSearchHistoryRemote(): Promise<void> {
   return apiFetch('/search-history', { method: 'DELETE' });
 }
+
+export interface ChatResponse {
+  conversationId: string;
+  message: string;
+  products: PublicProductListItem[];
+  needsMoreInfo: boolean;
+}
+
+export function sendChatMessage(
+  message: string,
+  conversationId?: string,
+): Promise<ChatResponse> {
+  return apiFetch('/ai/chat', {
+    method: 'POST',
+    body: JSON.stringify({ message, conversationId }),
+  });
+}

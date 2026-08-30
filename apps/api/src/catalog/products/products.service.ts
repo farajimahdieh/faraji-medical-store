@@ -205,6 +205,44 @@ export class ProductsService {
     );
   }
 
+  // Reuses the same active-product + Persian-normalized search matching as
+  // list()/getSuggestions() (see buildScopedQuery/applySearch) so the AI
+  // consultant never sees a product the storefront search itself wouldn't
+  // surface. Loads full relations (not just id/name) because candidates are
+  // also the source for the final product cards returned to the client —
+  // see toPublicListItems().
+  async searchForConsultation(
+    query: string,
+    limit: number,
+  ): Promise<Product[]> {
+    const idRows = await (
+      await this.buildScopedQuery({ q: query })
+    )
+      .select('product.id', 'id')
+      .orderBy('product.createdAt', 'DESC')
+      .limit(limit)
+      .getRawMany<{ id: string }>();
+
+    const ids = idRows.map((row) => row.id);
+    if (ids.length === 0) return [];
+
+    const products = await this.productRepo.find({
+      where: { id: In(ids) },
+      relations: { brand: true, category: true, images: true, variants: true },
+    });
+
+    const byId = new Map(products.map((product) => [product.id, product]));
+    return ids
+      .map((id) => byId.get(id))
+      .filter((product): product is Product => product !== undefined);
+  }
+
+  toPublicListItems(products: Product[]): PublicProductListItem[] {
+    return products.map((product) =>
+      toPublicProductListItem(product, this.resolveUrl),
+    );
+  }
+
   private orderByFor(sort: ProductSortOption): [string, 'ASC' | 'DESC'] {
     return sort === ProductSortOption.NAME_ASC
       ? ['product.name', 'ASC']
