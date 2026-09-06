@@ -22,7 +22,7 @@
     "migration:run": "node --env-file=.env node_modules/typeorm/cli-ts-node-commonjs.js migration:run -d src/database/data-source.ts",
     "migration:revert": "node --env-file=.env node_modules/typeorm/cli-ts-node-commonjs.js migration:revert -d src/database/data-source.ts",
     "seed:catalog": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seeds/catalog.seed.ts",
-    "seed:super-admin": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seeds/admin.seed.ts",
+    "admin:bootstrap": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seeds/admin.seed.ts",
     "seed:categories": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seeds/restructure-categories.seed.ts",
     "seed:content": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seeds/content.seed.ts",
     "import:teb-sanat": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/catalog/import/teb-sanat/run-import.ts",
