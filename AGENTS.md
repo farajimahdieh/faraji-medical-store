@@ -71,4 +71,6 @@ For every changed file, check against its `sources`:
    manufacturer or official distributor; never with another shop's
    watermark/logo/price, never AI-generated), first image shows the
    product alone, descriptive Persian `alt`.
-6. No prices, stock levels or delivery promises in the text.
+6. No prices, stock levels or delivery promises in the text, and no box or
+   pack counts -- the store sells single pieces (unless the Holoo item name
+   itself is a pack).

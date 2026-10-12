@@ -45,6 +45,12 @@ database rows. Read `content/README.md` for the file format and pipeline.
   made when the sources state it, e.g. "برند بیورر آلمانی است و این مدل
   در چین تولید می‌شود". If one of the two is unknown, say only the known
   one.
+- Selling unit: the store sells **single pieces** -- customers buy as many
+  as they want, not whole boxes. The price is per piece. Never mention box
+  or pack counts ("۵ عدد در جعبه", "تعداد در جعبه", "هر جعبه چند عدد
+  دارد؟") in the text, specs or FAQs. Exception: when the Holoo name itself
+  names a pack (e.g. "چسب زخم ترکیه 10عددی"), that pack is the unit sold --
+  describe it as such.
 - Sizes: when a product has several sizes, name them in the description
   and help pick one ("سایز را کمی بزرگ‌تر از خود زخم انتخاب کنید"). The
   page already shows a size selector with each size's own price. Use the Persian names people actually search
@@ -61,8 +67,9 @@ database rows. Read `content/README.md` for the file format and pipeline.
 - `metaDescription` (120-160 chars): the main search phrase, the key benefit,
   and a reason to click (e.g. "ارسال از تبریز" only if true).
 - `features`: 3-6 short, factual bullets.
-- `specifications`: only facts found in `sources` (material, size, count per
-  pack, sterility, country of manufacture, IRC code if published). Keep the
+- `specifications`: only facts found in `sources` (material, size,
+  sterility, brand country, country of manufacture, IRC code if
+  published). Plain labels -- no "(طبق سایت سازنده)" or similar. Keep the
   scaffolded "سایزهای موجود" row.
 - `faqs`: 3-5 real shopper questions (how often to change, can it get wet,
   which wound types, which size to pick). Answers 1-3 sentences.
