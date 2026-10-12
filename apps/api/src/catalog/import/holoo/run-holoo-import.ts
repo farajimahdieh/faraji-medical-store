@@ -1,0 +1,111 @@
+// CLI entry point for importing a Holoo Excel export (one category per file).
+// Usage (from apps/api):
+//   pnpm import:holoo -- --file=../../data-private/Holo_01_Wound_Care.xlsx --category=dressing-wound-care --dry-run
+//   pnpm import:holoo -- --file=../../data-private/Holo_01_Wound_Care.xlsx --category=dressing-wound-care
+//
+// --dry-run only reads the file and prints the report -- it never connects
+// to the database, so it is safe to run on any machine.
+import 'reflect-metadata';
+import { existsSync } from 'node:fs';
+import { extname, resolve } from 'node:path';
+import { readSheet } from 'read-excel-file/node';
+import { NestFactory } from '@nestjs/core';
+
+import {
+  groupBySize,
+  HolooGroup,
+  parseHolooSheet,
+  SheetCell,
+} from './holoo-sheet';
+import { HolooImportModule } from './holoo-import.module';
+import { HolooImportService } from './holoo-import.service';
+
+function parseArgs(argv: string[]) {
+  const value = (name: string) =>
+    argv.find((arg) => arg.startsWith(`--${name}=`))?.split('=')[1];
+  return {
+    file: value('file'),
+    category: value('category'),
+    dryRun: argv.includes('--dry-run'),
+  };
+}
+
+function printReport(groups: HolooGroup[], errors: string[]): void {
+  const items = groups.flatMap((g) => g.items);
+  console.log(`\nکالا (ردیف): ${items.length}`);
+  console.log(`محصول روی سایت (بعد از ادغام سایزها): ${groups.length}`);
+
+  const merged = groups.filter((g) => g.items.length > 1);
+  if (merged.length > 0) {
+    console.log('\n--- ادغام سایزها ---');
+    for (const group of merged) {
+      console.log(
+        `• ${group.name}: ${group.items.map((i) => i.size).join('، ')}`,
+      );
+    }
+  }
+
+  const flagged = items.filter((i) => i.issues.length > 0);
+  if (flagged.length > 0 || errors.length > 0) {
+    console.log('\n--- نیاز به بررسی (در هلو اصلاح کنید) ---');
+    for (const error of errors) console.log(`✗ ${error}`);
+    for (const item of flagged) {
+      console.log(
+        `⚠ ردیف ${item.rowNumber} «${item.name}»: ${item.issues.join('؛ ')}`,
+      );
+    }
+  }
+}
+
+async function main() {
+  const { file, category, dryRun } = parseArgs(process.argv.slice(2));
+  if (!file || (!dryRun && !category)) {
+    console.error(
+      'Usage: --file=<path.xlsx> --category=<category-slug> [--dry-run]',
+    );
+    process.exit(1);
+  }
+  const path = resolve(file);
+  if (!existsSync(path)) {
+    console.error(`فایل پیدا نشد: ${path}`);
+    process.exit(1);
+  }
+  if (extname(path).toLowerCase() !== '.xlsx') {
+    console.error(
+      'فقط فایل .xlsx پشتیبانی می‌شود. فایل را در Excel باز کنید و با Save As به فرمت «Excel Workbook (*.xlsx)» ذخیره کنید.',
+    );
+    process.exit(1);
+  }
+
+  const rows = (await readSheet(path)) as SheetCell[][];
+  const { items, errors } = parseHolooSheet(rows);
+  const groups = groupBySize(items);
+  printReport(groups, errors);
+
+  if (dryRun) {
+    console.log('\n(dry run -- چیزی در دیتابیس ذخیره نشد)');
+    return;
+  }
+  if (errors.length > 0) {
+    console.error('\nبه‌خاطر خطاهای بالا چیزی وارد نشد.');
+    process.exitCode = 1;
+    return;
+  }
+
+  const app = await NestFactory.createApplicationContext(HolooImportModule, {
+    logger: ['warn', 'error'],
+  });
+  try {
+    const summary = await app.get(HolooImportService).run(groups, category!);
+    console.log(
+      `\nمحصول جدید: ${summary.createdProducts}، تنوع جدید: ${summary.createdVariants}، تنوع به‌روزشده: ${summary.updatedVariants}`,
+    );
+  } finally {
+    await app.close();
+  }
+}
+
+main().catch((error: unknown) => {
+  console.error('Import failed to run:', error);
+  process.exit(1);
+});
