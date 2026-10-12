@@ -1,4 +1,11 @@
-import { API_URL, ApiError, type PublicOrderDetail, type PublicUser } from './api';
+import {
+  API_URL,
+  ApiError,
+  type OrderStatus,
+  type PaymentStatus,
+  type PublicOrderDetail,
+  type PublicUser,
+} from './api';
 
 // Same fetch convention as lib/api.ts (fetch + credentials:'include' +
 // ApiError on non-OK), split into its own file since the admin surface is
@@ -184,6 +191,16 @@ export function listAdminOrders(params: { page?: number; limit?: number } = {}):
 
 export function getAdminOrder(id: string): Promise<PublicOrderDetail> {
   return apiFetch(`/admin/orders/${id}`);
+}
+
+export function updateAdminOrderStatus(
+  id: string,
+  input: { status?: OrderStatus; paymentStatus?: PaymentStatus },
+): Promise<PublicOrderDetail> {
+  return apiFetch(`/admin/orders/${id}/status`, {
+    method: 'PATCH',
+    body: JSON.stringify(input),
+  });
 }
 
 export interface AdminAccount {

@@ -1,19 +1,26 @@
 import { Transform, TransformFnParams } from 'class-transformer';
-import { IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
+import {
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MaxLength,
+} from 'class-validator';
+
+import { PaymentMethod } from '../entities/order.entity';
 
 function trimIfString({ value }: TransformFnParams): unknown {
   return typeof value === 'string' ? value.trim() : value;
 }
 
 export class CreateOrderDto {
-  @IsUUID()
-  addressId: string;
+  @IsEnum(PaymentMethod)
+  paymentMethod: PaymentMethod;
 
+  // Required for cash on delivery; ignored for in-store pickup.
   @IsOptional()
-  @Transform(trimIfString)
-  @IsString()
-  @MaxLength(100)
-  shippingMethod?: string;
+  @IsUUID()
+  addressId?: string;
 
   @IsOptional()
   @Transform(trimIfString)

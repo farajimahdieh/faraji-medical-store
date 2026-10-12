@@ -1,4 +1,9 @@
-import { Order, OrderStatus, PaymentStatus } from './entities/order.entity';
+import {
+  Order,
+  OrderStatus,
+  PaymentMethod,
+  PaymentStatus,
+} from './entities/order.entity';
 import { OrderItem } from './entities/order-item.entity';
 import { resolveProductImageUrl } from '../catalog/products/product.public';
 
@@ -20,7 +25,8 @@ function toPublicOrderItem(
   resolveUrl: (key: string) => string,
 ): PublicOrderItem {
   const images = item.product?.images ?? [];
-  const primaryImage = images.find((image) => image.isPrimary) ?? images[0] ?? null;
+  const primaryImage =
+    images.find((image) => image.isPrimary) ?? images[0] ?? null;
 
   return {
     id: item.id,
@@ -30,7 +36,10 @@ function toPublicOrderItem(
     variantSize: item.variantSize,
     sku: item.sku,
     primaryImage: primaryImage
-      ? { url: resolveProductImageUrl(primaryImage, resolveUrl), altText: primaryImage.altText }
+      ? {
+          url: resolveProductImageUrl(primaryImage, resolveUrl),
+          altText: primaryImage.altText,
+        }
       : null,
     unitPrice: item.unitPrice,
     quantity: item.quantity,
@@ -41,10 +50,10 @@ function toPublicOrderItem(
 export interface PublicOrderAddress {
   recipientName: string;
   recipientPhone: string;
-  province: string;
-  city: string;
-  addressLine: string;
-  postalCode: string;
+  province: string | null;
+  city: string | null;
+  addressLine: string | null;
+  postalCode: string | null;
   buildingNumber: string | null;
   unit: string | null;
 }
@@ -54,6 +63,7 @@ export interface PublicOrderSummary {
   orderNumber: string;
   status: OrderStatus;
   paymentStatus: PaymentStatus;
+  paymentMethod: PaymentMethod | null;
   itemCount: number;
   totalAmount: number;
   createdAt: Date;
@@ -80,6 +90,7 @@ export function toPublicOrderSummary(order: Order): PublicOrderSummary {
     orderNumber: order.orderNumber,
     status: order.status,
     paymentStatus: order.paymentStatus,
+    paymentMethod: order.paymentMethod,
     itemCount: itemCount(order),
     totalAmount: order.totalAmount,
     createdAt: order.createdAt,
@@ -108,6 +119,8 @@ export function toPublicOrderDetail(
       buildingNumber: order.shippingBuildingNumber,
       unit: order.shippingUnit,
     },
-    items: (order.items ?? []).map((item) => toPublicOrderItem(item, resolveUrl)),
+    items: (order.items ?? []).map((item) =>
+      toPublicOrderItem(item, resolveUrl),
+    ),
   };
 }

@@ -32,6 +32,14 @@ export enum PaymentStatus {
   FAILED = 'failed',
 }
 
+// How the customer pays. Only offline methods exist until an online
+// gateway is connected (it needs an eNamad first); staff confirm each order
+// by phone and mark it paid in the admin panel once the money is received.
+export enum PaymentMethod {
+  CASH_ON_DELIVERY = 'cash_on_delivery',
+  PAY_AT_STORE = 'pay_at_store',
+}
+
 @Entity('orders')
 export class Order {
   @PrimaryGeneratedColumn('uuid')
@@ -52,32 +60,41 @@ export class Order {
   @Column({ type: 'varchar', length: 30 })
   orderNumber: string;
 
-  @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.PENDING_PAYMENT })
+  @Column({
+    type: 'enum',
+    enum: OrderStatus,
+    default: OrderStatus.PENDING_PAYMENT,
+  })
   status: OrderStatus;
 
   @Column({ type: 'enum', enum: PaymentStatus, default: PaymentStatus.PENDING })
   paymentStatus: PaymentStatus;
 
+  // Null on orders placed before payment methods existed.
+  @Column({ type: 'enum', enum: PaymentMethod, nullable: true })
+  paymentMethod: PaymentMethod | null;
+
   // Shipping address is snapshotted (not just a live FK) so a later edit or
   // deletion of the address never changes what a past order shows -- same
-  // principle as the OrderItem product/price snapshot below.
+  // principle as the OrderItem product/price snapshot below. The location
+  // fields are null for in-store pickup, where only name/phone are needed.
   @Column({ type: 'varchar', length: 150 })
   shippingRecipientName: string;
 
   @Column({ type: 'varchar', length: 20 })
   shippingRecipientPhone: string;
 
-  @Column({ type: 'varchar', length: 100 })
-  shippingProvince: string;
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  shippingProvince: string | null;
 
-  @Column({ type: 'varchar', length: 100 })
-  shippingCity: string;
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  shippingCity: string | null;
 
-  @Column({ type: 'varchar', length: 500 })
-  shippingAddressLine: string;
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  shippingAddressLine: string | null;
 
-  @Column({ type: 'varchar', length: 10 })
-  shippingPostalCode: string;
+  @Column({ type: 'varchar', length: 10, nullable: true })
+  shippingPostalCode: string | null;
 
   @Column({ type: 'varchar', length: 20, nullable: true })
   shippingBuildingNumber: string | null;

@@ -2,6 +2,7 @@ import { Send, Camera, MapPin, Phone, Mail } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/icons/Logo";
 import { Container } from "@/components/ui/Container";
+import { STORE_ADDRESS, STORE_MOBILE, STORE_PHONE } from "@/data/store";
 
 const footerCategories = [
   { label: "پانسمان و زخم بستر", href: "/categories/dressing-wound-care" },
@@ -44,15 +45,15 @@ export function Footer() {
           <h3 className="text-sm font-semibold text-white">تماس با ما</h3>
           <div className="flex items-start gap-2 text-sm leading-6 text-white/70">
             <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent-red" aria-hidden="true" />
-            <span>تبریز، خیابان ارتش جنوبی، نرسیده به بیمارستان بهبود، جنب مجتمع خدماتی ماهان، پلاک ۶</span>
+            <span>{STORE_ADDRESS}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-white/70" dir="ltr">
             <Phone className="h-4 w-4 shrink-0 text-accent-red" aria-hidden="true" />
-            <span>041-35573134</span>
+            <span>{STORE_PHONE}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-white/70" dir="ltr">
             <Phone className="h-4 w-4 shrink-0 text-accent-red" aria-hidden="true" />
-            <span>0914 453 7073</span>
+            <span>{STORE_MOBILE}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-white/70" dir="ltr">
             <Mail className="h-4 w-4 shrink-0 text-accent-red" aria-hidden="true" />

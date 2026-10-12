@@ -4,10 +4,13 @@ export interface PaymentChargeResult {
   status: 'succeeded' | 'failed';
 }
 
-// Kept deliberately thin (one method) so a real gateway (Zarinpal/IDPay/
-// NextPay -- see docs/project-blueprint.md #13/#14) can implement this
-// later as a drop-in replacement for MockPaymentProvider, without
-// OrdersService ever changing.
+// Not wired anywhere yet: orders are paid offline (cash on delivery / at
+// the store, see PaymentMethod) until an online gateway is connected, which
+// requires an eNamad. Iranian gateways (Zarinpal/IDPay/NextPay -- see
+// docs/project-blueprint.md #13/#14) redirect the customer and verify on
+// callback, so this synchronous shape will need a request/verify pair then.
+// The old always-succeeding mock was removed so it can never mark a real
+// order as paid.
 export interface PaymentProvider {
   charge(orderId: string, amount: number): Promise<PaymentChargeResult>;
 }

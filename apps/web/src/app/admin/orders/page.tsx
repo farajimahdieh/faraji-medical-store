@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { listAdminOrders, type AdminOrderSummary } from "@/lib/admin-api";
+import type { OrderStatus, PaymentStatus } from "@/lib/api";
+import { ORDER_STATUS_LABELS, PAYMENT_STATUS_LABELS } from "@/lib/order-labels";
 
 export default function AdminOrdersPage() {
   const [items, setItems] = useState<AdminOrderSummary[]>([]);
@@ -37,8 +39,10 @@ export default function AdminOrdersPage() {
                     {order.orderNumber}
                   </Link>
                 </td>
-                <td className="p-3 text-navy">{order.status}</td>
-                <td className="p-3 text-navy">{order.paymentStatus}</td>
+                <td className="p-3 text-navy">{ORDER_STATUS_LABELS[order.status as OrderStatus] ?? order.status}</td>
+                <td className="p-3 text-navy">
+                  {PAYMENT_STATUS_LABELS[order.paymentStatus as PaymentStatus] ?? order.paymentStatus}
+                </td>
                 <td className="p-3 text-navy">{order.totalAmount.toLocaleString("fa-IR")} تومان</td>
                 <td className="p-3 text-secondary-text">{new Date(order.createdAt).toLocaleDateString("fa-IR")}</td>
               </tr>

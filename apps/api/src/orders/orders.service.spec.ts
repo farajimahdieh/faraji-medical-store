@@ -1,4 +1,8 @@
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test } from '@nestjs/testing';
 
@@ -11,7 +15,8 @@ import { DiscountCode } from '../coupons/entities/discount-code.entity';
 import { CouponValidationService } from '../coupons/coupon-validation.service';
 import { CartService } from '../cart/cart.service';
 import { CartStatus } from '../cart/entities/cart.entity';
-import { PAYMENT_PROVIDER } from '../payments/payment-provider.interface';
+import { User } from '../users/entities/user.entity';
+import { PaymentMethod } from './entities/order.entity';
 import { StorageService } from '../storage/storage.service';
 
 function buildQueryBuilderMock(affected = 1) {
@@ -48,26 +53,37 @@ async function buildTestingService() {
   const variantRepository = buildRepositoryMock();
   const addressRepository = buildRepositoryMock();
   const discountCodeRepository = buildRepositoryMock();
+  const userRepository = buildRepositoryMock();
   const cartService = {
     getSummaryForCheckout: jest.fn(),
     markConverted: jest.fn(),
     addItem: jest.fn(),
   };
   const couponValidation = { revalidate: jest.fn(), redeem: jest.fn() };
-  const paymentProvider = { charge: jest.fn().mockResolvedValue({ status: 'succeeded' }) };
 
   const moduleRef = await Test.createTestingModule({
     providers: [
       OrdersService,
       { provide: getRepositoryToken(Order), useValue: orderRepository },
       { provide: getRepositoryToken(OrderItem), useValue: orderItemRepository },
-      { provide: getRepositoryToken(ProductVariant), useValue: variantRepository },
+      {
+        provide: getRepositoryToken(ProductVariant),
+        useValue: variantRepository,
+      },
       { provide: getRepositoryToken(UserAddress), useValue: addressRepository },
-      { provide: getRepositoryToken(DiscountCode), useValue: discountCodeRepository },
+      {
+        provide: getRepositoryToken(DiscountCode),
+        useValue: discountCodeRepository,
+      },
       { provide: CartService, useValue: cartService },
       { provide: CouponValidationService, useValue: couponValidation },
-      { provide: PAYMENT_PROVIDER, useValue: paymentProvider },
-      { provide: StorageService, useValue: { resolveUrl: jest.fn((key: string) => `https://cdn.test/${key}`) } },
+      { provide: getRepositoryToken(User), useValue: userRepository },
+      {
+        provide: StorageService,
+        useValue: {
+          resolveUrl: jest.fn((key: string) => `https://cdn.test/${key}`),
+        },
+      },
     ],
   }).compile();
 
@@ -80,7 +96,7 @@ async function buildTestingService() {
     discountCodeRepository,
     cartService,
     couponValidation,
-    paymentProvider,
+    userRepository,
   };
 }
 
@@ -133,7 +149,13 @@ function buildCartItem(overrides?: Record<string, unknown>) {
     variantId: 'variant-1',
     quantity: 2,
     product: { name: 'گان جراحی' },
-    variant: { size: 'L', price: 50_000, stock: 5, isActive: true, accountingId: 'SKU-1' },
+    variant: {
+      size: 'L',
+      price: 50_000,
+      stock: 5,
+      isActive: true,
+      accountingId: 'SKU-1',
+    },
     ...overrides,
   };
 }
@@ -145,57 +167,182 @@ describe('OrdersService', () => {
       addressRepository.findOne.mockResolvedValue(null);
 
       await expect(
-        service.create('user-1', { addressId: 'address-1' }),
+        service.create('user-1', {
+          paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
+          addressId: 'address-1',
+        }),
       ).rejects.toBeInstanceOf(NotFoundException);
     });
 
     it('creates an order with the live subtotal, decrements stock, and converts the cart', async () => {
-      const { service, addressRepository, orderRepository, variantRepository, cartService } =
-        await buildTestingService();
+      const {
+        service,
+        addressRepository,
+        orderRepository,
+        variantRepository,
+        cartService,
+      } = await buildTestingService();
       addressRepository.findOne.mockResolvedValue(buildAddress());
       const item = buildCartItem();
       cartService.getSummaryForCheckout.mockResolvedValue({
-        cart: { id: 'cart-1', appliedCouponId: null, status: CartStatus.ACTIVE },
+        cart: {
+          id: 'cart-1',
+          appliedCouponId: null,
+          status: CartStatus.ACTIVE,
+        },
         items: [item],
         subtotal: 100_000,
       });
       variantRepository.find.mockResolvedValue([
-        { id: 'variant-1', price: 50_000, stock: 5, isActive: true, accountingId: 'SKU-1' },
+        {
+          id: 'variant-1',
+          price: 50_000,
+          stock: 5,
+          isActive: true,
+          accountingId: 'SKU-1',
+        },
       ]);
       orderRepository.findOne
         .mockResolvedValueOnce(null) // order-number uniqueness check
         .mockResolvedValueOnce(buildFullOrder()); // final re-fetch for the response
 
-      await service.create('user-1', { addressId: 'address-1' });
+      await service.create('user-1', {
+        paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
+        addressId: 'address-1',
+      });
 
       expect(orderRepository.save).toHaveBeenCalledWith(
-        expect.objectContaining({ subtotal: 100_000, discountAmount: 0, totalAmount: 100_000 }),
+        expect.objectContaining({
+          subtotal: 100_000,
+          discountAmount: 0,
+          totalAmount: 100_000,
+          // Offline payment: never marked paid at checkout.
+          status: 'processing',
+          paymentStatus: 'pending',
+          paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
+          shippingCity: 'تهران',
+        }),
       );
-      expect(cartService.markConverted).toHaveBeenCalledWith('cart-1', expect.anything());
+      expect(cartService.markConverted).toHaveBeenCalledWith(
+        'cart-1',
+        expect.anything(),
+      );
     });
 
-    it('applies a valid coupon to reduce the total and records the redemption', async () => {
-      const { service, addressRepository, orderRepository, variantRepository, discountCodeRepository, cartService, couponValidation } =
-        await buildTestingService();
-      addressRepository.findOne.mockResolvedValue(buildAddress());
+    it('requires an address for cash on delivery', async () => {
+      const { service } = await buildTestingService();
+
+      await expect(
+        service.create('user-1', {
+          paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
+        }),
+      ).rejects.toBeInstanceOf(BadRequestException);
+    });
+
+    it('takes in-store pickup orders with the customer profile and no address', async () => {
+      const {
+        service,
+        userRepository,
+        addressRepository,
+        orderRepository,
+        variantRepository,
+        cartService,
+      } = await buildTestingService();
+      userRepository.findOne.mockResolvedValue({
+        id: 'user-1',
+        phone: '+989123456789',
+        firstName: 'علی',
+        lastName: 'رضایی',
+      });
       cartService.getSummaryForCheckout.mockResolvedValue({
-        cart: { id: 'cart-1', appliedCouponId: 'coupon-1', status: CartStatus.ACTIVE },
+        cart: {
+          id: 'cart-1',
+          appliedCouponId: null,
+          status: CartStatus.ACTIVE,
+        },
         items: [buildCartItem()],
         subtotal: 100_000,
       });
       variantRepository.find.mockResolvedValue([
-        { id: 'variant-1', price: 50_000, stock: 5, isActive: true, accountingId: 'SKU-1' },
+        {
+          id: 'variant-1',
+          price: 50_000,
+          stock: 5,
+          isActive: true,
+          accountingId: 'SKU-1',
+        },
       ]);
       orderRepository.findOne
         .mockResolvedValueOnce(null)
-        .mockResolvedValueOnce(buildFullOrder({ discountAmount: 10_000, totalAmount: 90_000 }));
-      discountCodeRepository.findOne.mockResolvedValue({ id: 'coupon-1', code: 'SAVE10' });
+        .mockResolvedValueOnce(buildFullOrder());
+
+      await service.create('user-1', {
+        paymentMethod: PaymentMethod.PAY_AT_STORE,
+      });
+
+      expect(addressRepository.findOne).not.toHaveBeenCalled();
+      expect(orderRepository.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          paymentMethod: PaymentMethod.PAY_AT_STORE,
+          shippingRecipientName: 'علی رضایی',
+          shippingRecipientPhone: '+989123456789',
+          shippingCity: null,
+          addressId: null,
+          paymentStatus: 'pending',
+        }),
+      );
+    });
+
+    it('applies a valid coupon to reduce the total and records the redemption', async () => {
+      const {
+        service,
+        addressRepository,
+        orderRepository,
+        variantRepository,
+        discountCodeRepository,
+        cartService,
+        couponValidation,
+      } = await buildTestingService();
+      addressRepository.findOne.mockResolvedValue(buildAddress());
+      cartService.getSummaryForCheckout.mockResolvedValue({
+        cart: {
+          id: 'cart-1',
+          appliedCouponId: 'coupon-1',
+          status: CartStatus.ACTIVE,
+        },
+        items: [buildCartItem()],
+        subtotal: 100_000,
+      });
+      variantRepository.find.mockResolvedValue([
+        {
+          id: 'variant-1',
+          price: 50_000,
+          stock: 5,
+          isActive: true,
+          accountingId: 'SKU-1',
+        },
+      ]);
+      orderRepository.findOne
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce(
+          buildFullOrder({ discountAmount: 10_000, totalAmount: 90_000 }),
+        );
+      discountCodeRepository.findOne.mockResolvedValue({
+        id: 'coupon-1',
+        code: 'SAVE10',
+      });
       couponValidation.revalidate.mockResolvedValue({ discountAmount: 10_000 });
 
-      await service.create('user-1', { addressId: 'address-1' });
+      await service.create('user-1', {
+        paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
+        addressId: 'address-1',
+      });
 
       expect(orderRepository.save).toHaveBeenCalledWith(
-        expect.objectContaining({ discountAmount: 10_000, totalAmount: 90_000 }),
+        expect.objectContaining({
+          discountAmount: 10_000,
+          totalAmount: 90_000,
+        }),
       );
       expect(couponValidation.redeem).toHaveBeenCalledWith(
         'coupon-1',
@@ -207,22 +354,42 @@ describe('OrdersService', () => {
     });
 
     it('rejects when stock ran out between checkout validation and the transaction', async () => {
-      const { service, addressRepository, orderRepository, variantRepository, cartService } =
-        await buildTestingService();
+      const {
+        service,
+        addressRepository,
+        orderRepository,
+        variantRepository,
+        cartService,
+      } = await buildTestingService();
       addressRepository.findOne.mockResolvedValue(buildAddress());
       cartService.getSummaryForCheckout.mockResolvedValue({
-        cart: { id: 'cart-1', appliedCouponId: null, status: CartStatus.ACTIVE },
+        cart: {
+          id: 'cart-1',
+          appliedCouponId: null,
+          status: CartStatus.ACTIVE,
+        },
         items: [buildCartItem()],
         subtotal: 100_000,
       });
       variantRepository.find.mockResolvedValue([
-        { id: 'variant-1', price: 50_000, stock: 5, isActive: true, accountingId: 'SKU-1' },
+        {
+          id: 'variant-1',
+          price: 50_000,
+          stock: 5,
+          isActive: true,
+          accountingId: 'SKU-1',
+        },
       ]);
       orderRepository.findOne.mockResolvedValue(null);
-      variantRepository.createQueryBuilder.mockReturnValue(buildQueryBuilderMock(0));
+      variantRepository.createQueryBuilder.mockReturnValue(
+        buildQueryBuilderMock(0),
+      );
 
       await expect(
-        service.create('user-1', { addressId: 'address-1' }),
+        service.create('user-1', {
+          paymentMethod: PaymentMethod.CASH_ON_DELIVERY,
+          addressId: 'address-1',
+        }),
       ).rejects.toBeInstanceOf(ConflictException);
     });
   });
@@ -232,15 +399,16 @@ describe('OrdersService', () => {
       const { service, orderRepository } = await buildTestingService();
       orderRepository.findOne.mockResolvedValue(null);
 
-      await expect(service.findOneForUser('user-1', 'order-1')).rejects.toBeInstanceOf(
-        NotFoundException,
-      );
+      await expect(
+        service.findOneForUser('user-1', 'order-1'),
+      ).rejects.toBeInstanceOf(NotFoundException);
     });
   });
 
   describe('reorder', () => {
     it('re-adds available lines and reports the ones it could not', async () => {
-      const { service, orderRepository, cartService } = await buildTestingService();
+      const { service, orderRepository, cartService } =
+        await buildTestingService();
       orderRepository.findOne.mockResolvedValue({
         id: 'order-1',
         userId: 'user-1',
@@ -255,7 +423,10 @@ describe('OrdersService', () => {
 
       expect(result.addedCount).toBe(1);
       expect(result.skipped).toEqual([
-        { productName: 'محصول حذف‌شده', reason: 'این کالا دیگر در فروشگاه موجود نیست' },
+        {
+          productName: 'محصول حذف‌شده',
+          reason: 'این کالا دیگر در فروشگاه موجود نیست',
+        },
       ]);
     });
   });

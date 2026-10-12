@@ -499,6 +499,8 @@ export type OrderStatus =
 
 export type PaymentStatus = 'pending' | 'paid' | 'failed';
 
+export type PaymentMethod = 'cash_on_delivery' | 'pay_at_store';
+
 export interface PublicOrderItem {
   id: string;
   productId: string | null;
@@ -515,10 +517,11 @@ export interface PublicOrderItem {
 export interface PublicOrderAddress {
   recipientName: string;
   recipientPhone: string;
-  province: string;
-  city: string;
-  addressLine: string;
-  postalCode: string;
+  // Null for in-store pickup orders.
+  province: string | null;
+  city: string | null;
+  addressLine: string | null;
+  postalCode: string | null;
   buildingNumber: string | null;
   unit: string | null;
 }
@@ -528,6 +531,7 @@ export interface PublicOrderSummary {
   orderNumber: string;
   status: OrderStatus;
   paymentStatus: PaymentStatus;
+  paymentMethod: PaymentMethod | null;
   itemCount: number;
   totalAmount: number;
   createdAt: string;
@@ -552,8 +556,9 @@ export interface PublicOrderListResponse {
 }
 
 export interface CreateOrderInput {
-  addressId: string;
-  shippingMethod?: string;
+  paymentMethod: PaymentMethod;
+  // Required for cash on delivery, omitted for in-store pickup.
+  addressId?: string;
   notes?: string;
 }
 

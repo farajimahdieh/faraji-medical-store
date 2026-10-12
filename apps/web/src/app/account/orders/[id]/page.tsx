@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { useToast } from "@/components/toast/ToastProvider";
 import { useCart } from "@/components/cart/CartProvider";
 import { CartSummary } from "@/components/cart/CartSummary";
+import { OrderFulfillment } from "@/components/account/OrderFulfillment";
 import { OrderStatusBadge } from "@/components/account/OrderStatusBadge";
 import { formatToman } from "@/data/products";
 import { ApiError, getOrder, mediaUrl, reorderOrder, type PublicOrderDetail } from "@/lib/api";
@@ -143,17 +144,7 @@ export default function OrderDetailPage() {
             </div>
           ))}
 
-          <div className="rounded-2xl border border-border bg-white p-5">
-            <h2 className="mb-3 text-sm font-bold text-navy">آدرس ارسال</h2>
-            <p className="text-sm text-navy">
-              {order.address.recipientName} - <span dir="ltr">{order.address.recipientPhone}</span>
-            </p>
-            <p className="mt-1 text-sm text-secondary-text">
-              {order.address.province}، {order.address.city}، {order.address.addressLine}
-              {order.address.buildingNumber && ` - پلاک ${order.address.buildingNumber}`}
-              {order.address.unit && `، واحد ${order.address.unit}`}
-            </p>
-          </div>
+          <OrderFulfillment order={order} />
 
           {order.notes && (
             <div className="rounded-2xl border border-border bg-white p-5">

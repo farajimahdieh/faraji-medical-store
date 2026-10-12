@@ -2,20 +2,63 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { OrderFulfillment } from "@/components/account/OrderFulfillment";
 import { OrderStatusBadge } from "@/components/account/OrderStatusBadge";
+import { Button } from "@/components/ui/Button";
+import { useToast } from "@/components/toast/ToastProvider";
 import { formatToman } from "@/data/products";
-import { mediaUrl, type PublicOrderDetail } from "@/lib/api";
-import { getAdminOrder } from "@/lib/admin-api";
+import {
+  ApiError,
+  mediaUrl,
+  type OrderStatus,
+  type PaymentStatus,
+  type PublicOrderDetail,
+} from "@/lib/api";
+import { getAdminOrder, updateAdminOrderStatus } from "@/lib/admin-api";
+import { ORDER_STATUS_LABELS, PAYMENT_STATUS_LABELS } from "@/lib/order-labels";
+
+// The statuses staff move an offline-paid order through.
+const STATUS_OPTIONS: OrderStatus[] = ["processing", "shipped", "delivered", "cancelled"];
+const PAYMENT_OPTIONS: PaymentStatus[] = ["pending", "paid"];
 
 export default function AdminOrderDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const { showToast } = useToast();
   const [order, setOrder] = useState<PublicOrderDetail | null>(null);
+  const [status, setStatus] = useState<OrderStatus>("processing");
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>("pending");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    getAdminOrder(id).then(setOrder);
+    getAdminOrder(id).then((loaded) => {
+      setOrder(loaded);
+      setStatus(loaded.status);
+      setPaymentStatus(loaded.paymentStatus);
+    });
   }, [id]);
 
   if (!order) return <p className="text-sm text-secondary-text">در حال بارگذاری...</p>;
+
+  const changed = status !== order.status || paymentStatus !== order.paymentStatus;
+
+  async function handleSave() {
+    if (!order || !changed) return;
+    setSaving(true);
+    try {
+      const updated = await updateAdminOrderStatus(order.id, { status, paymentStatus });
+      setOrder(updated);
+      showToast("وضعیت سفارش ذخیره شد", { variant: "success" });
+    } catch (error) {
+      showToast(error instanceof ApiError ? error.message : "ذخیره با خطا مواجه شد", {
+        variant: "error",
+      });
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const selectClass =
+    "h-10 rounded-xl border border-border bg-white px-3 text-sm text-navy outline-none focus:border-primary";
 
   return (
     <div className="max-w-2xl">
@@ -25,13 +68,53 @@ export default function AdminOrderDetailPage() {
       </div>
 
       <div className="mb-6 rounded-2xl border border-border bg-white p-6">
-        <h2 className="mb-3 font-bold text-navy">آدرس گیرنده</h2>
-        <p className="text-sm text-secondary-text">
-          {order.address.recipientName} — {order.address.recipientPhone}
-          <br />
-          {order.address.province}، {order.address.city}، {order.address.addressLine}
-        </p>
+        <h2 className="mb-3 font-bold text-navy">وضعیت سفارش</h2>
+        <div className="flex flex-wrap items-end gap-4">
+          <label className="flex flex-col gap-1 text-xs text-secondary-text">
+            وضعیت
+            <select
+              value={status}
+              onChange={(event) => setStatus(event.target.value as OrderStatus)}
+              className={selectClass}
+            >
+              {/* Keep a legacy status selectable so the select shows it. */}
+              {[...new Set([order.status, ...STATUS_OPTIONS])].map((option) => (
+                <option key={option} value={option}>
+                  {ORDER_STATUS_LABELS[option]}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex flex-col gap-1 text-xs text-secondary-text">
+            پرداخت
+            <select
+              value={paymentStatus}
+              onChange={(event) => setPaymentStatus(event.target.value as PaymentStatus)}
+              className={selectClass}
+            >
+              {[...new Set([order.paymentStatus, ...PAYMENT_OPTIONS])].map((option) => (
+                <option key={option} value={option}>
+                  {PAYMENT_STATUS_LABELS[option]}
+                </option>
+              ))}
+            </select>
+          </label>
+          <Button onClick={handleSave} disabled={!changed || saving}>
+            {saving ? "در حال ذخیره..." : "ذخیره"}
+          </Button>
+        </div>
       </div>
+
+      <div className="mb-6">
+        <OrderFulfillment order={order} />
+      </div>
+
+      {order.notes && (
+        <div className="mb-6 rounded-2xl border border-border bg-white p-6">
+          <h2 className="mb-2 font-bold text-navy">توضیحات مشتری</h2>
+          <p className="text-sm text-secondary-text">{order.notes}</p>
+        </div>
+      )}
 
       <div className="rounded-2xl border border-border bg-white p-6">
         <h2 className="mb-3 font-bold text-navy">اقلام سفارش</h2>

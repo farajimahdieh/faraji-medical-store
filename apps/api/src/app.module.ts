@@ -17,7 +17,6 @@ import { RecentlyViewedModule } from './recently-viewed/recently-viewed.module';
 import { SearchHistoryModule } from './search-history/search-history.module';
 import { CartModule } from './cart/cart.module';
 import { OrdersModule } from './orders/orders.module';
-import { PaymentsModule } from './payments/payments.module';
 import { AiModule } from './ai/ai.module';
 import { ContentModule } from './content/content.module';
 import { typeOrmModuleOptions } from './database/typeorm-options';
@@ -44,7 +43,6 @@ import { typeOrmModuleOptions } from './database/typeorm-options';
     SearchHistoryModule,
     CartModule,
     OrdersModule,
-    PaymentsModule,
     AiModule,
     ContentModule,
   ],
