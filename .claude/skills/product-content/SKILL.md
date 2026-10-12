@@ -45,6 +45,12 @@ database rows. Read `content/README.md` for the file format and pipeline.
   made when the sources state it, e.g. "برند بیورر آلمانی است و این مدل
   در چین تولید می‌شود". If one of the two is unknown, say only the known
   one.
+- Selling unit: the store sells **single pieces** -- customers buy as many
+  as they want, not whole boxes. The price is per piece. Never mention box
+  or pack counts ("۵ عدد در جعبه", "تعداد در جعبه", "هر جعبه چند عدد
+  دارد؟") in the text, specs or FAQs. Exception: when the Holoo name itself
+  names a pack (e.g. "چسب زخم ترکیه 10عددی"), that pack is the unit sold --
+  describe it as such.
 - Sizes: when a product has several sizes, name them in the description
   and help pick one ("سایز را کمی بزرگ‌تر از خود زخم انتخاب کنید"). The
   page already shows a size selector with each size's own price. Use the Persian names people actually search
@@ -53,16 +59,31 @@ database rows. Read `content/README.md` for the file format and pipeline.
 - `name`: what a shopper would call it + brand, no sizes (sizes are variants).
   e.g. "پانسمان هیدروکلوئید هارتمن (Hydrocoll)".
 - `shortDescription`: 1-2 sentences -- what it is and who it is for.
-- `description`: 120-350 words: what it is -> when it is used -> how to use
-  it (from the IFU only) -> why buy here (genuine product, in-store advice in
-  Tabriz). Paragraphs separated by a blank line.
+- `description`: short and simple, 70-150 words: what it is -> what it is
+  used for and in which situations -> how to use it in a sentence or two
+  (from the IFU only). End with one friendly line inviting questions, e.g.
+  "اگر سؤالی داشتید، از ما بپرسید؛ با کمال میل راهنمایی‌تان می‌کنیم."
+  No filler. Paragraphs separated by a blank line.
+- Goal of every text: the reader feels "this is a good product, this shop
+  knows what it sells, I can trust them". Achieve it by being complete and
+  clear, not by hype: answer what a first-time buyer would ask, in plain
+  words anyone can follow with no medical background. Trust points may
+  only use real facts already on the site (e.g. the physical store in
+  Tabriz, in-store advice) -- never invent years, awards or guarantees.
+- Complementary products: when the product is normally used together with
+  other items, say so and name the ones we sell, in the order of use, e.g.
+  "اول زخم را با سرم شست‌وشو یا اسپری طباسپت تمیز کنید، بعد این پانسمان
+  را بگذارید و برای ثابت نگه داشتن، روی آن چسب حصیری بزنید." Only name
+  products that exist in Holoo/`content/products` (check before naming);
+  for anything we don't stock, use the generic name.
 - `metaTitle` (<= 60 chars): "خرید <name> | فروشگاه فرجی" style, the main
   search phrase first.
 - `metaDescription` (120-160 chars): the main search phrase, the key benefit,
   and a reason to click (e.g. "ارسال از تبریز" only if true).
 - `features`: 3-6 short, factual bullets.
-- `specifications`: only facts found in `sources` (material, size, count per
-  pack, sterility, country of manufacture, IRC code if published). Keep the
+- `specifications`: only facts found in `sources` (material, size,
+  sterility, brand country, country of manufacture, IRC code if
+  published). Plain labels -- no "(طبق سایت سازنده)" or similar. Keep the
   scaffolded "سایزهای موجود" row.
 - `faqs`: 3-5 real shopper questions (how often to change, can it get wet,
   which wound types, which size to pick). Answers 1-3 sentences.
@@ -73,9 +94,10 @@ database rows. Read `content/README.md` for the file format and pipeline.
   not in `sources`, leave it out.
 - Promise a cure or a guaranteed result ("درمان قطعی", "صددرصد خوب
   می‌شود", "بهترین درمان"). Reassure with what the product reliably does
-  ("محیط زخم را مرطوب و تمیز نگه می‌دارد و به ترمیم کمک می‌کند"). Add a
-  short, kind line to see a doctor if the wound looks infected or does not
-  improve.
+  ("محیط زخم را مرطوب و تمیز نگه می‌دارد و به ترمیم کمک می‌کند").
+- Add "see a doctor/nurse" lines to every product -- it is obvious and
+  makes the text long. Keep such advice only where it is genuinely
+  product-specific, at most once, preferably in an FAQ.
 - Mention prices, stock, discounts or delivery times -- they change and live
   in Holoo.
 - Copy a competitor's text. Rewrite in your own words.

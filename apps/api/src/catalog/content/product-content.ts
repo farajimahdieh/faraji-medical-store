@@ -39,7 +39,7 @@ export interface ContentCheck {
 const META_TITLE_MAX = 70;
 const META_DESCRIPTION_MAX = 170;
 const MAX_IMAGES = 4;
-const DESCRIPTION_WORDS = { min: 120, max: 350 };
+const DESCRIPTION_WORDS = { min: 70, max: 180 };
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0;
