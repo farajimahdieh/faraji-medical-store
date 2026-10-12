@@ -22,6 +22,11 @@ database rows. Read `content/README.md` for the file format and pipeline.
    2. Research: the manufacturer's own product page first, then the official
       Iranian distributor/importer, then the product's IFU/catalog PDF.
       Record every page you used in `sources`.
+      **The store owner is a valid source.** Facts the owner states about a
+      product they stock (brand, maker, size, country, ingredient) are
+      recorded in `content/owner-facts.md` and cited in `sources` as
+      `"owner: content/owner-facts.md"`. Use them; never remove them as
+      "undocumented".
    3. Write the content (rules below).
    4. Pick images (rules below).
 3. `pnpm content:apply -- --dry-run` must show no errors for the batch.
@@ -105,6 +110,10 @@ database rows. Read `content/README.md` for the file format and pipeline.
 ## Image rules
 
 - 1-4 images. First image = the product alone on a plain background.
+- Generic, unbranded items (sterile gauze, plain bandage, tape, film roll):
+  a clean photo of the same item type is acceptable when no photo of the
+  exact pack exists, as long as it shows no brand, logo or watermark that
+  differs from ours. Give it an honest `alt` (e.g. "گاز استریل ۱۰×۱۰").
 - Every product should get images -- search in both Persian and English
   (brand + model + size, e.g. "Hydrocoll Hartmann", "پانسمان هیدروکل
   هارتمن").

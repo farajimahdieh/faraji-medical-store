@@ -53,7 +53,9 @@ lockfile does not churn.
 
 ## Review checklist -- product content (`content/products/**`)
 
-For every changed file, check against its `sources`:
+For every changed file, check against its `sources`. Facts from the store
+owner (`content/owner-facts.md`, cited as `owner: ...`) are authoritative --
+do not remove them as undocumented.
 
 1. Identity: name, brand and sizes match the Holoo item (`_holooNames` in
    the skeleton / variant names) and the source pages.
@@ -69,7 +71,8 @@ For every changed file, check against its `sources`:
 5. Images: 1-4 clean photos of the exact product (preferably from the
    manufacturer or official distributor; never with another shop's
    watermark/logo/price, never AI-generated), first image shows the
-   product alone, descriptive Persian `alt`.
+   product alone, descriptive Persian `alt`. Generic unbranded items may
+   use a clean photo of the same item type with no foreign branding.
 6. No prices, stock levels or delivery promises in the text, and no box or
    pack counts -- the store sells single pieces (unless the Holoo item name
    itself is a pack).
