@@ -59,9 +59,11 @@ database rows. Read `content/README.md` for the file format and pipeline.
 - `name`: what a shopper would call it + brand, no sizes (sizes are variants).
   e.g. "پانسمان هیدروکلوئید هارتمن (Hydrocoll)".
 - `shortDescription`: 1-2 sentences -- what it is and who it is for.
-- `description`: 120-350 words: what it is -> when it is used -> how to use
-  it (from the IFU only) -> why buy here (genuine product, in-store advice in
-  Tabriz). Paragraphs separated by a blank line.
+- `description`: short and simple, 70-150 words: what it is -> what it is
+  used for and in which situations -> how to use it in a sentence or two
+  (from the IFU only). End with one friendly line inviting questions, e.g.
+  "اگر سؤالی داشتید، از ما بپرسید؛ با کمال میل راهنمایی‌تان می‌کنیم."
+  No filler. Paragraphs separated by a blank line.
 - `metaTitle` (<= 60 chars): "خرید <name> | فروشگاه فرجی" style, the main
   search phrase first.
 - `metaDescription` (120-160 chars): the main search phrase, the key benefit,
@@ -80,9 +82,10 @@ database rows. Read `content/README.md` for the file format and pipeline.
   not in `sources`, leave it out.
 - Promise a cure or a guaranteed result ("درمان قطعی", "صددرصد خوب
   می‌شود", "بهترین درمان"). Reassure with what the product reliably does
-  ("محیط زخم را مرطوب و تمیز نگه می‌دارد و به ترمیم کمک می‌کند"). Add a
-  short, kind line to see a doctor if the wound looks infected or does not
-  improve.
+  ("محیط زخم را مرطوب و تمیز نگه می‌دارد و به ترمیم کمک می‌کند").
+- Add "see a doctor/nurse" lines to every product -- it is obvious and
+  makes the text long. Keep such advice only where it is genuinely
+  product-specific, at most once, preferably in an FAQ.
 - Mention prices, stock, discounts or delivery times -- they change and live
   in Holoo.
 - Copy a competitor's text. Rewrite in your own words.

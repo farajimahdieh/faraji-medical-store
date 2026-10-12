@@ -6,7 +6,7 @@ function valid(): Record<string, unknown> {
   return {
     slug: 'پانسمان-هیدروکل-هارتمن-آلمان',
     shortDescription: 'پانسمان هیدروکلوئید برای زخم‌های کم‌ترشح',
-    description: words(180),
+    description: words(120),
     metaTitle: 'خرید پانسمان هیدروکلوئید هارتمن | فروشگاه فرجی',
     metaDescription: 'x'.repeat(140),
     features: ['ضد آب'],

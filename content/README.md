@@ -35,7 +35,7 @@ All `pnpm` commands run from `apps/api`.
   "name": "<display name>",
   "brand": "<manufacturer brand>",
   "shortDescription": "<1-2 sentences>",
-  "description": "<120-350 words, paragraphs separated by a blank line>",
+  "description": "<70-150 words, paragraphs separated by a blank line>",
   "metaTitle": "<= 60 chars, max 70",
   "metaDescription": "<120-160 chars, max 170>",
   "features": ["..."],
