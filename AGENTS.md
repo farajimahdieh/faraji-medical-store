@@ -59,13 +59,16 @@ For every changed file, check against its `sources`:
    the skeleton / variant names) and the source pages.
 2. Facts: every spec, feature and FAQ answer is supported by a listed
    source. Flag anything that is not.
-3. Medical safety: no cure/diagnosis claims, no "best treatment", a referral
-   to a doctor where wounds may be infected or not healing; ointments/gels
-   that may be medicines are flagged for the owner.
+3. Tone and medical safety: warm, confident and guiding -- no distancing
+   phrases like "به گفته‌ی سازنده"; but no cure/guaranteed-result claims,
+   no "best treatment", a referral to a doctor where wounds may be
+   infected or not healing; ointments/gels that may be medicines are
+   flagged for the owner.
 4. SEO: `metaTitle` <= 60 chars with the main search phrase first,
    `metaDescription` 120-160 chars, description 120-350 words in natural
    Persian (no keyword stuffing), 3-5 useful FAQs.
-5. Images: 1-4, from our own photos or the manufacturer/official
-   distributor only (no marketplaces, competitors, watermarks or AI
-   images), first image shows the product alone, descriptive Persian `alt`.
+5. Images: 1-4 clean photos of the exact product (preferably from the
+   manufacturer or official distributor; never with another shop's
+   watermark/logo/price, never AI-generated), first image shows the
+   product alone, descriptive Persian `alt`.
 6. No prices, stock levels or delivery promises in the text.

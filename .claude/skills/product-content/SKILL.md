@@ -33,8 +33,21 @@ database rows. Read `content/README.md` for the file format and pipeline.
 
 ## Writing rules
 
-- Persian, warm and plain -- written for a patient or caregiver, not a
-  clinician. Short paragraphs. Use the Persian names people actually search
+- Persian, warm, friendly and honest -- like a knowledgeable shop assistant
+  talking to a worried patient or caregiver, not a clinician. Short
+  sentences, short paragraphs. Reassuring and guiding: explain what the
+  product does, who it is for, and how to use it step by step.
+- Speak with confidence. We stand behind what we sell, so state facts
+  directly ("این پانسمان تا ۷ روز روی زخم می‌ماند") -- never distance
+  ourselves with "به گفته‌ی سازنده", "طبق ادعای سازنده", "سازنده می‌گوید"
+  or similar. Confidence comes from the facts, not from exaggeration.
+- Brand origin: say where the brand comes from and where the product is
+  made when the sources state it, e.g. "برند بیورر آلمانی است و این مدل
+  در چین تولید می‌شود". If one of the two is unknown, say only the known
+  one.
+- Sizes: when a product has several sizes, name them in the description
+  and help pick one ("سایز را کمی بزرگ‌تر از خود زخم انتخاب کنید"). The
+  page already shows a size selector with each size's own price. Use the Persian names people actually search
   ("پانسمان زخم بستر", "باند کشی") alongside the technical name
   ("هیدروکلوئید").
 - `name`: what a shopper would call it + brand, no sizes (sizes are variants).
@@ -58,9 +71,11 @@ database rows. Read `content/README.md` for the file format and pipeline.
 
 - Invent specs, certifications, percentages or clinical claims. If a fact is
   not in `sources`, leave it out.
-- Promise a cure or diagnose ("درمان قطعی", "بهترین درمان"). Use "کمک به" /
-  "مناسب برای". Add "در صورت عفونت یا عدم بهبود، به پزشک مراجعه کنید" where
-  relevant.
+- Promise a cure or a guaranteed result ("درمان قطعی", "صددرصد خوب
+  می‌شود", "بهترین درمان"). Reassure with what the product reliably does
+  ("محیط زخم را مرطوب و تمیز نگه می‌دارد و به ترمیم کمک می‌کند"). Add a
+  short, kind line to see a doctor if the wound looks infected or does not
+  improve.
 - Mention prices, stock, discounts or delivery times -- they change and live
   in Holoo.
 - Copy a competitor's text. Rewrite in your own words.
@@ -68,11 +83,17 @@ database rows. Read `content/README.md` for the file format and pipeline.
 ## Image rules
 
 - 1-4 images. First image = the product alone on a plain background.
-- Allowed sources, in order: our own photos in `data-private/photos/`
-  (`"file"`), the manufacturer's site, the official distributor's site.
-- Not allowed: marketplaces and competitors (Digikala, Torob, other
-  pharmacies/stores), stock-photo sites, images with another shop's
-  watermark or logo, AI-generated product photos.
+- Every product should get images -- search in both Persian and English
+  (brand + model + size, e.g. "Hydrocoll Hartmann", "پانسمان هیدروکل
+  هارتمن").
+- Sources, in order of preference: our own photos in `data-private/photos/`
+  (`"file"`), the manufacturer's site, the official distributor/importer,
+  the brand's catalogs and social pages, then other websites -- but only
+  the clean official product photo (packshot) of the exact same product.
+- Never use: photos carrying another shop's watermark, logo or price tag,
+  photos of a different model/size, collages, stock photos, AI-generated
+  images. If a site blocks downloading, save the image into
+  `data-private/photos/` and reference it with `"file"`.
 - Use the largest available version (>= 800px). Give each image a `source`
   page and a descriptive Persian `alt` ("پانسمان هیدروکلوئید هارتمن سایز
   10×10 در بسته‌بندی").
@@ -81,6 +102,8 @@ database rows. Read `content/README.md` for the file format and pipeline.
 
 Flag these to the user instead of publishing as normal:
 - Ointments/gels/powders that may be registered as medicines (e.g. پماد
-  کامفیل، پماد بیلوا، پماد زیتن) -- online sale of medicines has separate
-  rules in Iran.
+  کامفیل، پماد بیلوا، پماد زیتن): write their content and images as usual,
+  but list them in the report as "do not approve yet" -- online sale of
+  medicines has separate rules in Iran, so the owner decides when to
+  publish them.
 - Anything you could not identify with confidence.
