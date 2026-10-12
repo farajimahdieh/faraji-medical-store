@@ -64,6 +64,18 @@ database rows. Read `content/README.md` for the file format and pipeline.
   (from the IFU only). End with one friendly line inviting questions, e.g.
   "اگر سؤالی داشتید، از ما بپرسید؛ با کمال میل راهنمایی‌تان می‌کنیم."
   No filler. Paragraphs separated by a blank line.
+- Goal of every text: the reader feels "this is a good product, this shop
+  knows what it sells, I can trust them". Achieve it by being complete and
+  clear, not by hype: answer what a first-time buyer would ask, in plain
+  words anyone can follow with no medical background. Trust points may
+  only use real facts already on the site (e.g. the physical store in
+  Tabriz, in-store advice) -- never invent years, awards or guarantees.
+- Complementary products: when the product is normally used together with
+  other items, say so and name the ones we sell, in the order of use, e.g.
+  "اول زخم را با سرم شست‌وشو یا اسپری طباسپت تمیز کنید، بعد این پانسمان
+  را بگذارید و برای ثابت نگه داشتن، روی آن چسب حصیری بزنید." Only name
+  products that exist in Holoo/`content/products` (check before naming);
+  for anything we don't stock, use the generic name.
 - `metaTitle` (<= 60 chars): "خرید <name> | فروشگاه فرجی" style, the main
   search phrase first.
 - `metaDescription` (120-160 chars): the main search phrase, the key benefit,
