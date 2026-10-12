@@ -75,6 +75,10 @@ export interface PublicProductDetail {
   shortDescription: string | null;
   description: string | null;
   features: string[];
+  specifications: { name: string; value: string }[];
+  faqs: { question: string; answer: string }[];
+  metaTitle: string | null;
+  metaDescription: string | null;
   images: PublicProductImage[];
   variants: PublicProductVariant[];
   sourceCode: string | null;
@@ -167,6 +171,12 @@ export function toPublicProductDetail(
   const features = [...(product.features ?? [])]
     .sort((a, b) => a.sortOrder - b.sortOrder)
     .map((feature) => feature.text);
+  const specifications = [...(product.specifications ?? [])]
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map(({ name, value }) => ({ name, value }));
+  const faqs = [...(product.faqs ?? [])]
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map(({ question, answer }) => ({ question, answer }));
 
   return {
     id: product.id,
@@ -194,6 +204,10 @@ export function toPublicProductDetail(
     shortDescription: product.shortDescription,
     description: product.description,
     features,
+    specifications,
+    faqs,
+    metaTitle: product.metaTitle,
+    metaDescription: product.metaDescription,
     images: images.map((image) => toPublicImage(image, resolveUrl)),
     variants: (product.variants ?? []).map(toPublicVariant),
     sourceCode,

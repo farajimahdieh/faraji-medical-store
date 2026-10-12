@@ -27,6 +27,7 @@
     "seed:content": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/database/seeds/content.seed.ts",
     "import:teb-sanat": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/catalog/import/teb-sanat/run-import.ts",
     "import:holoo": "node --env-file-if-exists=.env -r ts-node/register -r tsconfig-paths/register src/catalog/import/holoo/run-holoo-import.ts",
+    "content:apply": "node --env-file-if-exists=.env -r ts-node/register -r tsconfig-paths/register src/catalog/content/run-content-apply.ts",
     "sync:teb-sanat-videos": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/catalog/import/teb-sanat/video-sync/run-video-sync.ts"
   },
   "dependencies": {

@@ -74,7 +74,7 @@ export class HolooImportService {
 
     const source = await manager.findOneBy(ProductSource, {
       sourceName: SOURCE_NAME,
-      externalProductCode: group.key,
+      externalProductCode: In(codes),
     });
     if (source) return source.productId;
 
@@ -90,7 +90,9 @@ export class HolooImportService {
       manager.create(ProductSource, {
         productId: product.id,
         sourceName: SOURCE_NAME,
-        externalProductCode: group.key,
+        // A real Holoo code, so the product page's "کد محصول" is one staff
+        // can look up in Holoo.
+        externalProductCode: group.items[0].code,
         lastImportedAt: new Date(),
       }),
     );

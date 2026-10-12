@@ -11,6 +11,7 @@ import { ProductSpecification } from '../../entities/product-specification.entit
 import { ProductFeature } from '../../entities/product-feature.entity';
 import { SizeGuide } from '../../entities/size-guide.entity';
 import { ProductSource } from '../../entities/product-source.entity';
+import { ProductFaq } from '../../entities/product-faq.entity';
 import { typeOrmModuleOptions } from '../../../database/typeorm-options';
 import { HolooImportService } from './holoo-import.service';
 
@@ -32,6 +33,7 @@ import { HolooImportService } from './holoo-import.service';
       ProductFeature,
       SizeGuide,
       ProductSource,
+      ProductFaq,
     ]),
   ],
   providers: [HolooImportService],

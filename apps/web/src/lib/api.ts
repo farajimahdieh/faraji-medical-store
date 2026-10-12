@@ -142,6 +142,10 @@ export interface PublicProductDetail {
   shortDescription: string | null;
   description: string | null;
   features: string[];
+  specifications: { name: string; value: string }[];
+  faqs: { question: string; answer: string }[];
+  metaTitle: string | null;
+  metaDescription: string | null;
   images: PublicProductImage[];
   variants: PublicProductVariant[];
   sourceCode: string | null;

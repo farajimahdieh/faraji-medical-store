@@ -9,6 +9,7 @@ import { ProductSpecification } from './entities/product-specification.entity';
 import { ProductFeature } from './entities/product-feature.entity';
 import { SizeGuide } from './entities/size-guide.entity';
 import { ProductSource } from './entities/product-source.entity';
+import { ProductFaq } from './entities/product-faq.entity';
 import { ProductsController } from './products/products.controller';
 import { ProductsService } from './products/products.service';
 import { ProductSuggestionsService } from './products/product-suggestions.service';
@@ -34,6 +35,7 @@ import { AdminModule } from '../admin/admin.module';
       ProductFeature,
       SizeGuide,
       ProductSource,
+      ProductFaq,
     ]),
     AuthModule,
     StorageModule,

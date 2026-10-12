@@ -6,6 +6,11 @@ import { ProductGallery } from "@/components/catalog/ProductGallery";
 import { Breadcrumb } from "@/components/catalog/Breadcrumb";
 import { RecentlyViewedSection } from "@/components/catalog/RecentlyViewedSection";
 import { ApiError, getProductBySlug } from "@/lib/api";
+import { buildFaqJsonLd, buildProductJsonLd, serializeJsonLd } from "@/lib/structured-data";
+
+// Optional absolute site origin (e.g. https://example.ir) for canonical
+// links and structured data; omitted from both while it isn't configured.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
 
 // Some imported feature lines carry a leading "•" from the source's own
 // formatting; the list below already renders its own bullet marker.
@@ -30,8 +35,15 @@ export async function generateMetadata({
 }: PageProps<"/products/[slug]">) {
   const { slug: rawSlug } = await params;
   try {
-    const product = await getProductBySlug(decodeSlugParam(rawSlug));
-    return { title: `${product.name} | تجهیزات پزشکی و آزمایشگاهی فرجی` };
+    const slug = decodeSlugParam(rawSlug);
+    const product = await getProductBySlug(slug);
+    return {
+      title: product.metaTitle ?? `${product.name} | تجهیزات پزشکی و آزمایشگاهی فرجی`,
+      description: product.metaDescription ?? product.shortDescription ?? undefined,
+      ...(SITE_URL
+        ? { alternates: { canonical: `${SITE_URL}/products/${encodeURIComponent(slug)}` } }
+        : {}),
+    };
   } catch {
     return {};
   }
@@ -60,8 +72,24 @@ export default async function ProductDetailPage({
     ? (product.category.parent ?? product.category)
     : null;
 
+  const productJsonLd = buildProductJsonLd(
+    product,
+    SITE_URL ? `${SITE_URL}/products/${encodeURIComponent(slug)}` : undefined,
+  );
+  const faqJsonLd = buildFaqJsonLd(product.faqs);
+
   return (
     <Container className="py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(productJsonLd) }}
+      />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqJsonLd) }}
+        />
+      )}
       <Breadcrumb
         items={[
           { label: "خانه", href: "/" },
@@ -134,6 +162,41 @@ export default async function ProductDetailPage({
               <p className="whitespace-pre-line text-sm leading-7 text-secondary-text">
                 {product.description}
               </p>
+            </div>
+          )}
+
+          {product.specifications.length > 0 && (
+            <div>
+              <h2 className="mb-2 text-base font-bold text-navy">مشخصات فنی</h2>
+              <dl className="divide-y divide-gray-100 rounded-lg border border-gray-100 text-sm">
+                {product.specifications.map((spec, index) => (
+                  <div key={index} className="grid grid-cols-3 gap-3 px-3 py-2">
+                    <dt className="text-secondary-text">{spec.name}</dt>
+                    <dd className="col-span-2 text-navy">{spec.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          )}
+
+          {product.faqs.length > 0 && (
+            <div>
+              <h2 className="mb-2 text-base font-bold text-navy">سؤالات متداول</h2>
+              <div className="flex flex-col gap-2">
+                {product.faqs.map((faq, index) => (
+                  <details
+                    key={index}
+                    className="rounded-lg border border-gray-100 px-3 py-2 text-sm"
+                  >
+                    <summary className="cursor-pointer font-medium text-navy">
+                      {faq.question}
+                    </summary>
+                    <p className="mt-2 whitespace-pre-line leading-7 text-secondary-text">
+                      {faq.answer}
+                    </p>
+                  </details>
+                ))}
+              </div>
             </div>
           )}
         </div>

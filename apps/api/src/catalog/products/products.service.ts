@@ -187,6 +187,8 @@ export class ProductsService {
         images: true,
         variants: true,
         features: true,
+        specifications: true,
+        faqs: true,
       },
     });
     if (!product) {

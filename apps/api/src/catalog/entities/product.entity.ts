@@ -17,6 +17,7 @@ import { ProductSpecification } from './product-specification.entity';
 import { ProductFeature } from './product-feature.entity';
 import { SizeGuide } from './size-guide.entity';
 import { ProductSource } from './product-source.entity';
+import { ProductFaq } from './product-faq.entity';
 
 export enum ProductStatus {
   DRAFT = 'draft',
@@ -64,6 +65,13 @@ export class Product {
 
   @Column({ type: 'text', nullable: true })
   description: string | null;
+
+  // Search-result title/snippet. Null falls back to name/shortDescription.
+  @Column({ type: 'varchar', length: 70, nullable: true })
+  metaTitle: string | null;
+
+  @Column({ type: 'varchar', length: 170, nullable: true })
+  metaDescription: string | null;
 
   // Set once an admin manually edits the description — importers must
   // skip overwriting it on subsequent syncs from an external source.
@@ -122,4 +130,7 @@ export class Product {
 
   @OneToMany(() => ProductSource, (source) => source.product)
   sources: ProductSource[];
+
+  @OneToMany(() => ProductFaq, (faq) => faq.product)
+  faqs: ProductFaq[];
 }
