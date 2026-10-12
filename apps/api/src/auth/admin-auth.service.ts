@@ -77,7 +77,9 @@ export class AdminAuthService {
     profile.lastLoginAt = new Date();
     await this.adminProfileRepository.save(profile);
 
-    const session = await this.authService.createSession(profile.userId);
+    const session = await this.authService.createSession(profile.userId, {
+      admin: true,
+    });
     const user = await this.usersService.findById(profile.userId);
     return {
       user: user!,
@@ -119,7 +121,9 @@ export class AdminAuthService {
     profile.lastLoginAt = new Date();
     await this.adminProfileRepository.save(profile);
 
-    const session = await this.authService.createSession(profile.userId);
+    const session = await this.authService.createSession(profile.userId, {
+      admin: true,
+    });
     const user = await this.usersService.findById(profile.userId);
     return {
       user: user!,

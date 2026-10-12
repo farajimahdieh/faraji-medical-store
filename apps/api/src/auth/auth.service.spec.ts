@@ -6,6 +6,7 @@ import { Test } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { OtpCode } from './entities/otp-code.entity';
 import { Session } from './entities/session.entity';
+import { AdminProfile } from './entities/admin-profile.entity';
 import { UsersService } from '../users/users.service';
 import { SMS_PROVIDER } from './sms/sms-provider.interface';
 import { UserRole } from '../users/entities/user.entity';
@@ -42,6 +43,7 @@ async function buildTestingService(overrides?: {
   const otpRepository = overrides?.otpRepository ?? buildOtpRepositoryMock();
   const sessionRepository =
     overrides?.sessionRepository ?? buildSessionRepositoryMock();
+  const adminProfileRepository = { findOne: jest.fn() };
   const usersService = {
     findByPhone: jest.fn(),
     createByPhone: jest.fn(),
@@ -58,6 +60,10 @@ async function buildTestingService(overrides?: {
       AuthService,
       { provide: getRepositoryToken(OtpCode), useValue: otpRepository },
       { provide: getRepositoryToken(Session), useValue: sessionRepository },
+      {
+        provide: getRepositoryToken(AdminProfile),
+        useValue: adminProfileRepository,
+      },
       { provide: UsersService, useValue: usersService },
       { provide: SMS_PROVIDER, useValue: smsProvider },
       {
@@ -74,6 +80,7 @@ async function buildTestingService(overrides?: {
     service: moduleRef.get(AuthService),
     otpRepository,
     sessionRepository,
+    adminProfileRepository,
     usersService,
     smsProvider,
   };
@@ -342,6 +349,77 @@ describe('AuthService', () => {
       await expect(
         service.validateSessionToken('valid-token'),
       ).resolves.toEqual(user);
+    });
+  });
+
+  describe('validateSession (admin access)', () => {
+    const admin = { id: 'admin-1', role: UserRole.ADMIN };
+    const live = () => new Date(Date.now() + 60_000);
+
+    it('grants admin access only to an admin-login session of an active admin', async () => {
+      const { service, sessionRepository, adminProfileRepository } =
+        await buildTestingService();
+      sessionRepository.findOne.mockResolvedValue({
+        userId: admin.id,
+        expiresAt: live(),
+        isAdminSession: true,
+        user: admin,
+      });
+      adminProfileRepository.findOne.mockResolvedValue({ isActive: true });
+
+      await expect(service.validateSession('t')).resolves.toEqual({
+        user: admin,
+        adminAccess: true,
+      });
+    });
+
+    it('denies admin access to a customer-OTP session on an admin phone', async () => {
+      const { service, sessionRepository, adminProfileRepository } =
+        await buildTestingService();
+      sessionRepository.findOne.mockResolvedValue({
+        userId: admin.id,
+        expiresAt: live(),
+        isAdminSession: false,
+        user: admin,
+      });
+
+      const result = await service.validateSession('t');
+      expect(result?.adminAccess).toBe(false);
+      expect(adminProfileRepository.findOne).not.toHaveBeenCalled();
+    });
+
+    it('denies admin access once the admin profile is disabled', async () => {
+      const { service, sessionRepository, adminProfileRepository } =
+        await buildTestingService();
+      sessionRepository.findOne.mockResolvedValue({
+        userId: admin.id,
+        expiresAt: live(),
+        isAdminSession: true,
+        user: admin,
+      });
+      adminProfileRepository.findOne.mockResolvedValue({ isActive: false });
+
+      expect((await service.validateSession('t'))?.adminAccess).toBe(false);
+    });
+  });
+
+  describe('createSession', () => {
+    it('marks admin sessions and gives them a short lifetime', async () => {
+      const { service, sessionRepository } = await buildTestingService();
+
+      const customer = await service.createSession('u1');
+      const admin = await service.createSession('u1', { admin: true });
+
+      const day = 24 * 60 * 60 * 1000;
+      expect(customer.expiresAt.getTime() - Date.now()).toBeGreaterThan(
+        29 * day,
+      );
+      expect(admin.expiresAt.getTime() - Date.now()).toBeLessThanOrEqual(
+        day / 2,
+      );
+      expect(sessionRepository.save).toHaveBeenLastCalledWith(
+        expect.objectContaining({ isAdminSession: true }),
+      );
     });
   });
 

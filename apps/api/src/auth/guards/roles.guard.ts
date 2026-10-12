@@ -8,7 +8,9 @@ import { RequestWithUser } from './session.guard';
 // Must run after SessionGuard (which populates request.user) -- the
 // centralized place role checks live, so no controller compares
 // `user.role` against a raw string itself. Super admin always satisfies an
-// admin-level check.
+// admin-level check. Admin roles additionally need an admin-login session
+// of a still-active admin (request.adminAccess), so a customer OTP login
+// or a disabled admin's old session never reaches admin routes.
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
@@ -20,11 +22,14 @@ export class RolesGuard implements CanActivate {
     );
     if (!requiredRoles || requiredRoles.length === 0) return true;
 
-    const { user } = context.switchToHttp().getRequest<RequestWithUser>();
+    const { user, adminAccess } = context
+      .switchToHttp()
+      .getRequest<RequestWithUser>();
     if (!user) return false;
 
-    return (
-      user.role === UserRole.SUPER_ADMIN || requiredRoles.includes(user.role)
-    );
+    const roleMatches =
+      user.role === UserRole.SUPER_ADMIN || requiredRoles.includes(user.role);
+    if (!roleMatches) return false;
+    return user.role === UserRole.CUSTOMER || adminAccess === true;
   }
 }

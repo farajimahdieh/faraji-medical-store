@@ -102,14 +102,20 @@ describe('Admin auth + RBAC (e2e)', () => {
     return user;
   }
 
-  async function loginAsAdmin(phone: string, agent: request.Agent): Promise<void> {
+  async function loginAsAdmin(
+    phone: string,
+    agent: request.Agent,
+  ): Promise<void> {
     await agent
       .post('/admin/auth/login-password')
       .send({ phone, password: PASSWORD })
       .expect(200);
     const code = sentCodes.get(phone);
     expect(code).toMatch(/^\d{6}$/);
-    await agent.post('/admin/auth/login-verify').send({ phone, code }).expect(200);
+    await agent
+      .post('/admin/auth/login-verify')
+      .send({ phone, code })
+      .expect(200);
   }
 
   it('rejects /admin/products with no session', () => {
@@ -148,9 +154,42 @@ describe('Admin auth + RBAC (e2e)', () => {
       .send({ phone: CUSTOMER_PHONE })
       .expect(200);
     const code = sentCodes.get(CUSTOMER_PHONE_NORMALIZED);
-    await agent.post('/auth/otp/verify').send({ phone: CUSTOMER_PHONE, code }).expect(200);
+    await agent
+      .post('/auth/otp/verify')
+      .send({ phone: CUSTOMER_PHONE, code })
+      .expect(200);
 
     await agent.get('/admin/products').expect(403);
+  });
+
+  it('does not let a customer OTP login on an admin phone skip the password step', async () => {
+    const agent = request.agent(app.getHttpServer());
+    await agent
+      .post('/auth/otp/request')
+      .send({ phone: ADMIN_PHONE })
+      .expect(200);
+    const code = sentCodes.get(ADMIN_PHONE_NORMALIZED);
+    await agent
+      .post('/auth/otp/verify')
+      .send({ phone: ADMIN_PHONE, code })
+      .expect(200);
+
+    await agent.get('/admin/products').expect(403);
+  });
+
+  it('cuts off a disabled admin immediately', async () => {
+    const adminAgent = request.agent(app.getHttpServer());
+    await loginAsAdmin(ADMIN_PHONE_NORMALIZED, adminAgent);
+    await adminAgent.get('/admin/products').expect(200);
+
+    const superAgent = request.agent(app.getHttpServer());
+    await loginAsAdmin(SUPER_ADMIN_PHONE_NORMALIZED, superAgent);
+    const admin = await userRepo.findOneByOrFail({
+      phone: ADMIN_PHONE_NORMALIZED,
+    });
+    await superAgent.patch(`/admin/admins/${admin.id}/disable`).expect(200);
+
+    await adminAgent.get('/admin/products').expect(401);
   });
 
   it('lets a super_admin manage admins but blocks a plain admin from the same route', async () => {
@@ -213,7 +252,11 @@ describe('Admin auth + RBAC (e2e)', () => {
     const activateAgent = request.agent(app.getHttpServer());
     const activateRes = await activateAgent
       .post('/admin/auth/activate-verify')
-      .send({ phone: invitePhone, code: activationCode, password: 'Str0ng!Passw0rd' })
+      .send({
+        phone: invitePhone,
+        code: activationCode,
+        password: 'Str0ng!Passw0rd',
+      })
       .expect(200);
     expect(activateRes.body.user.role).toBe('admin');
     await activateAgent.get('/admin/products').expect(200);

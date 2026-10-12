@@ -6,7 +6,8 @@ import { createHash, createHmac, randomBytes, randomInt } from 'crypto';
 
 import { OtpCode, OtpPurpose } from './entities/otp-code.entity';
 import { Session } from './entities/session.entity';
-import { User } from '../users/entities/user.entity';
+import { AdminProfile } from './entities/admin-profile.entity';
+import { User, UserRole } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { normalizeIranPhone } from '../common/phone.util';
 import { SMS_PROVIDER } from './sms/sms-provider.interface';
@@ -21,6 +22,13 @@ interface VerifyOtpResult {
 
 const INVALID_OTP_MESSAGE = 'کد نامعتبر یا منقضی شده است';
 
+export interface ValidatedSession {
+  user: User;
+  // True only for an unexpired admin-login session of an admin whose
+  // profile is still active -- what RolesGuard requires for admin routes.
+  adminAccess: boolean;
+}
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -28,11 +36,18 @@ export class AuthService {
     private readonly otpRepository: Repository<OtpCode>,
     @InjectRepository(Session)
     private readonly sessionRepository: Repository<Session>,
+    @InjectRepository(AdminProfile)
+    private readonly adminProfileRepository: Repository<AdminProfile>,
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
     @Inject(SMS_PROVIDER)
     private readonly smsProvider: SmsProvider,
-  ) {}
+  ) {
+    // An empty secret would make OTP hashes trivially reproducible.
+    if (!this.configService.get<string>('OTP_HASH_SECRET')) {
+      throw new Error('OTP_HASH_SECRET must be set');
+    }
+  }
 
   async requestOtp(
     rawPhone: string,
@@ -150,6 +165,10 @@ export class AuthService {
   }
 
   async validateSessionToken(token: string): Promise<User | null> {
+    return (await this.validateSession(token))?.user ?? null;
+  }
+
+  async validateSession(token: string): Promise<ValidatedSession | null> {
     const tokenHash = this.hashToken(token);
     const session = await this.sessionRepository.findOne({
       where: { tokenHash },
@@ -160,7 +179,19 @@ export class AuthService {
       return null;
     }
 
-    return session.user;
+    let adminAccess = false;
+    if (session.isAdminSession && session.user.role !== UserRole.CUSTOMER) {
+      const profile = await this.adminProfileRepository.findOne({
+        where: { userId: session.userId },
+      });
+      adminAccess = profile?.isActive === true;
+    }
+
+    return { user: session.user, adminAccess };
+  }
+
+  async revokeAllSessions(userId: string): Promise<void> {
+    await this.sessionRepository.delete({ userId });
   }
 
   async revokeSessionToken(token: string): Promise<void> {
@@ -169,16 +200,28 @@ export class AuthService {
 
   async createSession(
     userId: string,
+    { admin = false }: { admin?: boolean } = {},
   ): Promise<{ token: string; expiresAt: Date }> {
     const token = randomBytes(32).toString('hex');
-    const ttlDays = Number(this.configService.get('SESSION_TTL_DAYS', '30'));
-    const expiresAt = new Date(Date.now() + ttlDays * 24 * 60 * 60 * 1000);
+    // Admin sessions are short-lived: they can change prices and products.
+    const ttlMs = admin
+      ? Number(this.configService.get('ADMIN_SESSION_TTL_HOURS', '12')) *
+        60 *
+        60 *
+        1000
+      : Number(this.configService.get('SESSION_TTL_DAYS', '30')) *
+        24 *
+        60 *
+        60 *
+        1000;
+    const expiresAt = new Date(Date.now() + ttlMs);
 
     await this.sessionRepository.save(
       this.sessionRepository.create({
         userId,
         tokenHash: this.hashToken(token),
         expiresAt,
+        isAdminSession: admin,
       }),
     );
 

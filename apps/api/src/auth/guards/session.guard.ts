@@ -11,7 +11,11 @@ import { AuthService } from '../auth.service';
 import { User } from '../../users/entities/user.entity';
 import { getSessionCookieName } from '../session-cookie.util';
 
-export type RequestWithUser = Request & { user?: User };
+export type RequestWithUser = Request & {
+  user?: User;
+  // Set by SessionGuard; see AuthService.validateSession.
+  adminAccess?: boolean;
+};
 
 @Injectable()
 export class SessionGuard implements CanActivate {
@@ -29,12 +33,13 @@ export class SessionGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
-    const user = await this.authService.validateSessionToken(token);
-    if (!user) {
+    const session = await this.authService.validateSession(token);
+    if (!session) {
       throw new UnauthorizedException();
     }
 
-    request.user = user;
+    request.user = session.user;
+    request.adminAccess = session.adminAccess;
     return true;
   }
 }

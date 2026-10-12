@@ -28,6 +28,12 @@ export class Session {
   @Column({ type: 'timestamptz' })
   expiresAt: Date;
 
+  // Created by the admin login (password + OTP) or activation flow. Only
+  // these sessions may use admin routes -- a customer OTP login on an
+  // admin's phone must not skip the password step.
+  @Column({ default: false })
+  isAdminSession: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 }

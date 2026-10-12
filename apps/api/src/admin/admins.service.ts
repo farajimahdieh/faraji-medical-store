@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { User, UserRole } from '../users/entities/user.entity';
 import { AdminProfile } from '../auth/entities/admin-profile.entity';
 import { UsersService } from '../users/users.service';
+import { AuthService } from '../auth/auth.service';
 import { normalizeIranPhone } from '../common/phone.util';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { PublicAdmin, toPublicAdmin } from './admin.public';
@@ -23,6 +24,7 @@ export class AdminsService {
     private readonly adminProfileRepo: Repository<AdminProfile>,
     private readonly usersService: UsersService,
     private readonly auditLog: AuditLogService,
+    private readonly authService: AuthService,
   ) {}
 
   async create(
@@ -93,6 +95,8 @@ export class AdminsService {
     const { user, profile } = await this.findByUserId(userId);
     profile.isActive = isActive;
     await this.adminProfileRepo.save(profile);
+    // Disabling must take effect now, not when the admin's session expires.
+    if (!isActive) await this.authService.revokeAllSessions(userId);
     await this.auditLog.record(
       actorId,
       isActive ? 'admin.enable' : 'admin.disable',
