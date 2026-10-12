@@ -31,8 +31,10 @@ export interface ApplyResult {
 // ImageService as admin uploads, so they land in whichever storage
 // STORAGE_DRIVER selects (Arvan in production).
 //
-// A product is never published from here: an incomplete one moves to
-// NEEDS_REVIEW and waits for an admin to approve it.
+// By default nothing is published from here: an incomplete product moves to
+// NEEDS_REVIEW and waits for an admin to approve it. With `publish` (the
+// owner's explicit --publish), complete products go live directly, except
+// files marked `"hold": true`.
 @Injectable()
 export class ContentApplyService {
   constructor(
@@ -42,7 +44,11 @@ export class ContentApplyService {
     private readonly configService: ConfigService,
   ) {}
 
-  async apply(content: ProductContent, repoRoot: string): Promise<ApplyResult> {
+  async apply(
+    content: ProductContent,
+    repoRoot: string,
+    { publish = false }: { publish?: boolean } = {},
+  ): Promise<ApplyResult> {
     const result: ApplyResult = {
       slug: content.slug,
       messages: [],
@@ -68,7 +74,7 @@ export class ContentApplyService {
       await this.applyImages(product, content, repoRoot, result);
     }
 
-    await this.promote(product, result);
+    await this.promote(product, result, publish && !content.hold);
     return result;
   }
 
@@ -217,22 +223,38 @@ export class ContentApplyService {
     } as Express.Multer.File;
   }
 
-  private async promote(product: Product, result: ApplyResult): Promise<void> {
-    if (
-      product.status !== ProductStatus.INCOMPLETE &&
-      product.status !== ProductStatus.DRAFT
-    ) {
-      return;
-    }
+  private async promote(
+    product: Product,
+    result: ApplyResult,
+    publish: boolean,
+  ): Promise<void> {
+    // Archived/hidden products were taken down on purpose; leave them.
+    const promotable = publish
+      ? [
+          ProductStatus.DRAFT,
+          ProductStatus.INCOMPLETE,
+          ProductStatus.NEEDS_REVIEW,
+        ]
+      : [ProductStatus.DRAFT, ProductStatus.INCOMPLETE];
+    if (!promotable.includes(product.status)) return;
+
     const hasImage = await this.dataSource
       .getRepository(ProductImage)
       .existsBy({ productId: product.id, isPrimary: true });
-    if (!hasImage || !product.description) return;
+    if (!hasImage || !product.description) {
+      if (publish)
+        result.messages.push('not published: needs an image and a description');
+      return;
+    }
 
-    await this.dataSource
-      .getRepository(Product)
-      .update(product.id, { status: ProductStatus.NEEDS_REVIEW });
-    result.messages.push('ready for review in the admin panel');
+    const status = publish ? ProductStatus.ACTIVE : ProductStatus.NEEDS_REVIEW;
+    await this.dataSource.getRepository(Product).update(product.id, {
+      status,
+      rejectionReason: null,
+    });
+    result.messages.push(
+      publish ? 'published' : 'ready for review in the admin panel',
+    );
   }
 
   private async findOrCreateBrand(

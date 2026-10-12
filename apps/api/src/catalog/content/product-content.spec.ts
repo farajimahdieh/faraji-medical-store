@@ -82,6 +82,13 @@ describe('checkProductContent', () => {
     expect(result.warnings).toHaveLength(3);
   });
 
+  it('accepts a boolean hold flag only', () => {
+    expect(checkProductContent({ ...valid(), hold: true }).errors).toEqual([]);
+    expect(checkProductContent({ ...valid(), hold: 'yes' }).errors).toEqual([
+      '"hold" must be true or false',
+    ]);
+  });
+
   it('rejects non-objects', () => {
     expect(checkProductContent([]).errors).toEqual([
       'file is not a JSON object',

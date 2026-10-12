@@ -3,6 +3,8 @@
 //   pnpm content:apply -- --dry-run                       # validate every file
 //   pnpm content:apply -- --path=../../content/products/dressing-wound-care
 //   pnpm content:apply -- --only=<product-slug>
+//   pnpm content:apply -- --path=... --publish   # owner-approved: go live,
+//                                               # except files with "hold": true
 //
 // --dry-run never connects to the database or storage.
 import 'reflect-metadata';
@@ -24,6 +26,7 @@ function parseArgs(argv: string[]) {
     path: value('path') ? resolve(value('path')!) : DEFAULT_PATH,
     only: value('only'),
     dryRun: argv.includes('--dry-run'),
+    publish: argv.includes('--publish'),
   };
 }
 
@@ -36,7 +39,7 @@ function listJson(path: string): string[] {
 }
 
 async function main() {
-  const { path, only, dryRun } = parseArgs(process.argv.slice(2));
+  const { path, only, dryRun, publish } = parseArgs(process.argv.slice(2));
   const files = listJson(path);
   if (files.length === 0) {
     console.error(`No content files found under ${path}`);
@@ -90,7 +93,7 @@ async function main() {
     const service = app.get(ContentApplyService);
     for (const content of valid) {
       try {
-        const result = await service.apply(content, REPO_ROOT);
+        const result = await service.apply(content, REPO_ROOT, { publish });
         console.log(`✓ ${result.slug}: ${result.imagesAdded} image(s) added`);
         result.messages.forEach((m) => console.log(`    • ${m}`));
       } catch (error) {

@@ -117,24 +117,38 @@ database rows. Read `content/README.md` for the file format and pipeline.
 - Every product should get images -- search in both Persian and English
   (brand + model + size, e.g. "Hydrocoll Hartmann", "پانسمان هیدروکل
   هارتمن").
-- Sources, in order of preference: our own photos in `data-private/photos/`
-  (`"file"`), the manufacturer's site, the official distributor/importer,
-  the brand's catalogs and social pages, then other websites -- but only
-  the clean official product photo (packshot) of the exact same product.
-- Never use: photos carrying another shop's watermark, logo or price tag,
-  photos of a different model/size, collages, stock photos, AI-generated
-  images. If a site blocks downloading, save the image into
-  `data-private/photos/` and reference it with `"file"`.
+- Every product gets 1-4 sharp images (>= 800px). Owner's decision: images
+  may come from **any website**, including other shops -- these are the
+  same branded products every store sells. Prefer, in order: our own
+  photos, the manufacturer, the official distributor, then any other site.
+- The image must show the exact product (same brand, model, size where
+  visible). Never: a different model, a collage of unrelated items, or an
+  AI-generated/redrawn product.
+- Another shop's watermark, logo, price tag or frame may be removed (crop
+  it out, or clean the background area) -- but never alter the product or
+  its own branding/packaging. Save the cleaned file in
+  `data-private/photos/<holoo-code>-<n>.jpg` and reference it with
+  `"file"`; put the original page in `source`.
+- If a site blocks downloading, save the image into `data-private/photos/`
+  the same way.
 - Use the largest available version (>= 800px). Give each image a `source`
   page and a descriptive Persian `alt` ("پانسمان هیدروکلوئید هارتمن سایز
   10×10 در بسته‌بندی").
+
+## Publishing
+
+The owner may ask to put a whole category live. Then run
+`pnpm content:apply -- --path=../../content/products/<slug> --publish`:
+complete products (description + image) go live directly. Files with
+`"hold": true` are never published by this -- set it on every product
+that may be a medicine (see below).
 
 ## Products that need a human decision
 
 Flag these to the user instead of publishing as normal:
 - Ointments/gels/powders that may be registered as medicines (e.g. پماد
   کامفیل، پماد بیلوا، پماد زیتن): write their content and images as usual,
-  but list them in the report as "do not approve yet" -- online sale of
-  medicines has separate rules in Iran, so the owner decides when to
-  publish them.
+  add `"hold": true` to the file, and list them in the report as "do not
+  approve yet" -- online sale of medicines has separate rules in Iran, so
+  the owner decides when to publish them.
 - Anything you could not identify with confidence.

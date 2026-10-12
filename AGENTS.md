@@ -36,8 +36,10 @@ lockfile does not churn.
 - Never invent business facts (address, phone, licenses) or product facts
   (specs, certifications, clinical claims).
 - Schema changes go through a TypeORM migration; never `synchronize: true`.
-- Nothing publishes a product automatically -- new/edited products wait for
-  admin approval (`needs_review`).
+- Nothing publishes a product unless the owner asks: new/edited products
+  wait for admin approval (`needs_review`). When the owner asks to put a
+  category live, `content:apply --publish` publishes complete products,
+  never files marked `"hold": true` (possible medicines).
 
 ## Review checklist -- code
 
@@ -68,11 +70,14 @@ do not remove them as undocumented.
 4. SEO: `metaTitle` <= 60 chars with the main search phrase first,
    `metaDescription` 120-160 chars, description 70-150 words in natural
    Persian (no keyword stuffing), 3-5 useful FAQs.
-5. Images: 1-4 clean photos of the exact product (preferably from the
-   manufacturer or official distributor; never with another shop's
-   watermark/logo/price, never AI-generated), first image shows the
-   product alone, descriptive Persian `alt`. Generic unbranded items may
-   use a clean photo of the same item type with no foreign branding.
+5. Images: 1-4 sharp photos of the exact product, first one showing the
+   product alone, descriptive Persian `alt`. Any website is an allowed
+   source (owner's decision); another shop's watermark/logo/price must be
+   removed without altering the product itself. Never a different model
+   or an AI-generated product. Generic unbranded items may use a clean
+   photo of the same item type.
+7. Possible medicines (ointments, medicated gels/powders) carry
+   `"hold": true`.
 6. No prices, stock levels or delivery promises in the text, and no box or
    pack counts -- the store sells single pieces (unless the Holoo item name
    itself is a pack).

@@ -27,6 +27,9 @@ export interface ProductContent {
   images: ProductContentImage[];
   // Where the facts came from (manufacturer page, catalog PDF, box label).
   sources: string[];
+  // Never publish from content:apply -- e.g. ointments that may need a
+  // medicine licence before they can be sold online. The owner decides.
+  hold?: boolean;
 }
 
 export interface ContentCheck {
@@ -166,6 +169,10 @@ export function checkProductContent(raw: unknown): ContentCheck {
         warnings.push(`${label} has no "source" page`);
       }
     });
+  }
+
+  if (data.hold !== undefined && typeof data.hold !== 'boolean') {
+    errors.push('"hold" must be true or false');
   }
 
   const sources = data.sources;

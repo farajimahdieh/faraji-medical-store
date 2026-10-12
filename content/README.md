@@ -24,6 +24,8 @@ content/
 5. `pnpm content:apply -- --path=../../content/products/<slug>` writes the
    text and uploads images (Arvan when `STORAGE_DRIVER=arvan`). Products
    move to "needs review"; an admin approves them in `/admin/products/pending`.
+   When the owner asks to put a category live, add `--publish`: complete
+   products go live directly, except files with `"hold": true`.
 
 All `pnpm` commands run from `apps/api`.
 
