@@ -57,9 +57,16 @@
       "answer": "برای اسکارهای خطی و کشیده، مثل جای برش جراحی یا سزارین."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/cimeosil-long-strip.jpg",
+      "alt": "ورق ژل سیلیکونی نواری سیمئوسیل برای اسکار",
+      "source": "https://www.implantech.com/product/gel-sheeting-long-strip/"
+    }
+  ],
   "sources": [
     "https://accessgudid.nlm.nih.gov/devices/M724GS18X025T1",
-    "https://www.cimeosil.com/"
+    "https://www.cimeosil.com/",
+    "https://www.implantech.com/product/gel-sheeting-long-strip/"
   ]
 }

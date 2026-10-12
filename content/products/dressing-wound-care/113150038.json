@@ -57,7 +57,13 @@
       "answer": "پانسمان باید کل زخم را بپوشاند؛ این سایز برای زخم‌های بزرگ یا کشیده مناسب است."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "url": "https://treetta.com/wp-content/uploads/%D9%BE%D8%A7%D9%86%D8%B3%D9%85%D8%A7%D9%86-%D8%B7%D8%A8%D8%A7%D8%AF%D8%B1%D9%85-%D9%BE%D9%84%D8%A7%D8%B3-10-%D8%AF%D8%B1-20-%D8%B3%D8%A7%D9%86%D8%AA%DB%8C-%D9%85%D8%AA%D8%B1.png",
+      "alt": "بسته‌ی پانسمان طبادرم پلاس نقره تریتا سایز 10×20",
+      "source": "https://treetta.com/product/tebaderm-plus-ag/"
+    }
+  ],
   "sources": [
     "https://treetta.com/product/tebaderm-plus-ag/"
   ]
