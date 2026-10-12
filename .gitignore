@@ -29,3 +29,10 @@ apps/api/.import-cache/
 # OS
 .DS_Store
 Thumbs.db
+
+# Private business data (Holoo exports with purchase prices) -- never commit
+data-private/
+
+# Playwright output
+test-results/
+playwright-report/
