@@ -40,8 +40,15 @@
       "answer": "نه. اول گاز استریل یا پانسمان بگذارید و باند را روی آن ببندید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/generic-cohesive-bandage.jpg",
+      "alt": "باند کوبن خودچسب (تصویر نمونه‌ی کالا)",
+      "source": "https://commons.wikimedia.org/wiki/File:Self-adhering-bandage.png"
+    }
+  ],
   "sources": [
-    "https://en.wikipedia.org/wiki/Bandage"
+    "https://en.wikipedia.org/wiki/Bandage",
+    "https://commons.wikimedia.org/wiki/File:Self-adhering-bandage.png"
   ]
 }
