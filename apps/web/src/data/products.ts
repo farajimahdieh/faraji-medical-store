@@ -15,6 +15,16 @@ export const featuredProducts: Product[] = [
   { slug: "micropipette", name: "میکروپیپت آزمایشگاهی", brand: "برند نمونه", price: 4_100_000, categorySlug: "lab-equipment" },
 ];
 
+// Customer-facing price: "۱۲۵ هزار تومان" instead of "۱۲۵,۰۰۰ تومان".
+// Only switches to the "هزار" form when it stays exact (at most one decimal,
+// e.g. "۶٫۵ هزار تومان") -- a money amount is never rounded for display, so
+// odd totals (e.g. after a percentage coupon) keep the full figure.
 export function formatToman(price: number): string {
+  if (Math.abs(price) >= 1000 && price % 100 === 0) {
+    const thousands = (price / 1000).toLocaleString("fa-IR", {
+      maximumFractionDigits: 1,
+    });
+    return `${thousands} هزار تومان`;
+  }
   return `${price.toLocaleString("fa-IR")} تومان`;
 }
