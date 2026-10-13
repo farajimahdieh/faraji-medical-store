@@ -63,5 +63,5 @@
   "sources": [
     "owner: content/owner-facts.md"
   ],
-  "hold": true
+  "hold": false
 }
