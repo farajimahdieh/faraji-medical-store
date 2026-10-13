@@ -57,7 +57,18 @@
       "answer": "M6 کاف Intelli Wrap، میانگین سه‌باره و حافظه‌ی بیشتر (۱۰۰ نتیجه برای هر نفر) دارد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060026-1.jpg",
+      "alt": "فشارسنج بازویی امرن M6 Comfort با کاف Intelli Wrap",
+      "source": "https://www.digikala.com/product/dkp-3891999/"
+    },
+    {
+      "file": "data-private/photos/131060026-2.jpg",
+      "alt": "فشارسنج امرن M6 Comfort از نمای جلو",
+      "source": "https://www.digikala.com/product/dkp-3891999/"
+    }
+  ],
   "sources": [
     "https://www.omron-healthcare.com/products/m6-comfort-afib",
     "https://giftshop.bhf.org.uk/omron-m6-comfort-blood-pressure-monitor-with-22-42cm-cuff",

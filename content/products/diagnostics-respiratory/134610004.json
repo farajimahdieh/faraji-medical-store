@@ -57,7 +57,18 @@
       "answer": "دو نفر به‌همراه حالت مهمان."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/134610004-1.jpg",
+      "alt": "ترازوی هوشمند امرن HN-300T2 Intelli IT سفید همراه اپلیکیشن",
+      "source": "https://www.leoussis.gr/product/omron-zygos-psif-yalinos-hn300t2/"
+    },
+    {
+      "file": "data-private/photos/134610004-2.jpg",
+      "alt": "ترازوی امرن HN-300T2 Intelli IT مشکی",
+      "source": "https://www.medi-shop.gr/en/digital-scales/omron-intelli-it-hn300t2-digital-scale"
+    }
+  ],
   "sources": [
     "https://www.omron-healthcare.com/products/hn300t2-intelli-it-grey",
     "https://www.omronhealthcare-ap.com/ap/product/1632-hn-300t2",

@@ -49,7 +49,13 @@
       "answer": "بله، وزن را روی صفحه نشان می‌دهد؛ اپلیکیشن برای دیدن جزئیات و روند است."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/134610003-1.jpg",
+      "alt": "ترازوی هوشمند بی ول WK-168 با الکترودهای آنالیز بدن",
+      "source": "https://www.digikala.com/product/dkp-5715076/"
+    }
+  ],
   "sources": [
     "https://www.zoomit.ir/product/bwell-wk-168bt/",
     "https://podorozhnyk.ua/ru/brands/bi-vell-sviss-ag-shveycariya/"

@@ -49,7 +49,18 @@
       "answer": "بله؛ برای نوع باتری از ما بپرسید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/134610002-1.jpg",
+      "alt": "ترازوی دیجیتال شیشه‌ای بی ول WK-165 مشکی با طرح گل",
+      "source": "https://www.digikala.com/product/dkp-3028546/"
+    },
+    {
+      "file": "data-private/photos/134610002-2.jpg",
+      "alt": "ترازوی دیجیتال شیشه‌ای بی ول WK-165 سفید",
+      "source": "https://www.digikala.com/product/dkp-3028473/"
+    }
+  ],
   "sources": [
     "https://www.zoomit.ir/product/bwell-wk-165/",
     "https://podorozhnyk.ua/ru/brands/bi-vell-sviss-ag-shveycariya/"

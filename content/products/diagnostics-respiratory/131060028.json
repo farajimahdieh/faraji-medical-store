@@ -62,7 +62,18 @@
       "answer": "کاف آن برای دور بازوی ۲۲ تا ۴۲ سانتی‌متر است که بیشتر بزرگسالان را پوشش می‌دهد. دور بازو را با متر بگیرید و مقایسه کنید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060028-1.jpg",
+      "alt": "فشارسنج بازویی امرن M2+ همراه کاف",
+      "source": "https://www.digikala.com/product/dkp-17671679/"
+    },
+    {
+      "file": "data-private/photos/131060028-2.jpg",
+      "alt": "کاف بازویی فشارسنج امرن M2+",
+      "source": "https://www.digikala.com/product/dkp-17671679/"
+    }
+  ],
   "sources": [
     "https://numarknet.com/omron-m2-upper-arm-blood-pressure-monitor-hem-7146-e",
     "https://www.wms.co.uk/Equipment/Blood-Pressure-Monitors/Digital-Blood-Pressure-Monitors/OMRON-M2%2B-Upper-Arm-Blood-Pressure-Monitor/p/W268579",

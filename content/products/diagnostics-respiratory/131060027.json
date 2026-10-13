@@ -53,7 +53,13 @@
       "answer": "با باتری کار می‌کند. آداپتور امرن را جداگانه در فروشگاه داریم."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060027-1.jpg",
+      "alt": "فشارسنج بازویی امرن M3",
+      "source": "https://www.digikala.com/product/dkp-3892000/"
+    }
+  ],
   "sources": [
     "https://chemistdirect.co.uk/omron-upper-arm-blood-pressure-monitor-omr-m3/prd-17u2",
     "https://www.medi-shop.gr/en/blood-pressure-monitors/omron-m3-hem-7154",

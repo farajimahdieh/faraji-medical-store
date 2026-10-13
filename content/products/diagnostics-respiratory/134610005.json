@@ -30,7 +30,13 @@
       "answer": "از ما بپرسید تا روی جعبه برایتان بخوانیم."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/134610005-1.jpg",
+      "alt": "نمونه‌ی ترازوی دیجیتال آشپزخانه",
+      "source": "https://www.digikala.com/product/dkp-20089242/"
+    }
+  ],
   "sources": [
     "holoo: 134610005 (ترازوی دیجیتال آشپزخانه الکترونیک)"
   ]

@@ -53,7 +53,13 @@
       "answer": "ترازو را روی زمین صاف بگذارید و همیشه در یک جا و یک ساعت خودتان را وزن کنید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/134610001-1.jpg",
+      "alt": "ترازوی دیجیتال شیشه‌ای بی ول WK-166",
+      "source": "https://www.digikala.com/product/dkp-3028466/"
+    }
+  ],
   "sources": [
     "https://www.multitronic.fi/en/products/4411237/b-well-pro-166-bathroom-scale--180-kg--white",
     "https://www.proshop.nl/Personenweegschalen/BWELL-Badkamer-weegschaal-Bathroom-Scale-PRO-166/3339678",
