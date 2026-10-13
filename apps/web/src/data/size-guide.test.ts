@@ -8,6 +8,11 @@ describe("findSizeGuideSection", () => {
     expect(findSizeGuideSection("گرمکن کلیه دولایه طب و صنعت")?.id).toBe("waist");
   });
 
+  it("shows no table for shapewear, which Teb-o-Sanat has no table for", () => {
+    expect(findSizeGuideSection("گن شکم بند آرتان (Artan)")).toBeNull();
+    expect(findSizeGuideSection("گن شلوارکی مردانه پاک سمن")).toBeNull();
+  });
+
   it("uses the model's own table where Teb-o-Sanat has one", () => {
     expect(findSizeGuideSection("شکم بند بارداری طب و صنعت")?.id).toBe("maternity-belt");
     expect(findSizeGuideSection("گردنبند طبی سخت چانه‌دار پاک سمن")?.id).toBe("neck-hard");

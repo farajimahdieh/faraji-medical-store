@@ -672,8 +672,13 @@ function normalize(text: string): string {
     .trim();
 }
 
+// Shapewear ("گن", e.g. "گن شکم بند") has no Teb-o-Sanat table; without this
+// its name would pick up the belt table through "شکم بند".
+const SHAPEWEAR = /(^| )گن( |$)/;
+
 export function findSizeGuideSection(productName: string): SizeGuideSection | null {
   const name = normalize(productName);
+  if (SHAPEWEAR.test(name)) return null;
   return (
     sizeGuideSections.find((section) =>
       section.keywords.some((keyword) => name.includes(normalize(keyword))),
