@@ -58,7 +58,18 @@
       "answer": "کاسه، ماسک و دهانی را با آب گرم بشویید و بگذارید خشک شوند. فیلتر هوا را وقتی رنگش تغییر کرد عوض کنید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/127120001-1.jpg",
+      "alt": "نبولایزر کمپرسوری بی ول PRO-110 با ماسک",
+      "source": "https://www.zipper.com.bd/b-well-pro-110-compressor-nebulizer-adult-&-child"
+    },
+    {
+      "file": "data-private/photos/127120001-2.jpg",
+      "alt": "نبولایزر بی ول PRO-110 کنار جعبه",
+      "source": "https://www.selfmed.com.pl/index.php/product/szwajcarski-nebulizator-b-well-pro-110/"
+    }
+  ],
   "sources": [
     "https://multitronic.fi/en/products/2882052",
     "https://www.homecaremedicalsupplies.ie/products/pro-110-nebuliser.html",

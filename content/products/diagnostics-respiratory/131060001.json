@@ -54,7 +54,18 @@
       "answer": "نشان می‌دهد عدد اندازه‌گیری‌شده در کدام محدوده‌ی فشار خون قرار می‌گیرد تا نتیجه را راحت‌تر بفهمید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060001-1.jpg",
+      "alt": "فشارسنج بازویی بیورر BM 28 با کاف",
+      "source": "https://www.digikala.com/product/dkp-1589152/"
+    },
+    {
+      "file": "data-private/photos/131060001-2.jpg",
+      "alt": "فشارسنج بیورر BM 28 از نمای جلو",
+      "source": "https://www.beurer.co.za/products/bm-28-upper-armbpmwith-resting-indicator"
+    }
+  ],
   "sources": [
     "https://harveynorman.co.nz/connected-health-fitness/health-wellbeing/health-monitors/beurer-bm-28-upper-arm-blood-pressure-monitor.html",
     "https://galaxus.fr/en/s6/product/beurer-upper-arm-blood-pressure-monitor-bm-28-with-universal-cuff-blood-pressure-monitor-upper-arm-b-20266372",

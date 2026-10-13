@@ -45,7 +45,18 @@
       "answer": "اگر وقتی کاف خالی است عقربه روی صفر نیست یا دستگاه افتاده، آن را برای بررسی به ما بیاورید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060004-1.jpg",
+      "alt": "فشارسنج عقربه‌ای بی ول WM-62S همراه گوشی پزشکی",
+      "source": "https://www.digikala.com/product/dkp-357321/"
+    },
+    {
+      "file": "data-private/photos/131060004-2.jpg",
+      "alt": "فشارسنج عقربه‌ای بی ول WM-62S با کاف و پوآر",
+      "source": "https://www.digikala.com/product/dkp-3047915/"
+    }
+  ],
   "sources": [
     "https://all-pribors.ru/docs/62730-15.pdf",
     "https://www.technolife.com/product-110021/فشارسنج-عقربه-ای-بی-ول-مدل-wm-62s",

@@ -49,7 +49,18 @@
       "answer": "نه؛ علامت‌ها برای هشدار است. اگر تکرار شدند، نتیجه‌ها را به پزشک نشان دهید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060002-1.jpg",
+      "alt": "فشارسنج بازویی رزمکس X9 PARR PRO با کاف",
+      "source": "https://www.digikala.com/product/dkp-163382/"
+    },
+    {
+      "file": "data-private/photos/131060002-2.jpg",
+      "alt": "فشارسنج رزمکس X9 از نمای جلو",
+      "source": "https://www.digikala.com/product/dkp-163382/"
+    }
+  ],
   "sources": [
     "https://medaval.ie/docs/specs/Rossmax-X9-Specs.pdf",
     "https://checkout.medshop.com.au/products/rossmax-blood-pressure-automatic-upper-arm-bluetooth-monitor-parr",

@@ -35,7 +35,18 @@
       "answer": "برای مقایسه‌ی دو مدل در فروشگاه از ما بپرسید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/128150002-1.jpg",
+      "alt": "نمونه‌ی افتالموسکوپ ساخت پاکستان با دسته‌ی فلزی",
+      "source": "https://www.digikala.com/product/dkp-7657293/"
+    },
+    {
+      "file": "data-private/photos/128150002-2.jpg",
+      "alt": "نمونه‌ی افتالموسکوپ پاکستانی در جعبه",
+      "source": "https://www.digikala.com/product/dkp-7657293/"
+    }
+  ],
   "sources": [
     "holoo: 128150002 (آفتلامسکوپ پاکستانی)",
     "https://en.wikipedia.org/wiki/Ophthalmoscopy"

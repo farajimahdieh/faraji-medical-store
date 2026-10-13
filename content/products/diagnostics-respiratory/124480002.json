@@ -35,7 +35,13 @@
       "answer": "مسیر لوله را بررسی کنید که زیر چیزی تا نشده باشد و دو سر آن محکم وصل باشد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/124480002-1.jpg",
+      "alt": "لوله‌ی رابط ماسک اکسیژن سوپا",
+      "source": "https://www.digikala.com/product/dkp-10039002/"
+    }
+  ],
   "sources": [
     "https://aradbranding.com/fa/adult-oxygen-mask-purchase/",
     "https://old-madanihosp.tbzmed.ac.ir/uploads/user/702/مطالب آموزشی بیماران/اکسیژن درمانی.pdf"

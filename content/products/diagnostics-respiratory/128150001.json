@@ -35,7 +35,13 @@
       "answer": "نه؛ برای گوش اتوسکوپ لازم است که آن را هم داریم."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/128150001-1.jpg",
+      "alt": "نمونه‌ی افتالموسکوپ در کیف",
+      "source": "https://www.hospitalstore.com/satmed-direct-ophthalmoscope-with-filter/"
+    }
+  ],
   "sources": [
     "holoo: 128150001 (آفتلامسکوپ استارمد)",
     "https://en.wikipedia.org/wiki/Ophthalmoscopy"

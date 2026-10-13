@@ -50,7 +50,18 @@
       "answer": "با باتری کار می‌کند؛ آداپتور امرن را جداگانه در فروشگاه داریم."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060003-1.jpg",
+      "alt": "فشارسنج بازویی امرن M1 Basic",
+      "source": "https://www.digikala.com/product/dkp-10317682/"
+    },
+    {
+      "file": "data-private/photos/131060003-2.jpg",
+      "alt": "فشارسنج امرن M1 Basic همراه کاف",
+      "source": "https://www.digikala.com/product/dkp-10317682/"
+    }
+  ],
   "sources": [
     "owner: content/owner-facts.md",
     "https://www.digikala.com/mag/video/omron-m1-basic-pressure-monitor-unboxing-review/",
