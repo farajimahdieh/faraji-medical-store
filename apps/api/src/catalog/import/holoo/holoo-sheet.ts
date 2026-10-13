@@ -62,32 +62,65 @@ export function normalizePersian(input: string): string {
 // deliberately NOT treated as a size: those are often different products.
 const DIMENSION_RE = /(\d+(?:\.\d+)?)\s*[*×xX]\s*(\d+(?:\.\d+)?)/;
 const WIDTH_RE = /(\d+(?:\.\d+)?)\s*سانت(?:ی\s*متر)?/;
+// "سایز 90", "سایز80" (bras, splints, stockings).
+const NUMBERED_SIZE_RE = /سایز\s*(\d+)/;
+// Garment sizes; often glued to the neighbouring Persian word ("قوس دارS",
+// "Lطب و صنعت"), so only Latin letters/digits count as a word boundary.
+// Multi-letter forms match in any case ("xxxxl", "2xl"); single letters only
+// in upper case, so "5m" (metres) is not read as size M.
+const MULTI_LETTER_SIZE_RE =
+  /(?<![A-Za-z0-9])(x{1,4}l|x{1,3}s|[2-5]xl)(?![A-Za-z0-9])/i;
+const SINGLE_LETTER_SIZE_RE = /(?<![A-Za-z0-9])([SML])(?![A-Za-z0-9])/;
+// Compression-stocking size/length codes (AD = calf length, size A, ...).
+const STOCKING_CODE_RE = /(?<![A-Za-z])(AB|AD|AF|AG|BD|BF|BG|DF)(?![A-Za-z])/;
+const ONE_SIZE = 'تک سایز';
+
+function normalizeLetterSize(raw: string): string {
+  const upper = raw.toUpperCase();
+  const numbered = /^([2-5])XL$/.exec(upper);
+  return numbered ? `${'X'.repeat(Number(numbered[1]))}L` : upper;
+}
 
 export function splitSize(rawName: string): {
   baseName: string;
   size: string | null;
 } {
   const name = normalizePersian(rawName);
+  const cut = (match: RegExpExecArray, size: string) => ({
+    baseName: tidy(name.replace(match[0], ' ')),
+    size,
+  });
+
   const dimension = DIMENSION_RE.exec(name);
-  if (dimension) {
-    return {
-      baseName: tidy(name.replace(dimension[0], ' ')),
-      size: `${dimension[1]}×${dimension[2]}`,
-    };
-  }
+  if (dimension) return cut(dimension, `${dimension[1]}×${dimension[2]}`);
   const width = WIDTH_RE.exec(name);
-  if (width) {
-    return {
-      baseName: tidy(name.replace(width[0], ' ')),
-      size: `${width[1]} سانت`,
-    };
+  if (width) return cut(width, `${width[1]} سانت`);
+  const numbered = NUMBERED_SIZE_RE.exec(name);
+  if (numbered) return cut(numbered, numbered[1]);
+  const multi = MULTI_LETTER_SIZE_RE.exec(name);
+  if (multi) return cut(multi, normalizeLetterSize(multi[1]));
+  const single = SINGLE_LETTER_SIZE_RE.exec(name);
+  if (single) return cut(single, single[1]);
+  if (name.includes('جوراب')) {
+    const stocking = STOCKING_CODE_RE.exec(name);
+    if (stocking) return cut(stocking, stocking[1]);
+  }
+  if (name.includes(ONE_SIZE)) {
+    return { baseName: tidy(name.replace(ONE_SIZE, ' ')), size: ONE_SIZE };
   }
   return { baseName: name, size: null };
+}
+
+// Holoo spells the same product with and without spaces ("زانو بند" /
+// "زانوبند", "لیپو ساکشن" / "لیپوساکشن"), so grouping ignores spaces.
+export function groupingKey(baseName: string): string {
+  return baseName.replace(/\s+/g, '');
 }
 
 function tidy(name: string): string {
   return name
     .replace(/\(\s*\)/g, ' ')
+    .replace(/(^|\s)سایز(?=\s|$)/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -224,7 +257,7 @@ export function parseHolooSheet(rows: SheetCell[][]): ParsedSheet {
 export function groupBySize(items: HolooItem[]): HolooGroup[] {
   const buckets = new Map<string, HolooItem[]>();
   for (const item of items) {
-    const key = item.baseName;
+    const key = groupingKey(item.baseName);
     const bucket = buckets.get(key) ?? [];
     bucket.push(item);
     buckets.set(key, bucket);
@@ -237,7 +270,7 @@ export function groupBySize(items: HolooItem[]): HolooGroup[] {
     const hasUnsized = bucket.some((item) => item.size === null);
 
     if (bucket.length > 1 && sizesUnique && !hasUnsized) {
-      groups.push({ key, name: key, items: bucket });
+      groups.push({ key, name: bucket[0].baseName, items: bucket });
       continue;
     }
     for (const item of bucket) {
