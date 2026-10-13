@@ -41,8 +41,15 @@
       "answer": "بله، برای انواع استومی قابل استفاده است."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/128470004-1.jpg",
+      "alt": "نمونه‌ی کمربند استومی کلوپلاست (مدل 4210)",
+      "source": "https://www.digikala.com/product/dkp-15118886/"
+    }
+  ],
   "sources": [
-    "https://emalls.ir/مشخصات_کمربند-استومی-کلوپلاست~id~1049512"
+    "https://emalls.ir/مشخصات_کمربند-استومی-کلوپلاست~id~1049512",
+    "https://www.digikala.com/product/dkp-15118886/"
   ]
 }
