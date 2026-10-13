@@ -15,10 +15,12 @@ database rows. Read `content/README.md` for the file format and pipeline.
    skeleton files for products without content. `_holooNames` shows the
    original Holoo line items; delete that key when you finish a file.
 2. Work in batches of 5 products. For each product:
-   1. Identify the exact product: brand, model/line, material, sizes. Holoo
+   1. Identify the product: brand, model/line, material, sizes. Holoo
       names are abbreviated and sometimes misspelled ("طباست" = طباسپت,
-      "آترومنag" = Atrauman Ag). If you cannot identify it with confidence,
-      leave the file incomplete and list it for the user -- never guess.
+      "آترومنag" = Atrauman Ag). If the exact model is unclear, still write
+      the page at brand + type level (see Image rules) -- never invent
+      model-specific specs, and list the product in the report so the
+      owner can send a pack photo later.
    2. Research: the manufacturer's own product page first, then the official
       Iranian distributor/importer, then the product's IFU/catalog PDF.
       Record every page you used in `sources`.
@@ -122,8 +124,17 @@ database rows. Read `content/README.md` for the file format and pipeline.
   same branded products every store sells. Prefer, in order: our own
   photos, the manufacturer, the official distributor, then any other site.
 - The image must show the exact product (same brand, model, size where
-  visible). Never: a different model, a collage of unrelated items, or an
-  AI-generated/redrawn product.
+  visible) when the model is known. Never: a collage of unrelated items,
+  or an AI-generated/redrawn product.
+- **Never leave a product without images just because the exact model is
+  uncertain** (owner's decision). When the brand and product type are
+  known (e.g. "پروتز سینه آمونا", "جوراب واریس واریمد", "واکر GTS"), use a
+  clean photo of that brand's closest product of the same type -- prefer
+  its basic/best-selling model. Write the text at the brand + type level:
+  what it is, what it is for, how to choose a size; leave out
+  model-specific specs. Mark the image honestly in `alt` ("نمونه‌ی پروتز
+  سینه آمونا"). Only when not even the brand is identifiable, use a clean
+  photo of the same item type (see generic items below).
 - Another shop's watermark, logo, price tag or frame may be removed (crop
   it out, or clean the background area) -- but never alter the product or
   its own branding/packaging. Save the cleaned file in
