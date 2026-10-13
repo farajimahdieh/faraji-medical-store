@@ -64,12 +64,12 @@
   ],
   "images": [
     {
-      "url": "https://eurofarm-spa.com/wp-content/uploads/2023/05/eurocell-hydro.jpg",
+      "file": "data-private/photos/113150014-1.jpg",
       "alt": "پانسمان یوروسل هیدرو یوروفارم",
       "source": "https://eurofarm-spa.com/prodotto/eurocell-hydro/"
     },
     {
-      "url": "https://eurofarm-spa.com/wp-content/uploads/2023/03/eurocell-hydro_10x10.jpg",
+      "file": "data-private/photos/113150014-2.jpg",
       "alt": "جعبه‌ی پانسمان یوروسل هیدرو یوروفارم سایز 10×10",
       "source": "https://eurofarm-spa.com/prodotto/eurocell-hydro/"
     }

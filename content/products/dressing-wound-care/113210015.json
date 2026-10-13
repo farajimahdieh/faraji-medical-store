@@ -43,12 +43,12 @@
   ],
   "images": [
     {
-      "file": "data-private/photos/comfeel-barrier-cream-60ml.jpg",
+      "file": "data-private/photos/113210015-1.jpg",
       "alt": "تیوب کرم محافظ کامفیل بریر کلوپلاست ۶۰ میلی‌لیتر",
       "source": "https://www.firstaiddistributions.com.au/products/comfeel-barrier-cream-60ml"
     },
     {
-      "file": "data-private/photos/comfeel-barrier-cream-60ml-2.jpg",
+      "file": "data-private/photos/113210015-2.jpg",
       "alt": "کرم کامفیل بریر کلوپلاست",
       "source": "https://www.firstaiddistributions.com.au/products/comfeel-barrier-cream-60ml"
     }
@@ -57,5 +57,6 @@
     "https://www.firstaiddistributions.com.au/products/comfeel-barrier-cream-60ml",
     "https://www.amhcommunity.com.au/products/coloplast-comfeel-barrier-cream-tube",
     "https://incidecoder.com/products/coloplast-comfeel-barrier-cream"
-  ]
+  ],
+  "hold": true
 }

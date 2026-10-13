@@ -63,12 +63,13 @@
   ],
   "images": [
     {
-      "url": "https://treetta.com/wp-content/uploads/2024/10/foam-tebaflex10-10cm.png",
+      "file": "data-private/photos/113230003-1.jpg",
       "alt": "پانسمان فوم آنتی‌باکتریال طبافلکس تریتا",
       "source": "https://treetta.com/product/tebaflex/"
     }
   ],
   "sources": [
-    "https://treetta.com/product/tebaflex/"
+    "https://treetta.com/product/tebaflex/",
+    "owner: content/owner-facts.md"
   ]
 }

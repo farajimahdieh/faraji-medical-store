@@ -24,6 +24,10 @@
     {
       "name": "کشور برند",
       "value": "ایران"
+    },
+    {
+      "name": "برند",
+      "value": "تریتا"
     }
   ],
   "faqs": [
@@ -40,9 +44,17 @@
       "answer": "گاز استریل و بعد چسب حصیری برای ثابت کردن."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/113150039-1.jpg",
+      "alt": "ریبون گاز تریتا برای پانسمان زخم",
+      "source": "https://rasha.market/shop?page=5"
+    }
+  ],
   "sources": [
     "https://treetta.com/products/",
-    "https://en.wikipedia.org/wiki/Gauze"
+    "https://en.wikipedia.org/wiki/Gauze",
+    "owner: content/owner-facts.md",
+    "https://rasha.market/shop?page=5"
   ]
 }

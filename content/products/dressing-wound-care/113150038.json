@@ -53,8 +53,15 @@
       "answer": "پانسمان باید کل زخم را بپوشاند؛ این سایز برای زخم‌های بزرگ یا کشیده مناسب است."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/113150038-1.jpg",
+      "alt": "بسته پانسمان ماتریکس کلاژن نقره طبادرم پلاس تریتا ۱۰×۲۰ سانتی‌متر",
+      "source": "https://treetta.org/product/tebaderm-plus-ag/"
+    }
+  ],
   "sources": [
-    "https://treetta.com/product/tebaderm-plus-ag/"
+    "https://treetta.com/product/tebaderm-plus-ag/",
+    "https://treetta.org/product/tebaderm-plus-ag/"
   ]
 }

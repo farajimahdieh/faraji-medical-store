@@ -19,10 +19,6 @@
       "value": "محلول شستشوی زخم"
     },
     {
-      "name": "حجم",
-      "value": "۳۵۰ میلی‌لیتر"
-    },
-    {
       "name": "ترکیب",
       "value": "آب خالص، ۰٫۱٪ بتائین (پاک‌کننده)، ۰٫۱٪ پلی‌هگزانید (PHMB)"
     },
@@ -33,6 +29,10 @@
     {
       "name": "کشور برند",
       "value": "آلمان"
+    },
+    {
+      "name": "حجم",
+      "value": "۳۵۰ میلی‌لیتر"
     }
   ],
   "faqs": [
@@ -55,12 +55,12 @@
   ],
   "images": [
     {
-      "url": "https://ecatalog.bbraun.com/eDoc/QlBHMDAwMDAwMDAwMDAwMDAwMTAwMDI5NjM4NDAwMDAw",
+      "file": "data-private/photos/113150017-1.jpg",
       "alt": "بطری محلول شستشوی زخم پرونتوسان بی‌براون",
       "source": "https://catalogs.bbraun.com.au/en-AU/p/PRID00001922/prontosan-wound-irrigation-solution"
     },
     {
-      "url": "https://ecatalog.bbraun.com/eDoc/QlBHMDAwMDAwMDAwMDAwMDAwMTAwMDI5NjgyNDAwMDAw",
+      "file": "data-private/photos/113150017-2.jpg",
       "alt": "نمای دیگر بطری ۳۵۰ میلی‌لیتری محلول پرونتوسان",
       "source": "https://catalogs.bbraun.com.au/en-AU/p/PRID00001922/prontosan-wound-irrigation-solution"
     }
@@ -68,6 +68,7 @@
   "sources": [
     "https://catalogs.bbraun.com.au/en-AU/p/PRID00001922/prontosan-wound-irrigation-solution",
     "https://catalogs.bbraun.com/en-01/p/PRID00001922/prontosan-wound-irrigation-solution-for-chronic-acute-wounds-and-skin-burns",
-    "https://cloud-bbraun-com.dispatcher.dev.cw.bbraun.com/content/dam/catalog/bbraun/bbraunProductCatalog/S/AEM2015/en-01/b/instruction-for-use-us2.pdf"
+    "https://cloud-bbraun-com.dispatcher.dev.cw.bbraun.com/content/dam/catalog/bbraun/bbraunProductCatalog/S/AEM2015/en-01/b/instruction-for-use-us2.pdf",
+    "owner: content/owner-facts.md"
   ]
 }

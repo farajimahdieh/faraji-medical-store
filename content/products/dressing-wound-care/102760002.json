@@ -35,8 +35,15 @@
       "answer": "نه. چسب زخم برای بریدگی‌ها و خراشیدگی‌های کوچک است؛ زخم عمیق یا پرخونریزی را باید پزشک ببیند."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/102760002-1.jpg",
+      "alt": "چسب زخم نواری؛ تصویر نمونه نوع کالا، محصول فروشگاه بسته ۱۰ عددی است",
+      "source": "https://www.mfasco.com/products/make-a-first-aid-kit-make-a-kit-bandages-bandage-strips-plastic-3-4x3-each"
+    }
+  ],
   "sources": [
-    "https://en.wikipedia.org/wiki/Adhesive_bandage"
+    "https://en.wikipedia.org/wiki/Adhesive_bandage",
+    "https://www.mfasco.com/products/make-a-first-aid-kit-make-a-kit-bandages-bandage-strips-plastic-3-4x3-each"
   ]
 }

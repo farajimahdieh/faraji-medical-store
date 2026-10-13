@@ -59,13 +59,14 @@
   ],
   "images": [
     {
-      "url": "https://eurofarm-spa.com/wp-content/uploads/2023/03/IMG_1309.jpg",
+      "file": "data-private/photos/113150010-1.jpg",
       "alt": "پاکت استریل پانسمان شفاف یورودرم",
       "source": "https://eurofarm-spa.com/prodotto/euroderm/"
     }
   ],
   "sources": [
     "https://eurofarm-spa.com/prodotto/euroderm/",
-    "https://eurofarm-spa.com/azienda/"
+    "https://eurofarm-spa.com/azienda/",
+    "owner: content/owner-facts.md"
   ]
 }

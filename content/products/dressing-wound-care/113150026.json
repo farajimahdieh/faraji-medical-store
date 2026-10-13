@@ -37,6 +37,10 @@
     {
       "name": "کشور سازنده",
       "value": "ایران"
+    },
+    {
+      "name": "مقدار",
+      "value": "۱ گرم"
     }
   ],
   "faqs": [
@@ -59,17 +63,18 @@
   ],
   "images": [
     {
-      "url": "https://treetta.com/wp-content/uploads/TEBAGRAN-PLUS-AG.jpg",
+      "file": "data-private/photos/113150026-1.jpg",
       "alt": "پاکت و ویال پودر طباگرن پلاس نقره تریتا",
       "source": "https://treetta.com/product/tebagran-plus-ag/"
     },
     {
-      "url": "https://treetta.com/wp-content/uploads/TEBAGRAN-PLUS-1g.jpg",
+      "file": "data-private/photos/113150026-2.jpg",
       "alt": "جعبه‌ی طباگرن پلاس نقره ۱ گرمی",
       "source": "https://treetta.com/product/tebagran-plus-ag/"
     }
   ],
   "sources": [
-    "https://treetta.com/product/tebagran-plus-ag/"
+    "https://treetta.com/product/tebagran-plus-ag/",
+    "owner: content/owner-facts.md"
   ]
 }

@@ -57,8 +57,16 @@
       "answer": "فیلم رویی ضدآب است؛ فقط مطمئن شوید لبه‌ها کامل چسبیده‌اند."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/113230012-1.jpg",
+      "alt": "پانسمان فوم سیلیکونی چسب‌دار لوفوکان ۱۵×۱۵ سانتی‌متر و بسته‌بندی",
+      "source": "https://www.trendyol.com/luofucon/silikon-jel-yapiskan-kenarli-cok-katmanli-kopuk-yara-ortusu-15x15cm-p-132948205"
+    }
+  ],
   "sources": [
-    "https://en.foryoumedical.com/product/30.html"
+    "https://en.foryoumedical.com/product/30.html",
+    "owner: content/owner-facts.md",
+    "https://www.trendyol.com/luofucon/silikon-jel-yapiskan-kenarli-cok-katmanli-kopuk-yara-ortusu-15x15cm-p-132948205"
   ]
 }

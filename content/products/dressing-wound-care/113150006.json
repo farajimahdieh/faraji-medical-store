@@ -53,10 +53,17 @@
       "answer": "استفاده را قطع کنید تا پوست آرام شود و بعد با ما در میان بگذارید تا راه مناسب را پیدا کنیم."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/113150006-1.jpg",
+      "alt": "ورق ژل سیلیکونی نواری سیمئوسیل ۴×۳۰ سانتی‌متر در بسته‌بندی",
+      "source": "https://www.precisemedical.com.au/products/cimeosil-scar-management-gel-sheeting-long-strip-4cm-by-30cm"
+    }
+  ],
   "sources": [
     "https://accessgudid.nlm.nih.gov/devices/M724GS18X025T1",
     "https://www.cimeosil.com/",
-    "https://www.implantech.com/product/gel-sheeting-long-strip/"
+    "https://www.implantech.com/product/gel-sheeting-long-strip/",
+    "https://www.precisemedical.com.au/products/cimeosil-scar-management-gel-sheeting-long-strip-4cm-by-30cm"
   ]
 }

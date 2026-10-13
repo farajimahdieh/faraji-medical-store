@@ -49,9 +49,16 @@
       "answer": "خیر. این مدل آلژینات ساده است."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/113150032-1.jpg",
+      "alt": "بسته پانسمان آلژینات نوامکس ۱۰×۱۰ سانتی‌متر",
+      "source": "https://royandarman.com/product/پانسمان-آلژینات-نوامکس/"
+    }
+  ],
   "sources": [
     "https://royandarman.com/product/%D9%BE%D8%A7%D9%86%D8%B3%D9%85%D8%A7%D9%86-%D8%A2%D9%84%DA%98%DB%8C%D9%86%D8%A7%D8%AA-%D9%86%D9%88%D8%A7%D9%85%DA%A9%D8%B3/",
-    "https://www.taminsalamat.org/fa/product/9/%D9%BE%D8%A7%D9%86%D8%B3%D9%85%D8%A7%D9%86-%D8%A2%D9%84%DA%98%DB%8C%D9%86%D8%A7%D8%AA-%D9%86%D9%88%D8%A7%D9%85%DA%A9%D8%B3"
+    "https://www.taminsalamat.org/fa/product/9/%D9%BE%D8%A7%D9%86%D8%B3%D9%85%D8%A7%D9%86-%D8%A2%D9%84%DA%98%DB%8C%D9%86%D8%A7%D8%AA-%D9%86%D9%88%D8%A7%D9%85%DA%A9%D8%B3",
+    "https://royandarman.com/product/پانسمان-آلژینات-نوامکس/"
   ]
 }
