@@ -54,7 +54,18 @@
       "answer": "بله، حالت جداگانه برای دمای اتاق و دمای سطح اشیا دارد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140360001-1.jpg",
+      "alt": "تب‌سنج غیرتماسی پیشانی امرن MC-720",
+      "source": "https://dominionroadpharmacy.co.nz/products/omron-mc-720-non-contact-forehead-thermometer-fast-1-second-readings-3-modes-memory-for-25-readings"
+    },
+    {
+      "file": "data-private/photos/140360001-2.jpg",
+      "alt": "تب‌سنج امرن MC-720 کنار جعبه",
+      "source": "https://www.dockpharmacy.com/product/omron-mc-720-non-contact-forehead-thermometer/"
+    }
+  ],
   "sources": [
     "https://mercury.1mg.com/otc/omron-mc-720-non-contact-forehead-thermometer-otc331811",
     "https://ielder.asia/products/omron-forehead-thermometer-mc-720",

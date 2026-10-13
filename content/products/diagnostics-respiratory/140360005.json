@@ -62,7 +62,13 @@
       "answer": "دستگاه فاصله را خودش تشخیص می‌دهد و چراغ پشت آن نشان می‌دهد که در فاصله‌ی درست هستید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140360005-1.jpg",
+      "alt": "تب‌سنج غیرتماسی میکرولایف NC 200 با جعبه و کیف",
+      "source": "https://www.amazon.de/-/en/Microlife-NC-200-Non-Contact-Thermometer/dp/B079ZZXDXV"
+    }
+  ],
   "sources": [
     "https://www.wms.co.uk/Equipment/Diagnostic/Thermometers/Non-contract-Thermometers/Microlife-NC-200-Non-Contact-Forehead-Thermometer/p/W9423",
     "https://shop.baltrade.eu/en/microlife-nc-200-non-contact-thermometer-p17079.html",

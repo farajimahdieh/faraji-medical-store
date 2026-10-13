@@ -45,7 +45,13 @@
       "answer": "بدنه‌اش ضدآب است و می‌توانید آن را با آب ولرم و صابون یا پنبه‌ی الکلی تمیز کنید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140320003-1.jpg",
+      "alt": "تب‌سنج دیجیتال بی ول WT-03",
+      "source": "https://www.digikala.com/product/dkp-4703811/"
+    }
+  ],
   "sources": [
     "https://e-menessaptieka.lv/en/p/b-well-wt-03-base-digital-thermometer-1-pcs-123394",
     "https://benu.lv/media/EshopProducts/10087757/IMWT-03-04-06LV3622.pdf",

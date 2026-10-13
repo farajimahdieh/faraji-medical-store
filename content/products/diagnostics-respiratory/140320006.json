@@ -31,7 +31,13 @@
       "answer": "دور از پنجره، بخاری و بخار مستقیم دستگاه بخور، در جایی که هوای اتاق را نشان دهد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140320006-1.jpg",
+      "alt": "نمونه‌ی دماسنج و رطوبت‌سنج دیجیتال رومیزی",
+      "source": "https://www.digikala.com/product/dkp-360732/"
+    }
+  ],
   "sources": [
     "https://www.manomano.co.uk/p/high-precision-digital-indoor-thermometer-hygrometer-temperature-monitor-and-humidity-meter-223314364",
     "https://db-03.ringfree.com/blog/how-to-use-a-digital-thermo-hygrometer-a-simple-guide-1767649020"

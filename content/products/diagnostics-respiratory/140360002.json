@@ -40,7 +40,18 @@
       "answer": "حالت اشیا را انتخاب کنید و دستگاه را حدود ۵ تا ۸ سانتی‌متر جلوی شیء نگه دارید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140360002-1.jpg",
+      "alt": "تب‌سنج غیرتماسی بی ول WF-4000",
+      "source": "https://www.digikala.com/product/dkp-5715433/"
+    },
+    {
+      "file": "data-private/photos/140360002-2.jpg",
+      "alt": "تب‌سنج بی ول WF-4000 از پشت با نمایشگر",
+      "source": "https://www.digikala.com/product/dkp-5715433/"
+    }
+  ],
   "sources": [
     "https://www.benu.lv/media/EshopProducts/10087756/IMWF-4000LV3622.pdf",
     "https://e-menessaptieka.lv/en/a/manufacturer/b-well-swiss-ag-1/t/medical-goods/medical-devices/thermometers",

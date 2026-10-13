@@ -34,7 +34,18 @@
       "answer": "داشتن چند عدد یدکی کنار کپسول یا اکسیژن‌ساز خیال‌تان را راحت می‌کند."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140920001-1.jpg",
+      "alt": "نمونه‌ی رابط فینگرتیپ اکسیژن",
+      "source": "https://sunsethcs.com/product/res002-christmas-tree-connector-swivel/"
+    },
+    {
+      "file": "data-private/photos/140920001-2.jpg",
+      "alt": "نمونه‌ی رابط پلاستیکی فینگرتیپ برای لوله‌ی اکسیژن",
+      "source": "https://www.amazon.in/Christmas-Oxygen-TUBING-Connector-Adapter/dp/B077JRJVJW"
+    }
+  ],
   "sources": [
     "holoo: 140920001 (فینگر تیپ بزرگ (رابط اکسیژن))"
   ]

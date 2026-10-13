@@ -54,7 +54,13 @@
       "answer": "بله، می‌توانید آن را طبق دفترچه‌ی راهنما ضدعفونی کنید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140320005-1.jpg",
+      "alt": "تب‌سنج گوش و پیشانی بیورر FT 65",
+      "source": "https://kinsmedic.com.my/products/beurer-ft-65-multi-functional-thermometer/"
+    }
+  ],
   "sources": [
     "https://www.beurer.com/uk/p/79514",
     "https://jupiter.1mg.com/otc/beurer-ft-65-ear-infra-red-multi-functional-thermometer-white-otc397847",

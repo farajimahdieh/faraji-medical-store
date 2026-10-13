@@ -44,7 +44,18 @@
       "answer": "بله، محدوده‌ی آن تا ۱۰۰ درجه است و دمای مایعات و اشیا را هم نشان می‌دهد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140360003-1.jpg",
+      "alt": "تب‌سنج غیرتماسی بی ول WF-5000",
+      "source": "https://www.digikala.com/product/dkp-357240/"
+    },
+    {
+      "file": "data-private/photos/140360003-2.jpg",
+      "alt": "تب‌سنج بی ول WF-5000 در جعبه",
+      "source": "https://bwell-swiss.ch/ng/product/wf-5000/"
+    }
+  ],
   "sources": [
     "https://habr.com/ru/post/407841/",
     "https://e-menessaptieka.lv/en/a/manufacturer/b-well-swiss-ag-1/t/medical-goods/medical-devices/thermometers",

@@ -40,7 +40,18 @@
       "answer": "WF-1000 مدل پایه‌ی دوکاره (شقیقه و گوش) است؛ برای مقایسه‌ی دقیق امکانات از ما بپرسید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140360004-1.jpg",
+      "alt": "تب‌سنج مادون قرمز بی ول WF-1000",
+      "source": "https://www.digikala.com/product/dkp-821280/"
+    },
+    {
+      "file": "data-private/photos/140360004-2.jpg",
+      "alt": "تب‌سنج بی ول WF-1000 از نمای کنار",
+      "source": "https://e-menessaptieka.lv/en/p/b-well-wf-1000-non-contact-infrared-thermometer-1-pcs-123390"
+    }
+  ],
   "sources": [
     "https://vkusvill.ru/goods/termometr-meditsinskiy-infrakrasnyy-b-well-wf-1000-313341/",
     "https://www.benu.lv/media/EshopProducts/10087754/IMWF1000LV3622.pdf",
