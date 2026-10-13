@@ -36,7 +36,13 @@
       "answer": "برای استفاده‌ی روزانه و مطب، دستگاه همیشه آماده است و هزینه‌ی باتری ندارید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060023-1.jpg",
+      "alt": "آداپتور برق فشارسنج بازویی بیورر",
+      "source": "https://beurer.eg/products/bm28-bm40-bm51-blood-pressure-mains-adapter"
+    }
+  ],
   "sources": [
     "https://www.beurer.com/global/p/65046/",
     "https://harveynorman.co.nz/connected-health-fitness/health-wellbeing/health-monitors/beurer-bm-28-upper-arm-blood-pressure-monitor.html"

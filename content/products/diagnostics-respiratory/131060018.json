@@ -40,7 +40,18 @@
       "answer": "صبح قبل از خوردن دارو و صبحانه و عصر قبل از شام، هر بار دو اندازه‌گیری با یک دقیقه فاصله."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060018-1.jpg",
+      "alt": "فشارسنج بازویی گلامور DBP-6182",
+      "source": "https://medicalnabz.com/product/فشارسنج-دیجیتال-سخنگو-گلامور-glamor-dbp-6182/"
+    },
+    {
+      "file": "data-private/photos/131060018-2.jpg",
+      "alt": "فشارسنج گلامور 6182 از نمای جلو",
+      "source": "https://medicalnabz.com/product/فشارسنج-دیجیتال-سخنگو-گلامور-glamor-dbp-6182/"
+    }
+  ],
   "sources": [
     "https://www.zoomit.ir/product/list/blood-pressure-monitor/glamor/",
     "https://basalam.com/cat/health/brand-%D9%81%D8%B4%D8%A7%D8%B1%D8%B3%D9%86%D8%AC-%DA%AF%D9%84%D8%A7%D9%85%D9%88%D8%B1?client=app"

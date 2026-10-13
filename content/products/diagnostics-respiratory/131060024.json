@@ -53,7 +53,13 @@
       "answer": "کار با آن ساده است، ولی برای کسانی که دست‌شان می‌لرزد یا نگه داشتن مچ در سطح قلب برایشان سخت است، فشارسنج بازویی راحت‌تر است."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060024-1.jpg",
+      "alt": "فشارسنج مچی بی ول PRO-39",
+      "source": "https://www.digikala.com/product/dkp-3930189/"
+    }
+  ],
   "sources": [
     "https://multitronic.fi/en/products/2799774",
     "https://www.drmax.ro/tensiometru-automat-pentru-incheietura-pro-39-1-bucata-b-well",

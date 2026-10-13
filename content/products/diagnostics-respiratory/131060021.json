@@ -53,7 +53,13 @@
       "answer": "کاف این ست برای ۲۲ تا ۳۲ سانتی‌متر است؛ برای بازوی بزرگ‌تر از ما راهنمایی بخواهید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060021-1.jpg",
+      "alt": "فشارسنج عقربه‌ای میکرولایف BP AG1-20 با کاف و پوآر",
+      "source": "https://www.digikala.com/product/dkp-2720674/"
+    }
+  ],
   "sources": [
     "https://www.microlife.com/consumer-products/blood-pressure/aneroid-devices/bp-ag1-20",
     "https://www.medaval.ie/docs/manuals/Microlife-AG1-20-Manual.pdf"

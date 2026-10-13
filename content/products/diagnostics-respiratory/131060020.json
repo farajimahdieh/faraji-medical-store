@@ -36,7 +36,13 @@
       "answer": "اگر وقتی کاف خالی است عقربه روی صفر نیست یا دستگاه افتاده، آن را برای بررسی به ما بیاورید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060020-1.jpg",
+      "alt": "نمونه‌ی فشارسنج عقربه‌ای بری مد با پوآر",
+      "source": "https://www.medicalexpo.com/prod/bremed/product-67906-418450.html"
+    }
+  ],
   "sources": [
     "https://www.technolife.com/product-46520/فشارسنج-عقربه-ای-بریمد-مدل-bd2500",
     "https://emalls.ir/مشخصات_-2700-BREMED-BD2700-Blood-Pressure-Monitor~id~964636"

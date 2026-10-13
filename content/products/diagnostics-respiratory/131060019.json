@@ -58,7 +58,18 @@
       "answer": "این مدل فشارسنج تنهاست؛ گوشی پزشکی را جداگانه داریم."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060019-1.jpg",
+      "alt": "فشارسنج عقربه‌ای ریشتر Minimus II با کاف",
+      "source": "https://www.medisave.co.uk/products/riester-minimus-ii-aneroid-sphygmomanometer-p-100805"
+    },
+    {
+      "file": "data-private/photos/131060019-2.jpg",
+      "alt": "فشارسنج عقربه‌ای ریشتر Minimus II",
+      "source": "https://www.medi-shop.gr/en/sphygmomanometers/riester-minimus-ii-r-1312-sphygmomanometer"
+    }
+  ],
   "sources": [
     "https://www.medi-shop.gr/en/sphygmomanometers/riester-minimus-ii-r-1312-sphygmomanometer",
     "https://riester.de/products/blood-pressure-management/aneroid-sphygmomanometers"
