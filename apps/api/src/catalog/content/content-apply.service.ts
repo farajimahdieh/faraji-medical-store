@@ -22,12 +22,14 @@ export interface ApplyResult {
   slug: string;
   messages: string[];
   imagesAdded: number;
+  imagesRemoved: number;
 }
 
 // Writes one validated content file into the catalog. The file is the
 // source of truth for text (features/specs/FAQs are replaced wholesale);
 // images are additive -- one already imported from the same source is
-// skipped, admin uploads are never removed. Images go through the same
+// skipped, admin uploads are never removed. With `"replaceImages": true`
+// imported images missing from the file are deleted first. Images go through the same
 // ImageService as admin uploads, so they land in whichever storage
 // STORAGE_DRIVER selects (Arvan in production).
 //
@@ -53,6 +55,7 @@ export class ContentApplyService {
       slug: content.slug,
       messages: [],
       imagesAdded: 0,
+      imagesRemoved: 0,
     };
 
     const product = await this.dataSource.manager.findOneBy(Product, {
@@ -135,7 +138,29 @@ export class ContentApplyService {
     result: ApplyResult,
   ): Promise<void> {
     const imageRepo = this.dataSource.getRepository(ProductImage);
-    const existing = await imageRepo.findBy({ productId: product.id });
+    let existing = await imageRepo.findBy({ productId: product.id });
+
+    if (content.replaceImages) {
+      const wanted = new Set(
+        content.images.map((image) => this.sourceKey(image)),
+      );
+      const stale = existing.filter(
+        (image) => image.sourceUrl !== null && !wanted.has(image.sourceUrl),
+      );
+      for (const image of stale) {
+        await imageRepo.remove(image);
+        await this.imageService
+          .deleteProductImage(image.objectKey, image.thumbnailKey)
+          .catch((error: unknown) =>
+            result.messages.push(
+              `stored file not deleted (${image.objectKey}): ${error instanceof Error ? error.message : String(error)}`,
+            ),
+          );
+        result.imagesRemoved += 1;
+      }
+      existing = existing.filter((image) => !stale.includes(image));
+    }
+
     const knownSources = new Set(existing.map((image) => image.sourceUrl));
     let hasPrimary = existing.some((image) => image.isPrimary);
     let sortOrder = existing.reduce(
@@ -144,7 +169,7 @@ export class ContentApplyService {
     );
 
     for (const image of content.images) {
-      const sourceKey = image.url ?? `file:${basename(image.file!)}`;
+      const sourceKey = this.sourceKey(image);
       if (knownSources.has(sourceKey)) continue;
 
       try {
@@ -175,6 +200,10 @@ export class ContentApplyService {
         );
       }
     }
+  }
+
+  private sourceKey(image: ProductContentImage): string {
+    return image.url ?? `file:${basename(image.file!)}`;
   }
 
   private async loadImage(

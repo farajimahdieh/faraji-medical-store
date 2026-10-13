@@ -60,7 +60,17 @@ database rows. Read `content/README.md` for the file format and pipeline.
   describe it as such.
 - Sizes: when a product has several sizes, name them in the description
   and help pick one ("سایز را کمی بزرگ‌تر از خود زخم انتخاب کنید"). The
-  page already shows a size selector with each size's own price. Use the Persian names people actually search
+  page already shows a size selector with each size's own price. For
+  body-worn supports (belts, corsets, collars, knee/wrist/ankle/elbow
+  braces, stockings, any brand incl. Paksman), the page also shows the
+  Teb-o-Sanat size table under the photos (`apps/web/src/data/size-guide.ts`,
+  page `/size-guide`). Point the reader there instead of "ask us for the
+  size": e.g. "برای انتخاب سایز، اندازه‌ی دور کمر را بگیرید و با جدول
+  «راهنمای انتخاب سایز» زیر عکس محصول مقایسه کنید." Do not copy size
+  numbers into the text.
+- Colours: when the owner says an item comes in more colours than the
+  photos show (pillows, cushions), say so and invite the reader to ask for
+  their colour. Use the Persian names people actually search
   ("پانسمان زخم بستر", "باند کشی") alongside the technical name
   ("هیدروکلوئید").
 - `name`: what a shopper would call it + brand, no sizes (sizes are variants).

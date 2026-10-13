@@ -94,7 +94,9 @@ async function main() {
     for (const content of valid) {
       try {
         const result = await service.apply(content, REPO_ROOT, { publish });
-        console.log(`✓ ${result.slug}: ${result.imagesAdded} image(s) added`);
+        console.log(
+          `✓ ${result.slug}: ${result.imagesAdded} image(s) added${result.imagesRemoved ? `, ${result.imagesRemoved} removed` : ''}`,
+        );
         result.messages.forEach((m) => console.log(`    • ${m}`));
       } catch (error) {
         console.log(`✗ ${content.slug}: ${(error as Error).message}`);

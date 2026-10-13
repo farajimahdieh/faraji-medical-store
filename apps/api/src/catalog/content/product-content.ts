@@ -30,6 +30,10 @@ export interface ProductContent {
   // Never publish from content:apply -- e.g. ointments that may need a
   // medicine licence before they can be sold online. The owner decides.
   hold?: boolean;
+  // Drop images an earlier import added (teb-sanat or content:apply) that
+  // are no longer listed here -- e.g. wrong photos replaced by the owner's
+  // own. Admin uploads are never removed.
+  replaceImages?: boolean;
 }
 
 export interface ContentCheck {
@@ -173,6 +177,12 @@ export function checkProductContent(raw: unknown): ContentCheck {
 
   if (data.hold !== undefined && typeof data.hold !== 'boolean') {
     errors.push('"hold" must be true or false');
+  }
+  if (
+    data.replaceImages !== undefined &&
+    typeof data.replaceImages !== 'boolean'
+  ) {
+    errors.push('"replaceImages" must be true or false');
   }
 
   const sources = data.sources;

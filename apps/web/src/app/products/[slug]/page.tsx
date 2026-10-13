@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { ProductVariantWishlist } from "@/components/catalog/ProductVariantWishlist";
 import { VideoSection } from "@/components/catalog/VideoSection";
 import { ProductGallery } from "@/components/catalog/ProductGallery";
+import { ProductSizeGuide } from "@/components/catalog/ProductSizeGuide";
 import { Breadcrumb } from "@/components/catalog/Breadcrumb";
 import { RecentlyViewedSection } from "@/components/catalog/RecentlyViewedSection";
 import { ApiError, getProductBySlug } from "@/lib/api";
@@ -101,7 +102,13 @@ export default async function ProductDetailPage({
       />
 
       <div className="grid gap-10 lg:grid-cols-2">
-        <ProductGallery images={product.images} productName={product.name} />
+        <div className="flex flex-col gap-6">
+          <ProductGallery images={product.images} productName={product.name} />
+          <ProductSizeGuide
+            productName={product.name}
+            sizes={product.variants.map((variant) => variant.size)}
+          />
+        </div>
 
         <div className="flex flex-col gap-6">
           <div>

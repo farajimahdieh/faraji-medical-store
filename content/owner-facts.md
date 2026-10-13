@@ -53,3 +53,18 @@ Photos in `content/photos/dressing-wound-care/`. Facts read from the packs.
 All photos in `content/photos/dressing-wound-care/` were cleaned for the
 site (background removed or tightly cropped, light corrected, white square
 canvas 1000×1000). Use `-shop-1` as the main image.
+
+## Pillows and seat cushions, shop photos (2026-10-13)
+
+Photos in `content/photos/orthopedic-mobility-rehab/`, taken in the shop.
+Only lightly corrected; the shop stays in the background on purpose (the
+owner wants customers to see the real store). Hands were removed.
+
+- بالش گردنی آنو (110930007): بالش U شکل دور گردن؛ در عکس‌ها آبی روشن، قرمز، سرمه‌ای و طوسی (رنگ کرم هم دارد). عکس‌ها: `110930007-shop-1..4.jpg`.
+- بالشتک نشیمن آنو (110930006): بالشتک گرد دکمه‌دار؛ در عکس‌ها صورتی و بنفش. عکس‌ها: `110930006-shop-1..2.jpg`.
+- بالشتک نشیمن سه‌کاره آنو (110930004): بالشتک مربع با گودی/حفره‌ی وسط؛ در عکس‌ها طوسی، بنفش و سرمه‌ای. عکس‌ها: `110930004-shop-1..3.jpg`.
+- صاحب مغازه: این بالش‌ها و بالشتک‌ها **رنگ‌های بیشتری** از رنگ‌های داخل عکس دارند؛ در متن بنویسید مشتری رنگ دلخواهش را از ما بپرسد.
+
+## Size guide
+
+صاحب مغازه: برای همه‌ی محصولات سایزدار (کمربند، کرست، گردنبند، زانوبند، مچ‌بند، قوزک‌بند، جوراب واریس و ...) از **راهنمای انتخاب سایز طب و صنعت** استفاده شود، حتی برای برندهای دیگر مثل پاکسمن. صفحه‌ی `/size-guide` سایت و کادر «راهنمای انتخاب سایز» زیر عکس هر محصول سایزدار همین جدول‌ها را نشان می‌دهند (`apps/web/src/data/size-guide.ts`).

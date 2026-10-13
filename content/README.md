@@ -50,3 +50,9 @@ All `pnpm` commands run from `apps/api`.
   "sources": ["https://manufacturer.example/product-page"]
 }
 ```
+
+Optional flags: `"hold": true` (never publish -- possible medicines) and
+`"replaceImages": true` (delete images an earlier import added that are not
+in this file -- e.g. wrong photos replaced with the shop's own; admin
+uploads are kept). Shop photos live in `content/photos/<category>/` and are
+referenced with `"file"`.

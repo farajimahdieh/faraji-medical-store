@@ -89,6 +89,15 @@ describe('checkProductContent', () => {
     ]);
   });
 
+  it('accepts a boolean replaceImages flag only', () => {
+    expect(
+      checkProductContent({ ...valid(), replaceImages: true }).errors,
+    ).toEqual([]);
+    expect(
+      checkProductContent({ ...valid(), replaceImages: 1 }).errors,
+    ).toEqual(['"replaceImages" must be true or false']);
+  });
+
   it('rejects non-objects', () => {
     expect(checkProductContent([]).errors).toEqual([
       'file is not a JSON object',
