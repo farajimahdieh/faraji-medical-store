@@ -3,7 +3,7 @@
   "name": "پانسمان گاز عسل مدی هانی (Medihoney Honey Tulle)",
   "brand": "Medihoney",
   "shortDescription": "گاز استریل آغشته به عسل مانوکای مدی هانی در سایز ۱۰×۱۰؛ برای زخم‌های کم‌ترشح تا متوسط، زخم‌های عفونی، پوست شکننده و سوختگی.",
-  "description": "پانسمان گاز عسل مدی هانی (Medihoney) یک گاز استریل سه‌لایه است که با عسل طبی آغشته شده است. حدود ۸۵ درصد آن عسل مانوکا (لپتوسپرموم) است. این محصول ساخت شرکت درما ساینسز (Derma Sciences) است.\n\nعسل طبی سطح زخم را مرطوب نگه می‌دارد و خاصیت ضدباکتری دارد. این گاز برای زخم‌هایی با ترشح کم تا متوسط مناسب است؛ مثل زخم‌های عفونی، بریدگی و خراشیدگی، پوست شکننده و سوختگی. سایز آن ۱۰×۱۰ سانتی‌متر است.\n\nروش استفاده: زخم را با سرم شستشو تمیز کنید و گاز عسل را مستقیم روی زخم بگذارید. رویش گاز استریل بگذارید و با چسب حصیری یا باند پانسمان ثابت کنید. زمان تعویض به وضعیت زخم و ترشح بستگی دارد؛ فاصله‌ی دو تا سه روز راهنمای عمومی است.\n\nاگر سؤالی داشتید، از ما بپرسید؛ با کمال میل راهنمایی‌تان می‌کنیم.",
+  "description": "پانسمان گاز عسل مدی هانی (Medihoney) یک گاز استریل سه‌لایه است که با عسل طبی آغشته شده است. حدود ۸۵ درصد آن عسل مانوکا (لپتوسپرموم) است. این محصول شرکت درما ساینسز (Derma Sciences)، ساخت کانادا و بدون لاتکس است.\n\nعسل طبی سطح زخم را مرطوب نگه می‌دارد و خاصیت ضدباکتری دارد. این گاز برای زخم‌هایی با ترشح کم تا متوسط مناسب است؛ مثل زخم‌های عفونی، بریدگی و خراشیدگی، پوست شکننده و سوختگی. سایز آن ۱۰×۱۰ سانتی‌متر است.\n\nروش استفاده: زخم را با سرم شستشو تمیز کنید و گاز عسل را مستقیم روی زخم بگذارید. رویش گاز استریل بگذارید و با چسب حصیری یا باند پانسمان ثابت کنید. زمان تعویض به وضعیت زخم و ترشح بستگی دارد؛ فاصله‌ی دو تا سه روز راهنمای عمومی است.\n\nاگر سؤالی داشتید، از ما بپرسید؛ با کمال میل راهنمایی‌تان می‌کنیم.",
   "metaTitle": "پانسمان گاز عسل مدی هانی ۱۰×۱۰ | فروشگاه فرجی",
   "metaDescription": "خرید پانسمان گاز عسل مدی هانی (Medihoney) ۱۰×۱۰؛ گاز استریل آغشته به عسل مانوکا برای زخم عفونی، زخم کم‌ترشح و سوختگی. مشاوره در تبریز.",
   "features": [
@@ -33,6 +33,18 @@
     {
       "name": "نیاز به پانسمان رویی",
       "value": "بله"
+    },
+    {
+      "name": "کشور سازنده",
+      "value": "کانادا"
+    },
+    {
+      "name": "لاتکس",
+      "value": "ندارد"
+    },
+    {
+      "name": "کد محصول",
+      "value": "796"
     }
   ],
   "faqs": [
@@ -55,14 +67,15 @@
   ],
   "images": [
     {
-      "file": "data-private/photos/113150031-1.jpg",
-      "alt": "پانسمان گاز عسل مدی هانی ۱۰×۱۰",
-      "source": "https://www.canmeddirect.ca/derma-sciences-796-box-5-medihoney-antibacterial-tulle-dressings-10cm-x10cm-85-manuka-honey-impregnated-in-a-3-ply-acetate-gauze.html"
+      "file": "content/photos/dressing-wound-care/113150031-shop-1.jpg",
+      "alt": "پانسمان گاز عسل مدی هانی (Medihoney Honey Tulle)؛ نمای اصلی بسته محصول",
+      "source": "owner: content/owner-facts.md"
     }
   ],
   "sources": [
     "https://www.canmeddirect.ca/derma-sciences-796-box-5-medihoney-antibacterial-tulle-dressings-10cm-x10cm-85-manuka-honey-impregnated-in-a-3-ply-acetate-gauze.html",
     "https://mosbatesabz.com/product/medihoney-hony-tulle-dressing-10x10-cm/",
-    "https://northeast.devonformularyguidance.nhs.uk/formulary/chapters/17-wound-management/17-3-antimicrobial-dressings/17-3-1-honey"
+    "https://northeast.devonformularyguidance.nhs.uk/formulary/chapters/17-wound-management/17-3-antimicrobial-dressings/17-3-1-honey",
+    "owner: content/owner-facts.md"
   ]
 }
