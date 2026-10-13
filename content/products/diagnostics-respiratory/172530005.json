@@ -40,7 +40,23 @@
       "answer": "در دمای اتاق و در بسته‌ی خودشان. تا موقع استفاده برچسب را نکنید و باتری را در یخچال نگذارید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/172530005-1.jpg",
+      "alt": "باتری سمعک رایوواک شماره ۱۰",
+      "source": "https://www.digikala.com/product/dkp-12886272/"
+    },
+    {
+      "file": "data-private/photos/172530005-2.jpg",
+      "alt": "باتری سمعک رایوواک شماره ۱۳",
+      "source": "https://www.digikala.com/product/dkp-1024982/"
+    },
+    {
+      "file": "data-private/photos/172530005-3.jpg",
+      "alt": "باتری سمعک رایوواک شماره ۶۷۵",
+      "source": "https://www.digikala.com/product/dkp-12886325/"
+    }
+  ],
   "sources": [
     "https://www.hearinglife.com/hearing-aids/users/accessories/batteries",
     "https://www.beltone.com/en/hearing-aid-guides/your-guide-to-hearing-aid-batteries",

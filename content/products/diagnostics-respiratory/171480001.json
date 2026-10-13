@@ -38,7 +38,13 @@
       "answer": "انگشت کودکان کوچک برای گیره‌ی بزرگسال کوچک است؛ برای کودکان، پالس اکسیمتر اطفال را داریم."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/171480001-1.jpg",
+      "alt": "نمونه‌ی پالس اکسیمتر انگشتی بیورر",
+      "source": "https://www.digikala.com/product/dkp-17735051/"
+    }
+  ],
   "sources": [
     "https://www.beurer.com/uk/p/45432/",
     "https://www.digitec.ch/en/product/beurer-po-30-ecg-pulse-oximeters-640678",

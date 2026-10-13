@@ -36,7 +36,18 @@
       "answer": "دست سرد، تکان خوردن، لاک ناخن یا نور شدید محیط روی نتیجه اثر می‌گذارد. دست را گرم کنید، آرام بنشینید و دوباره امتحان کنید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/171480002-1.jpg",
+      "alt": "پالس اکسیمتر اطفال زیکلوس‌مد CMS50QB",
+      "source": "https://www.goharmed.ir/product/پالس-اکسیمتر-نوزادی-زیکلاس-مد-zyklusmed-cms50-qb/"
+    },
+    {
+      "file": "data-private/photos/171480002-2.jpg",
+      "alt": "جعبه‌ی پالس اکسیمتر اطفال زیکلوس‌مد",
+      "source": "https://kishteb.com/product/پالس-اکسیمتر-اطفال-زیکلاس-مد-cms50-qb/"
+    }
+  ],
   "sources": [
     "holoo: 171480002 (پالس اکسیمتر اطفال zyklusmed)",
     "https://oxycare.eu/en/diagnostic-wellness/finger-pulse-oximeter-md300c52-for-children"

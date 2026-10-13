@@ -40,7 +40,13 @@
       "answer": "در دمای اتاق و در بسته‌ی خودشان. تا موقع استفاده برچسب را نکنید و باتری را در یخچال نگذارید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/172530009-1.jpg",
+      "alt": "باتری سمعک سیگنیا شماره ۶۷۵",
+      "source": "https://mybattery.in/collections/hearing-aid-batteries"
+    }
+  ],
   "sources": [
     "https://www.hearinglife.com/hearing-aids/users/accessories/batteries",
     "https://www.beltone.com/en/hearing-aid-guides/your-guide-to-hearing-aid-batteries",

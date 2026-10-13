@@ -37,7 +37,18 @@
       "answer": "بله، با باتری کار می‌کند؛ موقع خرید بپرسید تا نوع باتری را از روی جعبه بگوییم."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/171480003-1.jpg",
+      "alt": "نمونه‌ی پالس اکسیمتر انگشتی یوول با بند گردنی",
+      "source": "https://www.digikala.com/product/dkp-22201740/"
+    },
+    {
+      "file": "data-private/photos/171480003-2.jpg",
+      "alt": "نمونه‌ی جعبه‌ی پالس اکسیمتر یوول",
+      "source": "https://www.digikala.com/product/dkp-22201740/"
+    }
+  ],
   "sources": [
     "https://cttmed.ch/en/products/yuwell-puls-oximeter-mit-oled-bildschirm-yx301-b-500-0001",
     "https://cdn.shopify.com/s/files/1/0854/3954/5657/files/YX301.pdf"
