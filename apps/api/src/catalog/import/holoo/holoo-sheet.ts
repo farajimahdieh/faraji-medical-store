@@ -250,6 +250,39 @@ export function parseHolooSheet(rows: SheetCell[][]): ParsedSheet {
   return { items, errors };
 }
 
+// A manual decision for one Holoo code (content/holoo-matches.json). The
+// string form names the target product: an existing slug, "new" or "skip".
+// The object form can also move the row into another group (`group` = the
+// product name it belongs under, e.g. to split a "تک سایز" row off a sized
+// product or merge "پروتز آمونا 3" .. "14") and set a size the name doesn't
+// spell in a parsable way.
+export type ItemOverride =
+  string | { product?: string; group?: string; size?: string };
+
+export function overrideTarget(
+  override: ItemOverride | undefined,
+): string | undefined {
+  return typeof override === 'string' ? override : override?.product;
+}
+
+// Applies the `group`/`size` part of overrides; run before groupBySize.
+export function applyItemOverrides(
+  items: HolooItem[],
+  overrides: Record<string, ItemOverride>,
+): HolooItem[] {
+  return items.map((item) => {
+    const override = overrides[item.code];
+    if (!override || typeof override === 'string') return item;
+    return {
+      ...item,
+      baseName: override.group
+        ? normalizePersian(override.group)
+        : item.baseName,
+      size: override.size ?? item.size,
+    };
+  });
+}
+
 // Rows whose names differ only by a dimension size become one product with
 // one variant per size. A size repeated inside a group (two brands sharing
 // a base name, say) can't be told apart, so those rows stay separate

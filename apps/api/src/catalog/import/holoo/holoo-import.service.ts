@@ -5,7 +5,12 @@ import { Category } from '../../entities/category.entity';
 import { Product, ProductStatus } from '../../entities/product.entity';
 import { ProductVariant } from '../../entities/product-variant.entity';
 import { ProductSource } from '../../entities/product-source.entity';
-import { HolooGroup, HolooItem } from './holoo-sheet';
+import {
+  HolooGroup,
+  HolooItem,
+  ItemOverride,
+  overrideTarget,
+} from './holoo-sheet';
 import { MatchCandidate, matchProduct } from './product-match';
 
 const SOURCE_NAME = 'holoo';
@@ -13,8 +18,9 @@ const SOURCE_NAME = 'holoo';
 const DEFAULT_SIZE = 'استاندارد';
 
 // Manual decisions for groups the matcher can't settle, keyed by any Holoo
-// code in the group: an existing product's slug, "new" or "skip".
-export type MatchOverrides = Record<string, string>;
+// code in the group: an existing product's slug, "new" or "skip" (see
+// ItemOverride for the object form).
+export type MatchOverrides = Record<string, ItemOverride>;
 
 export type PlanAction =
   | { kind: 'linked'; productId: string; productName: string } // codes already imported
@@ -127,7 +133,9 @@ export class HolooImportService {
       };
     }
 
-    const override = codes.map((code) => overrides[code]).find(Boolean);
+    const override = codes
+      .map((code) => overrideTarget(overrides[code]))
+      .find(Boolean);
     if (override === 'new') return { kind: 'new' };
     if (override === 'skip')
       return { kind: 'skip', reason: 'skipped by override' };

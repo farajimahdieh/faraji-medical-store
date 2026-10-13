@@ -1,4 +1,10 @@
-import { groupBySize, parseHolooSheet, splitSize } from './holoo-sheet';
+import {
+  applyItemOverrides,
+  groupBySize,
+  overrideTarget,
+  parseHolooSheet,
+  splitSize,
+} from './holoo-sheet';
 
 const HEADER = ['نام کالا', 'تعداد', 'قیمت خرید', 'قیمت فروش', 'کد کالا'];
 
@@ -123,5 +129,50 @@ describe('groupBySize', () => {
     const groups = groupBySize(items);
     expect(groups).toHaveLength(2);
     expect(groups[0].items[0].issues[0]).toContain('ادغام نشد');
+  });
+});
+
+describe('applyItemOverrides', () => {
+  it('splits a one-size row off a sized group', () => {
+    const { items } = parseHolooSheet([
+      HEADER,
+      ['ثابت کننده زانو تک سایز طب و صنعت', 1, 100, 120, 'a'],
+      ['ثابت کننده زانو S طب و صنعت', 1, 100, 120, 'b'],
+      ['ثابت کننده زانو M طب و صنعت', 1, 100, 120, 'c'],
+    ]);
+    const groups = groupBySize(
+      applyItemOverrides(items, {
+        a: { product: 'knee-one-size', group: 'ثابت کننده زانو تک سایز' },
+        b: 'knee',
+      }),
+    );
+    expect(groups.map((g) => g.items.map((i) => i.code))).toEqual([
+      ['a'],
+      ['b', 'c'],
+    ]);
+  });
+
+  it('merges rows into one group with the given sizes', () => {
+    const { items } = parseHolooSheet([
+      HEADER,
+      ['پروتز آمونا 14', 1, 100, 120, 'a'],
+      ['پروتز آمونا 3', 1, 100, 120, 'b'],
+    ]);
+    const groups = groupBySize(
+      applyItemOverrides(items, {
+        a: { group: 'پروتز آمونا', size: '14' },
+        b: { group: 'پروتز آمونا', size: '3' },
+      }),
+    );
+    expect(groups).toHaveLength(1);
+    expect(groups[0].name).toBe('پروتز آمونا');
+    expect(groups[0].items.map((i) => i.size)).toEqual(['14', '3']);
+  });
+
+  it('reads the target product from either form', () => {
+    expect(overrideTarget('new')).toBe('new');
+    expect(overrideTarget({ product: 'slug', size: 'L' })).toBe('slug');
+    expect(overrideTarget({ size: 'L' })).toBeUndefined();
+    expect(overrideTarget(undefined)).toBeUndefined();
   });
 });

@@ -18,5 +18,6 @@ export function compareSizes(a: string, b: string): number {
   if (indexA !== -1) return -1;
   if (indexB !== -1) return 1;
 
-  return a.localeCompare(b, 'fa');
+  // numeric: "سایز 3" before "سایز 10".
+  return a.localeCompare(b, 'fa', { numeric: true });
 }

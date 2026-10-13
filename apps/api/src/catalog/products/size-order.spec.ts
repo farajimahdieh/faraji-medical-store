@@ -26,4 +26,9 @@ describe('compareSizes', () => {
     const sizes = ['از شماره 36 تا 45', 'S'];
     expect([...sizes].sort(compareSizes)).toEqual(['S', 'از شماره 36 تا 45']);
   });
+
+  it('orders numbers inside free-text sizes numerically', () => {
+    const sizes = ['10', '3', '14', '9'];
+    expect([...sizes].sort(compareSizes)).toEqual(['3', '9', '10', '14']);
+  });
 });

@@ -6,7 +6,9 @@
 //                                                          # existing products; writes nothing
 //
 // Manual decisions for ambiguous matches go in content/holoo-matches.json
-// (or --matches=<path>): { "<holoo code>": "<product slug>" | "new" | "skip" }.
+// (or --matches=<path>): { "<holoo code>": "<product slug>" | "new" | "skip" },
+// or { "<holoo code>": { "product"?, "group"?, "size"? } } to regroup a row
+// or fix its size (see ItemOverride).
 //
 // --dry-run only reads the file and prints the report -- it never connects
 // to the database, so it is safe to run on any machine.
@@ -17,6 +19,7 @@ import { readSheet } from 'read-excel-file/node';
 import { NestFactory } from '@nestjs/core';
 
 import {
+  applyItemOverrides,
   groupBySize,
   HolooGroup,
   parseHolooSheet,
@@ -123,7 +126,8 @@ async function main() {
 
   const rows = (await readSheet(path)) as SheetCell[][];
   const { items, errors } = parseHolooSheet(rows);
-  const groups = groupBySize(items);
+  const overrides = loadOverrides(matches);
+  const groups = groupBySize(applyItemOverrides(items, overrides));
   printReport(groups, errors);
 
   if (dryRun) {
@@ -142,7 +146,7 @@ async function main() {
   try {
     const summary = await app
       .get(HolooImportService)
-      .run(groups, category!, { planOnly, overrides: loadOverrides(matches) });
+      .run(groups, category!, { planOnly, overrides });
     printPlan(summary);
     if (planOnly) {
       console.log('\n(plan -- چیزی در دیتابیس ذخیره نشد)');
