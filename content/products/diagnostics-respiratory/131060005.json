@@ -57,7 +57,18 @@
       "answer": "اگر وقتی کاف خالی است عقربه روی صفر نیست یا دستگاه افتاده، آن را برای بررسی به ما بیاورید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060005-1.jpg",
+      "alt": "فشارسنج عقربه‌ای بی ول PRO-60 با گوشی پزشکی، کاف و پوآر",
+      "source": "https://www.digikala.com/product/dkp-22026733/"
+    },
+    {
+      "file": "data-private/photos/131060005-2.jpg",
+      "alt": "فشارسنج عقربه‌ای بی ول PRO-60 با کاف و گوشی",
+      "source": "https://polza.ru/catalog/tonometr-b-well-pro-60-so-stetoskopom-i-manzhetoy-s-koltsom-m-l_13861/"
+    }
+  ],
   "sources": [
     "https://price.ru/tonometry/b.well-pro-60/",
     "https://www.detmir.ru/product/index/id/6079127/",

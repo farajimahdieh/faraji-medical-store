@@ -58,7 +58,18 @@
       "answer": "کاف آن برای دور مچ ۱۴ تا ۱۹٫۵ سانتی‌متر است؛ دور مچ را با متر بگیرید و مقایسه کنید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060013-1.jpg",
+      "alt": "فشارسنج مچی سخنگوی بیورر BC 21",
+      "source": "https://omninela.co.za/products/speaking-wrist-blood-pressure-monitor-bc-21-beurer"
+    },
+    {
+      "file": "data-private/photos/131060013-2.jpg",
+      "alt": "فشارسنج مچی بیورر BC 21 از نمای کنار",
+      "source": "https://www.beurer.com/global/p/65046/"
+    }
+  ],
   "sources": [
     "https://www.beurer.com/global/p/65046/",
     "https://www.conrad.com/en/p/beurer-bc-21-blood-pressure-monitor-65046-2613410.html",

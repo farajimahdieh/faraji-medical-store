@@ -40,7 +40,13 @@
       "answer": "صبح قبل از خوردن دارو و صبحانه و عصر قبل از شام، هر بار دو اندازه‌گیری با یک دقیقه فاصله."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060008-1.jpg",
+      "alt": "فشارسنج بازویی سخنگوی بی ول PRO-36",
+      "source": "https://www.digikala.com/product/dkp-3794054/"
+    }
+  ],
   "sources": [
     "https://medaval.ie/resources/EN/devices/BWell-PRO-36.html",
     "https://www.technolife.com/product-110031/فشارسنج-دیجیتال-بی-ول-مدل-pro-36",

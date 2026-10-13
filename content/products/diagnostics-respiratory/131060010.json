@@ -53,7 +53,18 @@
       "answer": "صبح قبل از خوردن دارو و صبحانه و عصر قبل از شام، هر بار دو اندازه‌گیری با یک دقیقه فاصله."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060010-1.jpg",
+      "alt": "فشارسنج بازویی شیان LD-576 همراه کاف",
+      "source": "https://www.digikala.com/product/dkp-9206759/"
+    },
+    {
+      "file": "data-private/photos/131060010-2.jpg",
+      "alt": "فشارسنج شیان LD-576 با کیف و جعبه",
+      "source": "https://www.digikala.com/product/dkp-9206759/"
+    }
+  ],
   "sources": [
     "https://fda.innolitics.com/device/K170866",
     "https://www.technolife.com/product-303106/فشارسنج-بازویی-شیان-مدل-ld-576"

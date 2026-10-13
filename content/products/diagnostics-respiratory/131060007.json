@@ -49,7 +49,18 @@
       "answer": "بله، ورودی آداپتور دارد و با باتری هم کار می‌کند."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060007-1.jpg",
+      "alt": "فشارسنج بازویی بی ول PRO-35 همراه کاف",
+      "source": "https://www.digikala.com/product/dkp-357279/"
+    },
+    {
+      "file": "data-private/photos/131060007-2.jpg",
+      "alt": "فشارسنج بی ول PRO-35 در جعبه",
+      "source": "https://www.intercheim.com/product/blood-pressure-monitor-pro-35/"
+    }
+  ],
   "sources": [
     "https://www.homecaremedicalsupplies.ie/sites/admin/plugins/elfinder/files/homecare/IM_PRO35_EN_4722.pdf",
     "https://multitronic.fi/en/products/2799773",

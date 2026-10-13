@@ -57,7 +57,18 @@
       "answer": "یک عدد اتفاقی بالا یا پایین شما را گمراه نمی‌کند و تصویر درست‌تری از فشارتان می‌دهد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060009-1.jpg",
+      "alt": "فشارسنج بازویی رزمکس Z1 همراه کاف",
+      "source": "https://www.digikala.com/product/dkp-6175458/"
+    },
+    {
+      "file": "data-private/photos/131060009-2.jpg",
+      "alt": "فشارسنج رزمکس Z1 از نمای جلو",
+      "source": "https://www.digikala.com/product/dkp-6175458/"
+    }
+  ],
   "sources": [
     "https://www.alza.cz/EN/rossmax-z1-d8598956.htm",
     "https://sunwaymulticare.com.my/products/rossmax-automatic-blood-pressure-monitor-model-z1",

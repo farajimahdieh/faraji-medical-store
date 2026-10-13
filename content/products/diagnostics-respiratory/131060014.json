@@ -54,7 +54,13 @@
       "answer": "دو نفر، هر کدام با حافظه‌ی جداگانه‌ی ۶۰ نتیجه."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060014-1.jpg",
+      "alt": "فشارسنج بازویی سخنگوی استار BE-6034 با کیف، کاف و آداپتور",
+      "source": "https://shop.ssrobinson.com/فشارسنج-استار-6034"
+    }
+  ],
   "sources": [
     "owner: content/owner-facts.md",
     "https://emalls.ir/مشخصات_فشارسنج-بازویی-استار-مدل-BE-6034~id~4358608",

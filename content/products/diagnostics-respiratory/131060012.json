@@ -57,7 +57,18 @@
       "answer": "۳۰ نتیجه‌ی آخر را خودکار ذخیره می‌کند و میانگین آن‌ها را هم نشان می‌دهد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060012-1.jpg",
+      "alt": "فشارسنج بازویی میکرولایف BP B1 Classic",
+      "source": "https://www.microlife.bg/product/microlife-bp-b1-classic/"
+    },
+    {
+      "file": "data-private/photos/131060012-2.jpg",
+      "alt": "فشارسنج میکرولایف B1 Classic همراه کاف",
+      "source": "https://microlifestore.com/products/cisnieniomierz-automatyczny-microlife-bp-b1-classic"
+    }
+  ],
   "sources": [
     "https://www.microlife.com/consumer-products/blood-pressure/upper-arm-automatic/b1-classic",
     "https://shop.bhf.org.uk/microlife-bp-b1-classic-blood-pressure-monitor-with-22-42cm-cuff",

@@ -57,7 +57,18 @@
       "answer": "صبح قبل از خوردن دارو و صبحانه و عصر قبل از شام، هر بار دو اندازه‌گیری با یک دقیقه فاصله."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/131060011-1.jpg",
+      "alt": "فشارسنج بازویی سیتیزن CHU304 همراه کاف",
+      "source": "https://www.digikala.com/product/dkp-302658/"
+    },
+    {
+      "file": "data-private/photos/131060011-2.jpg",
+      "alt": "فشارسنج سیتیزن CHU304 با کاف بازویی",
+      "source": "https://www.cellsii.com/citizen-chu304-digital-blood-pressure-monitor/"
+    }
+  ],
   "sources": [
     "https://medaval.ie/docs/manuals/Citizen-CHU-304-Manual.pdf",
     "https://gcc.luluhypermarket.com/en-ae/citizen-upper-arm-digital-blood-pressure-monitor-white-chu304/p/1273021/",
