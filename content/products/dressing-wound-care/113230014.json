@@ -9,7 +9,7 @@
   "features": [
     "هسته‌ی جاذب از الیاف سلولز",
     "پوشش نبافته که به زخم نمی‌چسبد",
-    "لایه‌ی پشتی ضدآب برای جلوگیری از نشت",
+    "لایه‌ی پشتی دفع‌کننده‌ی آب برای کم کردن نشت ترشح",
     "نخ آبی برای تشخیص سمت بیرونی",
     "مناسب زخم‌های با ترشح متوسط"
   ],
@@ -61,7 +61,6 @@
     }
   ],
   "sources": [
-    "https://www.hartmann.info/en/products/wound-management/absorption-pads/high-absorbent/zetuvit%C2%AE-e-sterile",
-    "https://www.hartmann.info/en/products/wound-management/absorption-pads/high-absorbent/zetuvit%C2%AE-e-non-sterile"
+    "https://www.hartmann.info/en/products/wound-management/absorption-pads/high-absorbent/zetuvit%C2%AE-e-sterile"
   ]
 }
