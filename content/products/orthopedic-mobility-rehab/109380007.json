@@ -24,6 +24,10 @@
     {
       "name": "سایز",
       "value": "L"
+    },
+    {
+      "name": "جنس",
+      "value": "پلاستیک"
     }
   ],
   "faqs": [
@@ -48,6 +52,7 @@
     }
   ],
   "sources": [
-    "https://www.technolife.com/product-576345/"
+    "https://www.technolife.com/product-576345/",
+    "owner: content/owner-facts.md"
   ]
 }

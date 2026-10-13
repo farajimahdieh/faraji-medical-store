@@ -174,9 +174,13 @@ that may be a medicine (see below).
 ## Products that need a human decision
 
 Flag these to the user instead of publishing as normal:
-- Ointments/gels/powders that may be registered as medicines (e.g. پماد
-  کامفیل، پماد بیلوا، پماد زیتن): write their content and images as usual,
-  add `"hold": true` to the file, and list them in the report as "do not
-  approve yet" -- online sale of medicines has separate rules in Iran, so
-  the owner decides when to publish them.
+- Ointments/gels/powders that may be registered as medicines: write their
+  content and images as usual, add `"hold": true` to the file, and list
+  them in the report as "do not approve yet" -- online sale of medicines
+  has separate rules in Iran, so the owner decides when to publish them.
+  Owner's decision (2026-10-13): wound-care gels, creams and powders
+  (pressure sores, diabetic wounds, burns, surgical wounds -- e.g.
+  هایداین، کامفیل، بیلوا، طباسپت، طباگرن) are sold by medical-equipment
+  stores and are **not** held. Hold only products outside wound care that
+  look like real medicines, and ask.
 - Anything you could not identify with confidence.

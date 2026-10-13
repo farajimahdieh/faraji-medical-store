@@ -28,8 +28,8 @@
       "answer": "بالشتک‌های حفره‌دار مثل بالشتک نشیمن آنو یا بالشتک نشیمن حلقوی طب و صنعت."
     },
     {
-      "question": "چطور تمیزش کنم؟",
-      "answer": "روکش آن را با آب ولرم و صابون ملایم بشویید."
+      "question": "روکشش جدا می‌شود؟",
+      "answer": "نه، روکش آن زیپ ندارد و جدا نمی‌شود."
     }
   ],
   "images": [
@@ -40,6 +40,7 @@
     }
   ],
   "sources": [
-    "https://www.digikala.com/product/dkp-9735684/"
+    "https://www.digikala.com/product/dkp-9735684/",
+    "owner: content/owner-facts.md"
   ]
 }
