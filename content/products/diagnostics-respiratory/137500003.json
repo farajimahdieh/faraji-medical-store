@@ -40,7 +40,18 @@
       "answer": "دو لوله‌ی جدا و سرگوشی‌های قابل تعویض دارد و برای سنین و کاربردهای مختلف انعطاف بیشتری می‌دهد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/137500003-1.jpg",
+      "alt": "گوشی پزشکی راپاپورت بی ول WS-3 مشکی",
+      "source": "https://www.digikala.com/product/dkp-3028882/"
+    },
+    {
+      "file": "data-private/photos/137500003-2.jpg",
+      "alt": "گوشی پزشکی راپاپورت بی ول WS-3 قرمز",
+      "source": "https://www.digikala.com/product/dkp-21669466/"
+    }
+  ],
   "sources": [
     "https://gomed.ng/product/b-well-sprague-rappaport-type-stethoscope-ws-3",
     "https://www.drmax.ro/stetoscop-tip-sprague-rappaport-culoare-albastru-ws-3-1-bucata-b-well",

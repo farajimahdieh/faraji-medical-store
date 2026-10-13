@@ -35,7 +35,18 @@
       "answer": "صفحه را با دستمال مرطوب و کمی مایع ضدعفونی ملایم پاک کنید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/134610006-1.jpg",
+      "alt": "نمونه‌ی ترازوی دیجیتال اطفال زنیت مد با خط‌کش قد",
+      "source": "https://www.digikala.com/product/dkp-7060703/"
+    },
+    {
+      "file": "data-private/photos/134610006-2.jpg",
+      "alt": "نمونه‌ی ترازوی دیجیتال نوزاد زنیت مد",
+      "source": "https://www.digikala.com/product/dkp-7060703/"
+    }
+  ],
   "sources": [
     "holoo: 134610006 (ترازوی دیجیتال اطفال زینت مد)",
     "https://www.medshop.com.au/collections/baby-scales"

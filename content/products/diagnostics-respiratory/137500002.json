@@ -40,7 +40,18 @@
       "answer": "سرگوشی را بچرخانید تا صدا از طرفی که می‌خواهید شنیده شود؛ با ضربه‌ی آرام انگشت روی هر طرف امتحان کنید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/137500002-1.jpg",
+      "alt": "گوشی پزشکی دوپاویون بی ول WS-2",
+      "source": "https://www.digikala.com/product/dkp-9187213/"
+    },
+    {
+      "file": "data-private/photos/137500002-2.jpg",
+      "alt": "گوشی پزشکی بی ول WS-2 از نمای دیگر",
+      "source": "https://www.digikala.com/product/dkp-9187213/"
+    }
+  ],
   "sources": [
     "https://gomed.ng/product/b-well-sthethoscope-with-dual-head-chest-piece-ws-2",
     "https://podorozhnyk.ua/ru/brands/bi-vell-sviss-ag-shveycariya/"

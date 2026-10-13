@@ -35,7 +35,13 @@
       "answer": "از ما بپرسید تا مدل و برند را از روی بسته برایتان بگوییم."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/137500005-1.jpg",
+      "alt": "نمونه‌ی گوشی پزشکی دوپاویون استیل",
+      "source": "https://halohealthcare.com/products/amg-medical-physiologic-premier-stainless-steel-dual-head-stethoscope?variant=40433234411609"
+    }
+  ],
   "sources": [
     "holoo: 137500005 (گوشی پزشکی آلمانی)"
   ]

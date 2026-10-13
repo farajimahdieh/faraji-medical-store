@@ -40,7 +40,18 @@
       "answer": "WS-2 سرگوشی دوطرفه دارد و هم صداهای زیر و هم صداهای بم را بهتر می‌شنود."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/137500001-1.jpg",
+      "alt": "گوشی پزشکی تک‌پاویون بی ول WS-1",
+      "source": "https://www.digikala.com/product/dkp-7088610/"
+    },
+    {
+      "file": "data-private/photos/137500001-2.jpg",
+      "alt": "گوشی پزشکی تک‌پاویون بی ول WS-1 آبی",
+      "source": "https://www.digikala.com/product/dkp-1654089/"
+    }
+  ],
   "sources": [
     "https://www.drmax.ro/stetoscop-simplu-in-forma-de-y-culoare-albastra-ws-1-1-bucata-b-well",
     "https://gomed.ng/product/b-well-stethoscope-with-one-sided-head-ws-1",

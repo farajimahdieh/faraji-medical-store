@@ -50,7 +50,18 @@
       "answer": "بله، حالت سنجش دمای سطح اشیا و مایعات دارد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140320001-1.jpg",
+      "alt": "تب‌سنج گوش و پیشانی بیورر FT 70",
+      "source": "https://whs.lu/fr/product/beurer-ft70-thermometre-medical/"
+    },
+    {
+      "file": "data-private/photos/140320001-2.jpg",
+      "alt": "نمایشگر تب‌سنج بیورر FT 70",
+      "source": "https://www.girodmedical.de/multifunktions-thermometer-beurer-ft-70.html"
+    }
+  ],
   "sources": [
     "https://www.benu.ch/en/beurer-multifunktions-thermometer-sprechend-ft-70-1-stuck",
     "https://asset.conrad.com/media10/add/160267/c1/-/gl/000860156IN02/informacije-860156-infracrveni-termometar-ft-70.pdf"

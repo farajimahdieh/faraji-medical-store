@@ -36,7 +36,13 @@
       "answer": "برای یک نفر، گوشی‌های معمولی سبک‌تر و راحت‌ترند؛ این مدل برای آموزش ساخته شده است."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/137500004-1.jpg",
+      "alt": "نمونه‌ی گوشی پزشکی آموزشی با دو هدست",
+      "source": "https://www.medicalxpress.co.uk/shop/teaching-dual-head-stethoscope/"
+    }
+  ],
   "sources": [
     "https://stethoscope.eu/mdf-stethoscopes/",
     "https://www.unicat.msf.org/cat/product/76687"
