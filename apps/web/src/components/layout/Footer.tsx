@@ -15,7 +15,6 @@ const footerCategories = [
 const quickLinks = [
   { label: "درباره ما", href: "/about" },
   { label: "راهنمای خرید", href: "/guides" },
-  { label: "راهنمای انتخاب سایز", href: "/size-guide" },
   { label: "سوالات متداول", href: "/faq" },
   { label: "شرایط و قوانین", href: "/terms" },
   { label: "حریم خصوصی", href: "/privacy" },

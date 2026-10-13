@@ -1,12 +1,11 @@
-// Size-selection guide shown on /size-guide and under the photos of every
-// product that is sold in sizes. The tables are copied from Teb-o-Sanat's
+// Size-selection guide shown under the photos of every product that is sold
+// in sizes (there is no separate guide page -- owner's decision). The tables are copied from Teb-o-Sanat's
 // product pages (teb-sanat.com, "راهنمای سایز بندی" tab of each product);
 // the owner asked to use the same tables for other brands too (e.g. Paksman).
 //
 // Never invent numbers here: every row must come from a Teb-o-Sanat table.
 // Where Teb-o-Sanat publishes no table (varicose stockings, insoles) the
-// section keeps no rows and the guide page asks customers to measure and
-// ask us. Teb-o-Sanat uses different tables for some models of the same
+// section keeps no rows and no table is shown. Teb-o-Sanat uses different tables for some models of the same
 // type (e.g. maternity vs. ordinary abdominal belts); those get their own
 // section placed before the general one.
 
@@ -18,7 +17,7 @@ export interface SizeGuideRow {
 }
 
 export interface SizeGuideSection {
-  /** Anchor on /size-guide, e.g. "waist" → /size-guide#waist. */
+  /** Stable key, e.g. "waist". */
   id: string;
   title: string;
   /** Where and how to measure, in Teb-o-Sanat's own terms. */

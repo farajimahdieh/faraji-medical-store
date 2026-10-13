@@ -1,10 +1,11 @@
-import Link from "next/link";
 import { Ruler } from "lucide-react";
 import { SizeGuideTable } from "@/components/catalog/SizeGuideTable";
 import { findSizeGuideSection, hasSizeChoice } from "@/data/size-guide";
+import { STORE_PHONE } from "@/data/store";
 
 // Shown under the product photos for anything sold in sizes: the matching
-// table from the size guide plus a link to the full guide page.
+// Teb-o-Sanat size table. There is no separate size-guide page (owner's
+// decision), so everything the shopper needs is in this box.
 export function ProductSizeGuide({
   productName,
   sizes,
@@ -14,7 +15,7 @@ export function ProductSizeGuide({
 }) {
   if (!hasSizeChoice(sizes)) return null;
   const section = findSizeGuideSection(productName);
-  const href = section ? `/size-guide#${section.id}` : "/size-guide";
+  if (!section) return null;
 
   return (
     <section className="rounded-xl border border-border bg-white p-4">
@@ -22,17 +23,14 @@ export function ProductSizeGuide({
         <Ruler className="h-5 w-5 text-primary" aria-hidden />
         راهنمای انتخاب سایز
       </h2>
-      {section && (
-        <>
-          <p className="mt-2 text-sm leading-7 text-secondary-text">{section.howToMeasure}</p>
-          <div className="mt-3">
-            <SizeGuideTable section={section} />
-          </div>
-        </>
-      )}
-      <Link href={href} className="mt-3 inline-block text-sm font-medium text-primary hover:underline">
-        راهنمای کامل انتخاب سایز
-      </Link>
+      <p className="mt-2 text-sm leading-7 text-secondary-text">{section.howToMeasure}</p>
+      <div className="mt-3">
+        <SizeGuideTable section={section} />
+      </div>
+      {section.note && <p className="mt-3 text-xs text-secondary-text">{section.note}</p>}
+      <p className="mt-3 text-xs text-secondary-text">
+        اگر اندازه‌تان بین دو سایز بود یا سایزتان در جدول نبود، با ما تماس بگیرید: {STORE_PHONE}
+      </p>
     </section>
   );
 }

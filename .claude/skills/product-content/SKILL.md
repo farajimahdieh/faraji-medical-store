@@ -63,8 +63,8 @@ database rows. Read `content/README.md` for the file format and pipeline.
   page already shows a size selector with each size's own price. For
   body-worn supports (belts, corsets, collars, knee/wrist/ankle/elbow
   braces, stockings, any brand incl. Paksman), the page also shows the
-  Teb-o-Sanat size table under the photos (`apps/web/src/data/size-guide.ts`,
-  page `/size-guide`). Point the reader there instead of "ask us for the
+  Teb-o-Sanat size table under the photos (`apps/web/src/data/size-guide.ts`;
+  there is no separate size-guide page). Point the reader there instead of "ask us for the
   size": e.g. "برای انتخاب سایز، اندازه‌ی دور کمر را بگیرید و با جدول
   «راهنمای انتخاب سایز» زیر عکس محصول مقایسه کنید." Do not copy size
   numbers into the text.
