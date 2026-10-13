@@ -39,11 +39,18 @@
       "answer": "این پانسمان پد و حاشیه چسب‌دار را یک‌جا دارد؛ گاز ساده برای ثابت ماندن به چسب یا باند نیاز دارد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/102760001-1.jpg",
+      "alt": "پانسمان آماده چسب‌دار مدیکس ۱۰×۱۵ سانتی‌متر در بسته‌بندی",
+      "source": "https://www.sharjahcoop.ae/en/medix-adhesive-wound-dressing-10x15/p/V00174_11195055"
+    }
+  ],
   "sources": [
     "https://zeemano.com/product/106182/",
     "owner: content/owner-facts.md",
-    "https://parspeyvandco.com/brands/medix/"
+    "https://parspeyvandco.com/brands/medix/",
+    "https://www.sharjahcoop.ae/en/medix-adhesive-wound-dressing-10x15/p/V00174_11195055"
   ],
   "brand": "Medix"
 }

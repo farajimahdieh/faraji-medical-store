@@ -44,11 +44,18 @@
       "answer": "بله. روی آلژینات، هیدروژل یا گاز عسل به‌عنوان لایه‌ی رویی می‌گذارند."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/118590003-1.jpg",
+      "alt": "گاز استریل؛ تصویر نمونه نوع کالا",
+      "source": "https://urgentfirstaid.com/products/gauze-pad-sterile-1s-3x-3-12-ply"
+    }
+  ],
   "sources": [
     "https://www.sabadaru.com/products/2064/zarrin-teb-gauze-sterilized",
     "https://nedateb.com/product/%DA%AF%D8%A7%D8%B2-%D8%A7%D8%B3%D8%AA%D8%B1%DB%8C%D9%84-%D8%B2%D8%B1%DB%8C%D9%86-%D8%B7%D8%A8/",
     "https://en.wikipedia.org/wiki/Gauze",
-    "https://commons.wikimedia.org/wiki/File:Gauze_01.JPG"
+    "https://commons.wikimedia.org/wiki/File:Gauze_01.JPG",
+    "https://urgentfirstaid.com/products/gauze-pad-sterile-1s-3x-3-12-ply"
   ]
 }

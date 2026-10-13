@@ -30,11 +30,18 @@
       "answer": "این محصول ساخت شرکت سوپا است."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/144620001-1.jpg",
+      "alt": "اریگاتور سوپا برای شست‌وشوی زخم با سرم",
+      "source": "https://tebsis.com/p/supa-irrigator/"
+    }
+  ],
   "sources": [
     "https://www.oneteb.com/product/irrigator/",
     "https://dermaroz.com/product/irrigator-supa/",
-    "owner: content/owner-facts.md"
+    "owner: content/owner-facts.md",
+    "https://tebsis.com/p/supa-irrigator/"
   ],
   "brand": "Supa"
 }
