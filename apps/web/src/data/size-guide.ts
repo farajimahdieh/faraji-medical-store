@@ -226,11 +226,12 @@ export const sizeGuideSections: SizeGuideSection[] = [
   {
     id: "stockings",
     title: "جوراب واریس",
+    // Teb-o-Sanat publishes no size table for varicose stockings, only the
+    // length codes below.
     howToMeasure:
-      "طب و صنعت برای جوراب واریس جدول اندازه منتشر نکرده و مدل‌ها را با کد طول جوراب معرفی می‌کند.",
+      "کد مدل، طول جوراب را نشان می‌دهد: AB با کف زیر زانو (کوتاه)، AD با کف زیر زانو (بلند)، AF با کف بالای زانو، AG با کف بالای ران، BD بدون کف زیر زانو، BF بدون کف بالای زانو، BG بدون کف بالای ران، DF زانوبند.",
     columns: [],
     rows: [],
-    note: "AB با کف زیر زانو (کوتاه)، AD با کف زیر زانو (بلند)، AF با کف بالای زانو، AG با کف بالای ران، BD بدون کف زیر زانو، BF بدون کف بالای زانو، BG بدون کف بالای ران، DF زانوبند.",
     keywords: ["جوراب"],
   },
 
@@ -576,8 +577,8 @@ export const sizeGuideSections: SizeGuideSection[] = [
   {
     id: "foot",
     title: "کفی طبی",
-    howToMeasure:
-      "کفی‌های طب و صنعت با شماره‌ی کفش انتخاب می‌شوند و جدول اندازه‌ی جداگانه ندارند.",
+    // Teb-o-Sanat sizes its insoles by shoe number only, with no table.
+    howToMeasure: "کفی طبی بر اساس شماره‌ی کفش انتخاب می‌شود.",
     columns: [],
     rows: [],
     keywords: ["کفی"],
@@ -653,9 +654,10 @@ export const sizeGuideSections: SizeGuideSection[] = [
   },
 ];
 
-// Single-size items ("تک سایز", "فری سایز"), products without a size and
-// left/right variants don't need the guide.
-const NO_SIZE = /^(|-|تک ?سایز|فری ?سایز|free ?size|one ?size|راست|چپ)$/i;
+// Single-size items ("تک سایز", "فری سایز"), products without a size (the
+// Holoo importer's default "استاندارد") and left/right variants don't need
+// the guide.
+const NO_SIZE = /^(|-|استاندارد|تک ?سایز|فری ?سایز|free ?size|one ?size|راست|چپ)$/i;
 
 export function hasSizeChoice(sizes: string[]): boolean {
   return sizes.some((size) => !NO_SIZE.test(size.trim()));

@@ -56,6 +56,7 @@ describe("hasSizeChoice", () => {
   it("is false for single-size products", () => {
     expect(hasSizeChoice(["تک سایز"])).toBe(false);
     expect(hasSizeChoice([""])).toBe(false);
+    expect(hasSizeChoice(["استاندارد"])).toBe(false);
   });
 
   it("is false for left/right variants", () => {
