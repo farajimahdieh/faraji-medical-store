@@ -54,6 +54,17 @@ All photos in `content/photos/dressing-wound-care/` were cleaned for the
 site (background removed or tightly cropped, light corrected, white square
 canvas 1000×1000). Use `-shop-1` as the main image.
 
+## From photos of the actual packs, batch 3 (2026-10-13, evening)
+
+The owner re-shot several packs; the new cleaned photos (`*-shop2-N.jpg`)
+replace the earlier ones.
+
+- مدیکس (102760001): جعبه هم مدل **NW1015** و سایز **۱۰×۱۵** را نشان می‌دهد. عکس‌ها: `102760001-shop2-1..2.jpg`.
+- فوم یورودرم ۲۰×۲۰ (113230002): جعبه‌ی **Euroderm foam، eurofarm**، «Non adhesive foam dressing»، **۲۰×۲۰ سانتی‌متر (8"×8")**، روی جعبه «Made in Italy»؛ روی بسته‌ی داخلی «EURODERM FOAM 20 x 20 cm». عکس‌ها: `113230002-shop2-1..3.jpg`.
+- آئوکی (113150012): بسته و جعبه‌ی هر دو مدل (AK207 حاشیه‌دار ۱۰×۱۰ و AK108 خیلی نازک ۱۵×۱۵). عکس‌ها: `113150012-shop2-1..4.jpg`.
+- گاز عسل مدی‌هانی (113150031)، اریگاتور فوجامد (144620001)، نانوفوم (113230011)، چسب سیلیکونی مربع آمونا (113150005): همان بسته‌های قبلی، عکس تازه. عکس جعبه‌ی گاز مدی‌هانی دست‌نوشته داشت و استفاده نشد.
+- ژل عسل: صاحب مغازه دو ژل عسل فرستاده: **Honey Health Repairing Gel** برند **TAC**، ایرانی، ۵۰ گرم، «With Active Hyaluronic Acid» (`honey-health-gel-1..2.jpg`)، و **MEDIHONEY Antibacterial Wound Gel**، **Integra**، REF 395 (`medihoney-wound-gel-1.jpg`). صاحب مغازه: ژل خارجی مال کالای گران‌تر و ژل ایرانی مال کالای ارزان‌تر است. در هلو فقط یک کالای ژل عسل در این دسته هست (113210007 «پماد عسل هانی هلث»)؛ منتظر تصمیم صاحب مغازه.
+
 ## Pillows and seat cushions, shop photos (2026-10-13)
 
 Photos in `content/photos/orthopedic-mobility-rehab/`, taken in the shop.

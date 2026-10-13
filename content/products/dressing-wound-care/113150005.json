@@ -38,13 +38,13 @@
   ],
   "images": [
     {
-      "file": "content/photos/dressing-wound-care/113150005-shop-1.jpg",
-      "alt": "چسب سیلیکونی اسکار مربع آمونا؛ نمای اصلی بسته محصول",
+      "file": "content/photos/dressing-wound-care/113150005-shop2-1.jpg",
+      "alt": "چسب سیلیکونی اسکار مربع آمونا در بسته‌بندی",
       "source": "owner: content/owner-facts.md"
     },
     {
-      "file": "content/photos/dressing-wound-care/113150005-shop-2.jpg",
-      "alt": "چسب سیلیکونی اسکار مربع آمونا؛ نمای دوم محصول",
+      "file": "content/photos/dressing-wound-care/113150005-shop2-2.jpg",
+      "alt": "جعبه‌ی محصولات ترمیم آمونا (Amoena Recovery Care)",
       "source": "owner: content/owner-facts.md"
     }
   ],
@@ -52,5 +52,6 @@
     "https://www.amoena.com/global/post-surgery-recovery-care/curascar-silicone-patches/squares-silicone-scar-patch-clear-2751/",
     "https://www.amoena.com/us-en/product-groups/recovery-care/curascar-silicones/",
     "owner: content/owner-facts.md"
-  ]
+  ],
+  "replaceImages": true
 }

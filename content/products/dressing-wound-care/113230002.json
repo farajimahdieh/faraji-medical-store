@@ -55,13 +55,24 @@
   ],
   "images": [
     {
-      "file": "content/photos/dressing-wound-care/113230002-shop-1.jpg",
-      "alt": "پانسمان فوم یورودرم یوروفارم (Euroderm Foam)؛ نمای اصلی بسته محصول",
+      "file": "content/photos/dressing-wound-care/113230002-shop2-1.jpg",
+      "alt": "جعبه‌ی پانسمان فوم یورودرم یوروفارم سایز ۲۰×۲۰",
+      "source": "owner: content/owner-facts.md"
+    },
+    {
+      "file": "content/photos/dressing-wound-care/113230002-shop2-2.jpg",
+      "alt": "بسته‌ی استریل پانسمان فوم یورودرم یوروفارم",
+      "source": "owner: content/owner-facts.md"
+    },
+    {
+      "file": "content/photos/dressing-wound-care/113230002-shop2-3.jpg",
+      "alt": "پانسمان فوم یورودرم ۲۰×۲۰ داخل بسته‌ی استریل",
       "source": "owner: content/owner-facts.md"
     }
   ],
   "sources": [
     "https://eurofarm-spa.com/prodotto/euroderm-foam/",
     "owner: content/owner-facts.md"
-  ]
+  ],
+  "replaceImages": true
 }

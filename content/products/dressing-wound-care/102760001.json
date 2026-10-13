@@ -50,13 +50,19 @@
   ],
   "images": [
     {
-      "file": "content/photos/dressing-wound-care/102760001-shop-1.jpg",
-      "alt": "پانسمان آماده مدیکس (MEDIX)؛ نمای اصلی بسته محصول",
+      "file": "content/photos/dressing-wound-care/102760001-shop2-1.jpg",
+      "alt": "پانسمان آماده نان‌ووون مدیکس سایز ۱۰×۱۵ در بسته‌بندی استریل",
+      "source": "owner: content/owner-facts.md"
+    },
+    {
+      "file": "content/photos/dressing-wound-care/102760001-shop2-2.jpg",
+      "alt": "جعبه‌ی پانسمان آماده مدیکس مدل NW1015",
       "source": "owner: content/owner-facts.md"
     }
   ],
   "sources": [
     "owner: content/owner-facts.md"
   ],
-  "brand": "Medix"
+  "brand": "Medix",
+  "replaceImages": true
 }

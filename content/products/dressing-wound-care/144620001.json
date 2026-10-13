@@ -58,18 +58,19 @@
   ],
   "images": [
     {
-      "file": "content/photos/dressing-wound-care/144620001-shop-1.jpg",
-      "alt": "اریگاتور شست‌وشوی زخم فوجامد (FOUJAMED)؛ نمای اصلی بسته محصول",
+      "file": "content/photos/dressing-wound-care/144620001-shop2-1.jpg",
+      "alt": "اریگاتور شست‌وشوی زخم فوجامد در بسته‌بندی استریل",
       "source": "owner: content/owner-facts.md"
     },
     {
-      "file": "content/photos/dressing-wound-care/144620001-shop-2.jpg",
-      "alt": "اریگاتور شست‌وشوی زخم فوجامد (FOUJAMED)؛ نمای دوم محصول",
+      "file": "content/photos/dressing-wound-care/144620001-shop2-2.jpg",
+      "alt": "اریگاتور فوجامد از نمای پشت بسته",
       "source": "owner: content/owner-facts.md"
     }
   ],
   "sources": [
     "owner: content/owner-facts.md"
   ],
-  "brand": "FOUJAMED"
+  "brand": "FOUJAMED",
+  "replaceImages": true
 }

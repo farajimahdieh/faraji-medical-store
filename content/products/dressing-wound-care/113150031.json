@@ -67,8 +67,8 @@
   ],
   "images": [
     {
-      "file": "content/photos/dressing-wound-care/113150031-shop-1.jpg",
-      "alt": "پانسمان گاز عسل مدی هانی (Medihoney Honey Tulle)؛ نمای اصلی بسته محصول",
+      "file": "content/photos/dressing-wound-care/113150031-shop2-1.jpg",
+      "alt": "پانسمان گاز عسل مدی‌هانی ۱۰×۱۰ در بسته‌بندی استریل",
       "source": "owner: content/owner-facts.md"
     }
   ],
@@ -77,5 +77,6 @@
     "https://mosbatesabz.com/product/medihoney-hony-tulle-dressing-10x10-cm/",
     "https://northeast.devonformularyguidance.nhs.uk/formulary/chapters/17-wound-management/17-3-antimicrobial-dressings/17-3-1-honey",
     "owner: content/owner-facts.md"
-  ]
+  ],
+  "replaceImages": true
 }

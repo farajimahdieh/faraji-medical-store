@@ -56,17 +56,28 @@
   ],
   "images": [
     {
-      "file": "content/photos/dressing-wound-care/113150012-shop-1.jpg",
-      "alt": "پانسمان هیدروکلوئید آئوکی ۱۰×۱۰ حاشیه‌دار AK207",
+      "file": "content/photos/dressing-wound-care/113150012-shop2-1.jpg",
+      "alt": "پانسمان هیدروکلوئید آئوکی حاشیه‌دار ۱۰×۱۰ مدل AK207 در بسته‌بندی",
       "source": "owner: content/owner-facts.md"
     },
     {
-      "file": "content/photos/dressing-wound-care/113150012-shop-2.jpg",
-      "alt": "پانسمان هیدروکلوئید آئوکی ۱۵×۱۵ خیلی نازک AK108",
+      "file": "content/photos/dressing-wound-care/113150012-shop2-2.jpg",
+      "alt": "پانسمان هیدروکلوئید آئوکی خیلی نازک ۱۵×۱۵ مدل AK108 در بسته‌بندی",
+      "source": "owner: content/owner-facts.md"
+    },
+    {
+      "file": "content/photos/dressing-wound-care/113150012-shop2-3.jpg",
+      "alt": "جعبه و بسته‌ی پانسمان هیدروکلوئید آئوکی حاشیه‌دار ۱۰×۱۰",
+      "source": "owner: content/owner-facts.md"
+    },
+    {
+      "file": "content/photos/dressing-wound-care/113150012-shop2-4.jpg",
+      "alt": "جعبه‌ی پانسمان هیدروکلوئید آئوکی خیلی نازک ۱۵×۱۵",
       "source": "owner: content/owner-facts.md"
     }
   ],
   "sources": [
     "owner: content/owner-facts.md"
-  ]
+  ],
+  "replaceImages": true
 }

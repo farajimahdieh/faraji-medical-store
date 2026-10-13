@@ -55,13 +55,14 @@
   ],
   "images": [
     {
-      "file": "content/photos/dressing-wound-care/113230011-shop-1.jpg",
-      "alt": "پانسمان فوم نانوفوم (NanoFoam)؛ نمای اصلی بسته محصول",
+      "file": "content/photos/dressing-wound-care/113230011-shop2-1.jpg",
+      "alt": "پانسمان فوم نانوفوم ۱۰×۱۰ در بسته‌بندی",
       "source": "owner: content/owner-facts.md"
     }
   ],
   "sources": [
     "owner: content/owner-facts.md"
   ],
-  "brand": "NanoFoam"
+  "brand": "NanoFoam",
+  "replaceImages": true
 }
