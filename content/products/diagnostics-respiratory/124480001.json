@@ -41,7 +41,18 @@
       "answer": "این سایز بزرگسال است و روی صورت کودک درست نمی‌نشیند."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/124480001-1.jpg",
+      "alt": "ماسک اکسیژن ساده‌ی بزرگسال سوپا",
+      "source": "https://www.digikala.com/product/dkp-10039002/"
+    },
+    {
+      "file": "data-private/photos/124480001-2.jpg",
+      "alt": "ماسک اکسیژن سوپا همراه لوله‌ی رابط",
+      "source": "https://www.digikala.com/product/dkp-10039002/"
+    }
+  ],
   "sources": [
     "https://aradbranding.com/fa/purchase-and-price-of-adult-oxygen-masks/",
     "https://basalam.com/cat/health/%D9%85%D8%A7%D8%B3%DA%A9-%D8%A7%DA%A9%D8%B3%DB%8C%DA%98%D9%86",

@@ -36,7 +36,18 @@
       "answer": "برای فضاهای کوچک ساخته شده؛ برای اتاق بزرگ بخورهای ۳٫۵ تا ۶٫۵ لیتری را ببینید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/120510004-1.jpg",
+      "alt": "نمونه‌ی دستگاه بخور سرد کوچک کروی طرح چوب با جای اسانس",
+      "source": "https://www.digikala.com/product/dkp-9089787/"
+    },
+    {
+      "file": "data-private/photos/120510004-2.jpg",
+      "alt": "نمونه‌ی اجزای بخور سرد کوچک کروی: مخزن، درپوش و صفحه‌ی زیرین",
+      "source": "https://www.digikala.com/product/dkp-9089787/"
+    }
+  ],
   "sources": [
     "holoo: 120510004 (بخور سرد کوچک نانو اسانس دار)",
     "https://www.digikala.com/mag/video/emsig-cold-fumigator-model-us418-unboxing-review/"

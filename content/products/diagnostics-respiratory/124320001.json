@@ -45,7 +45,18 @@
       "answer": "مانومتر روی شیر کپسول‌های اکسیژن پزشکی بسته می‌شود؛ اگر شک دارید، عکس شیر کپسول را برایمان بفرستید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/124320001-1.jpg",
+      "alt": "مانومتر اکسیژن نجات توان جم با فلومتر و ظرف رطوبت‌ساز",
+      "source": "https://www.digikala.com/product/dkp-22602317/"
+    },
+    {
+      "file": "data-private/photos/124320001-2.jpg",
+      "alt": "مانومتر اکسیژن نجات در جعبه",
+      "source": "https://www.digikala.com/product/dkp-22602317/"
+    }
+  ],
   "sources": [
     "https://www.technolife.com/product-448052/مانومتر-اکسیژن-توان-جم-مدل-نجات",
     "https://nmr.gums.ac.ir/uploads/34/admin1/clinik_majazi/vijeh/طریقه%20استفاده از کپسول اکسیژن در منزل.pdf",

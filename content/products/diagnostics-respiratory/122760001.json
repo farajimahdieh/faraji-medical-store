@@ -35,7 +35,18 @@
       "answer": "برای داخل گوش، اتوسکوپ لازم است که آن را هم داریم."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/122760001-1.jpg",
+      "alt": "نمونه‌ی پن‌لایت پزشکی LED سفید",
+      "source": "https://www.bonanza.com/listings/Professional-Medical-Diagnostic-LED-Penlight-White-for-Student-Nurses-Doctors/1765613662"
+    },
+    {
+      "file": "data-private/photos/122760001-2.jpg",
+      "alt": "نمونه‌ی پن‌لایت پزشکی LED با خط‌کش مردمک",
+      "source": "https://lumilite.en.made-in-china.com/product/MvDnbjeCSKhU/China-Rechargeable-Medical-Dual-LED-Penlight-Doctor-Nurse-LED-Pen-Light.html"
+    }
+  ],
   "sources": [
     "holoo: 122760001 (پن لایت LED)",
     "https://en.wikipedia.org/wiki/Penlight"

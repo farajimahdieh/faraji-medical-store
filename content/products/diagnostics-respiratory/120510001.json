@@ -43,7 +43,13 @@
       "answer": "رطوبت ۴۰ تا ۶۰ درصد برای بیشتر خانه‌ها مناسب است؛ رطوبت خیلی زیاد زمینه‌ی کپک را فراهم می‌کند."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/120510001-1.jpg",
+      "alt": "دستگاه بخور سرد اولتراسونیک مدل HD1355A با ریموت کنترل",
+      "source": "https://alexnld.com/product/hd-1355-ultrasonic-humidifier-lcd-screen-smart-intelligent-timing-air-purifier-with-eu-plug-type-with-remote-control-white/"
+    }
+  ],
   "sources": [
     "holoo: 120510001 (دستگاه بخور سرد 5/6 لیتری چینی مدلHD1355A)",
     "https://emalls.ir/Text/347079/"

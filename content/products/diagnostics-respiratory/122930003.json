@@ -35,7 +35,18 @@
       "answer": "برای سایز تیغه از ما بپرسید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/122930003-1.jpg",
+      "alt": "نمونه‌ی تیغه‌ی لارنگوسکوپ فلزی مکینتاش",
+      "source": "https://a2zscilab.com/products/laryngoscope-blade-macintosh-mac-2-stainless-steel"
+    },
+    {
+      "file": "data-private/photos/122930003-2.jpg",
+      "alt": "نمونه‌ی تیغه‌ی لارنگوسکوپ پلاستیکی",
+      "source": "https://hullanesthesia.com/product/briteblade-fiberoptic-laryngoscope-blades-disposable-plastic/"
+    }
+  ],
   "sources": [
     "holoo: 122930003-122930004 (تیغه لارینگ اسکوپ فلزی، پلاستیکی)",
     "https://cmecorp.com/shop/shop-by-category/physical-exam/nose-and-throat-exam/welch-allyn-690-series-macintosh-fiber-optic-laryngoscope-blades.html"

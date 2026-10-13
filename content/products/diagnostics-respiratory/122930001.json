@@ -35,7 +35,13 @@
       "answer": "تیغه را تمیز و طبق دستورالعمل مرکز درمانی ضدعفونی یا استریل کنید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/122930001-1.jpg",
+      "alt": "نمونه‌ی ست لارنگوسکوپ با دسته و تیغه‌های مکینتاش در کیف",
+      "source": "https://peaksurgicals.com/products/fiber-optic-macintosh-laryngoscope-set"
+    }
+  ],
   "sources": [
     "holoo: 122930001-122930002 (لارینگ اسکوپ اطفال، بزرگسال)",
     "https://mms.mckesson.com/product/132816/Welch-Allyn-69062"
