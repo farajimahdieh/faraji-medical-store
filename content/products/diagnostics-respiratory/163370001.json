@@ -36,7 +36,13 @@
       "answer": "برای استفاده‌ی روزانه و مطب، دستگاه همیشه آماده است و هزینه‌ی باتری ندارید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/163370001-1.jpg",
+      "alt": "آداپتور برق فشارسنج امرن",
+      "source": "https://www.digikala.com/product/dkp-9442758/"
+    }
+  ],
   "sources": [
     "https://www.omron-healthcare.com/",
     "https://numarknet.com/omron-m2-upper-arm-blood-pressure-monitor-hem-7146-e"

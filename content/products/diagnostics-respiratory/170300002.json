@@ -40,7 +40,13 @@
       "answer": "نه، هر نوار فقط یک بار مصرف می‌شود."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/170300002-1.jpg",
+      "alt": "نوار تست قند خون کرسنس ۵۰ عددی",
+      "source": "https://www.digikala.com/product/dkp-265395/"
+    }
+  ],
   "sources": [
     "https://i-sens.com/?p=1033",
     "https://emalls.ir/مشخصات_نوار-تست-قند-خون-کرسنس~id~685691"

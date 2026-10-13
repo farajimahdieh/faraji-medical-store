@@ -40,7 +40,13 @@
       "answer": "تعویض لوله باید توسط پزشک یا پرستار آموزش‌دیده انجام شود."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140960001-1.jpg",
+      "alt": "نمونه‌ی لوله‌ی تراکئوستومی کاف‌دار شیلی کویدین",
+      "source": "https://www.alphamedicalsolutions.com.au/medical-equipment/shiley-xlt-extended-length-tracheostomy-tube-cuffed-extended-distal-id-6-0-each/"
+    }
+  ],
   "sources": [
     "https://medicalmonks.com/?p=76846",
     "https://accessgudid.nlm.nih.gov/devices/10884521172470"

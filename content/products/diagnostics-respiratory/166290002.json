@@ -35,7 +35,13 @@
       "answer": "نه؛ تهویه‌ی هوای کابین همچنان لازم است."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/166290002-1.jpg",
+      "alt": "نمونه‌ی دستگاه تصفیه هوای فندکی داخل خودرو",
+      "source": "https://www.joom.com/tr/products/5dc27f2428fc710101a9b774"
+    }
+  ],
   "sources": [
     "holoo: 166290002 (دستگاه تصفیه هوا نانو داخل ماشین)",
     "https://www.hamshahrionline.ir/news/712898/"

@@ -49,7 +49,18 @@
       "answer": "تفاوت کم بین دو اندازه‌گیری طبیعی است. دست‌ها را قبل از تست بشویید و خشک کنید تا قند روی پوست روی نتیجه اثر نگذارد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/164880001-1.jpg",
+      "alt": "دستگاه تست قند خون کرسنس N با قلم لانست",
+      "source": "https://www.digikala.com/product/dkp-265351/"
+    },
+    {
+      "file": "data-private/photos/164880001-2.jpg",
+      "alt": "کیت دستگاه تست قند خون کرسنس N",
+      "source": "https://www.amazon.com/CareSens-Diabetes-Monitoring-Auto-Coding/dp/B082RSBPT4"
+    }
+  ],
   "sources": [
     "https://i-sens.com/?p=1033",
     "https://www.medaval.ie/docs/manuals/I-SensCareSens-N-Manual.pdf",

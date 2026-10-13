@@ -43,7 +43,13 @@
       "answer": "برای اطمینان از جزئیات این لوله، از ما بپرسید تا روی بسته برایتان بخوانیم."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/140960003-1.jpg",
+      "alt": "نمونه‌ی لوله‌ی تراکئوستومی کویدین",
+      "source": "https://tri-medmedical.com/products/covidien-medtronic-shiley-xlt-tracheostomy-tubes-with-disposable-inner-cannula-1"
+    }
+  ],
   "sources": [
     "holoo: 140960003 (لوله تراکوستومی سیلیکونی 6 کویدین آمریکا)",
     "https://accessgudid.nlm.nih.gov/devices/20884521176321"

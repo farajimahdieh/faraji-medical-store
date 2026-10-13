@@ -39,7 +39,13 @@
       "answer": "نه، هر نوار فقط یک بار مصرف می‌شود."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/170300001-1.jpg",
+      "alt": "نوار تست قند خون فری سنس ۵۰ عددی با جعبه",
+      "source": "https://www.digikala.com/product/dkp-9895390/"
+    }
+  ],
   "sources": [
     "https://torob.com/browse/3901/%D9%86%D9%88%D8%A7%D8%B1-%D8%AA%D8%B3%D8%AA-%D9%82%D9%86%D8%AF-%D8%AE%D9%88%D9%86/",
     "https://basalam.com/cat/health/%D8%AA%D8%B3%D8%AA-%D9%82%D9%86%D8%AF-%D8%AE%D9%88%D9%86-%D9%84%D9%88%D8%A7%D8%B2%D9%85-%D8%AC%D8%A7%D9%86%D8%A8%DB%8C"

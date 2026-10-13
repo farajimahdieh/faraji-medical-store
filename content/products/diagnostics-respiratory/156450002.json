@@ -34,7 +34,13 @@
       "answer": "فیلترهای HME اتصال استاندارد دارند؛ اگر شک دارید، لوله یا عکسش را نشان دهید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/156450002-1.jpg",
+      "alt": "نمونه‌ی فیلتر تراکئوستومی HME (بینی مصنوعی)",
+      "source": "https://www.siliconerubbermedical.com/sale-36843301-class-i-hme-filter-tracheostomy-heat-moisture-exchange-filter.html"
+    }
+  ],
   "sources": [
     "holoo: 156450002 (فیلتر تراکستومی چینی)",
     "https://au.intersurgical.com/catalogue/files/basic-html/page31.html"

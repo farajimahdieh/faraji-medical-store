@@ -45,7 +45,13 @@
       "answer": "بله، درگاه اکسیژن دارد."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/156450001-1.jpg",
+      "alt": "فیلتر تراکئوستومی (HME) کویدین Tracheolife II",
+      "source": "https://www.alphamedicalsolutions.com.au/medtronic/"
+    }
+  ],
   "sources": [
     "https://medicalmonks.com/?p=70823",
     "https://wellbefore.com/products/covidien-tracheolife-filter-hme-with-built-in-oxygen-port"
