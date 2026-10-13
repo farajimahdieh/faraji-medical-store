@@ -31,7 +31,18 @@
       "answer": "کم‌شنوایی هر کس متفاوت است؛ پیش از خرید شنوایی‌سنجی کمک می‌کند انتخاب درستی داشته باشید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/119670001-1.jpg",
+      "alt": "نمونه‌ی سمعک آنالوگ پشت گوشی",
+      "source": "https://www.digikala.com/product/dkp-15538244/"
+    },
+    {
+      "file": "data-private/photos/119670001-2.jpg",
+      "alt": "نمونه‌ی سمعک آنالوگ پشت گوشی با سری‌های گوش",
+      "source": "https://www.digikala.com/product/dkp-15538244/"
+    }
+  ],
   "sources": [
     "holoo: 119670001 (سمعک گوش آنالوگ)",
     "https://www.beltone.com/en/hearing-aid-guides/your-guide-to-hearing-aid-batteries"

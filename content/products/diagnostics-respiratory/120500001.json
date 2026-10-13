@@ -36,7 +36,13 @@
       "answer": "این دستگاه برای صورت ساخته شده؛ برای مرطوب کردن هوای اتاق، دستگاه‌های بخور سرد را ببینید."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "file": "data-private/photos/120500001-1.jpg",
+      "alt": "دستگاه بخور گرم صورت مروارید",
+      "source": "https://www.digikala.com/product/dkp-6616892/"
+    }
+  ],
   "sources": [
     "holoo: 120500001 (بخور صورت گرم مروارید)",
     "https://www.digikala.com/mag/benefits-of-steaming-face/"
