@@ -131,6 +131,13 @@ database rows. Read `content/README.md` for the file format and pipeline.
   `"file"`; put the original page in `source`.
 - If a site blocks downloading, save the image into `data-private/photos/`
   the same way.
+- Owner's shop photos are never used raw. Clean each one first: remove the
+  background (Python `rembg` with the `isnet-general-use` model works well;
+  for white or transparent packs, where it fails, crop tightly to the pack
+  instead), auto-correct light/contrast, sharpen lightly, and centre on a
+  white 1000×1000 canvas. Rotate so the pack's text reads upright. Drop
+  shots that show other products, handwriting or price tags. Look at the
+  result before using it.
 - Use the largest available version (>= 800px). Give each image a `source`
   page and a descriptive Persian `alt` ("پانسمان هیدروکلوئید هارتمن سایز
   10×10 در بسته‌بندی").
