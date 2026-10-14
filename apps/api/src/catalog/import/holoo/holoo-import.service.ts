@@ -11,6 +11,7 @@ import {
   ItemOverride,
   overrideTarget,
 } from './holoo-sheet';
+import { pickMergeTarget } from './merge-target';
 import { MatchCandidate, matchProduct } from './product-match';
 
 const SOURCE_NAME = 'holoo';
@@ -23,7 +24,14 @@ const DEFAULT_SIZE = 'استاندارد';
 export type MatchOverrides = Record<string, ItemOverride>;
 
 export type PlanAction =
-  | { kind: 'linked'; productId: string; productName: string } // codes already imported
+  // Codes already imported. `mergeFrom`: other products some of the codes
+  // are linked to, now grouped as sizes of this one (see holoo-matches.json).
+  | {
+      kind: 'linked';
+      productId: string;
+      productName: string;
+      mergeFrom: string[];
+    }
   | {
       kind: 'matched';
       productId: string;
@@ -43,6 +51,10 @@ export interface HolooImportSummary {
   createdProducts: number;
   createdVariants: number;
   updatedVariants: number;
+  // Variants moved onto the product their group was merged into, and the
+  // products archived because a merge left them without variants.
+  movedVariants: number;
+  archivedProducts: string[];
   // Rows not written because their size on the target product is already
   // linked to a different Holoo code (two Holoo items for one variant).
   conflicts: string[];
@@ -51,7 +63,9 @@ export interface HolooImportSummary {
 // Writes parsed Holoo rows into the catalog. Holoo owns price/stock/code
 // (see ProductVariant); everything else -- description, images, status --
 // belongs to the site, so an existing product is never touched beyond its
-// variants. Each group is resolved, in order, to: the product its Holoo
+// variants -- except that a duplicate page emptied by a merge (codes that
+// holoo-matches.json now groups as sizes of one product) is archived.
+// Each group is resolved, in order, to: the product its Holoo
 // codes are already linked to, a manual override, an existing product with
 // the same name (e.g. imported earlier from teb-sanat.com), or a new
 // product. Ambiguous name matches are skipped and reported -- never
@@ -73,6 +87,8 @@ export class HolooImportService {
       createdProducts: 0,
       createdVariants: 0,
       updatedVariants: 0,
+      movedVariants: 0,
+      archivedProducts: [],
       conflicts: [],
     };
 
@@ -94,8 +110,12 @@ export class HolooImportService {
           action.kind === 'new'
             ? await this.createProduct(manager, group, category, summary)
             : action.productId;
+        const merging = action.kind === 'linked' && action.mergeFrom.length > 0;
         for (const item of group.items) {
-          await this.upsertVariant(manager, productId, item, summary);
+          await this.upsertVariant(manager, productId, item, summary, merging);
+        }
+        if (action.kind === 'linked') {
+          await this.archiveEmptied(manager, action.mergeFrom, summary);
         }
       }
     });
@@ -110,15 +130,40 @@ export class HolooImportService {
     overrides: MatchOverrides,
   ): Promise<PlanAction> {
     const codes = group.items.map((item) => item.code);
-    const known = await manager.findOne(ProductVariant, {
+    const override = codes
+      .map((code) => overrideTarget(overrides[code]))
+      .find(Boolean);
+
+    const known = await manager.find(ProductVariant, {
       where: { accountingId: In(codes) },
       relations: { product: true },
     });
-    if (known) {
+    if (known.length > 0) {
+      // Codes on several products: holoo-matches.json now groups them as
+      // sizes of one product, so the others are merged into it.
+      const preferred = candidates.find(
+        (candidate) => candidate.slug === override,
+      )?.id;
+      const targetId = pickMergeTarget(
+        codes,
+        known.map((variant) => ({
+          code: variant.accountingId!,
+          productId: variant.productId,
+        })),
+        preferred,
+      )!;
+      const target = known.find((variant) => variant.productId === targetId)!;
       return {
         kind: 'linked',
-        productId: known.productId,
-        productName: known.product.name,
+        productId: targetId,
+        productName: target.product.name,
+        mergeFrom: [
+          ...new Set(
+            known
+              .map((variant) => variant.productId)
+              .filter((id) => id !== targetId),
+          ),
+        ],
       };
     }
     const source = await manager.findOne(ProductSource, {
@@ -130,12 +175,10 @@ export class HolooImportService {
         kind: 'linked',
         productId: source.productId,
         productName: source.product.name,
+        mergeFrom: [],
       };
     }
 
-    const override = codes
-      .map((code) => overrideTarget(overrides[code]))
-      .find(Boolean);
     if (override === 'new') return { kind: 'new' };
     if (override === 'skip')
       return { kind: 'skip', reason: 'skipped by override' };
@@ -242,6 +285,7 @@ export class HolooImportService {
     productId: string,
     item: HolooItem,
     summary: HolooImportSummary,
+    merging = false,
   ): Promise<void> {
     const size = item.size ?? DEFAULT_SIZE;
     // Matched by Holoo code first; otherwise adopt an unlinked variant of
@@ -249,6 +293,30 @@ export class HolooImportService {
     let variant = await manager.findOneBy(ProductVariant, {
       accountingId: item.code,
     });
+    // In a merge the variant moves onto the target product and takes the
+    // size holoo-matches.json gives it (its old page called it "استاندارد").
+    const moving = variant !== null && variant.productId !== productId;
+    const resizing =
+      variant !== null &&
+      merging &&
+      item.size !== null &&
+      variant.size !== size;
+    if (variant && (moving || resizing)) {
+      const newSize = item.size ?? variant.size;
+      const taken = await manager.findOneBy(ProductVariant, {
+        productId,
+        size: newSize,
+      });
+      if (taken && taken.id !== variant.id) {
+        summary.conflicts.push(
+          `«${item.name}» (${item.code}): size ${newSize} is already used on the merged product${taken.accountingId ? ` by Holoo code ${taken.accountingId}` : ''}`,
+        );
+        return;
+      }
+      variant.productId = productId;
+      variant.size = newSize;
+      if (moving) summary.movedVariants += 1;
+    }
     if (!variant) {
       const sameSize = await manager.findOneBy(ProductVariant, {
         productId,
@@ -294,6 +362,24 @@ export class HolooImportService {
       manager.create(ProductVariant, { productId, size, ...synced }),
     );
     summary.createdVariants += 1;
+  }
+
+  // A product a merge left without variants is a duplicate page now; it is
+  // archived (never deleted), so it disappears from the store but stays
+  // recoverable in the admin panel.
+  private async archiveEmptied(
+    manager: EntityManager,
+    productIds: string[],
+    summary: HolooImportSummary,
+  ): Promise<void> {
+    for (const id of productIds) {
+      if (await manager.existsBy(ProductVariant, { productId: id })) continue;
+      const product = await manager.findOneBy(Product, { id });
+      if (!product || product.status === ProductStatus.ARCHIVED) continue;
+      product.status = ProductStatus.ARCHIVED;
+      await manager.save(product);
+      summary.archivedProducts.push(product.slug);
+    }
   }
 
   // Same Persian-friendly slug shape as AdminProductsService.slugify.

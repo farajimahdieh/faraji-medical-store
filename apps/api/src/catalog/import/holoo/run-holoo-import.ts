@@ -97,6 +97,10 @@ function printPlan(summary: HolooImportSummary): void {
       );
     } else if (action.kind === 'new') {
       console.log(`+ ${group.name}`);
+    } else if (action.mergeFrom.length > 0) {
+      console.log(
+        `⇉ ${group.name}: ${action.mergeFrom.length} صفحه‌ی جدا در «${action.productName}» ادغام می‌شود`,
+      );
     }
   }
   for (const conflict of summary.conflicts) console.log(`⚠ ${conflict}`);
@@ -153,8 +157,11 @@ async function main() {
       return;
     }
     console.log(
-      `\nمحصول جدید: ${summary.createdProducts}، تنوع جدید: ${summary.createdVariants}، تنوع به‌روزشده: ${summary.updatedVariants}`,
+      `\nمحصول جدید: ${summary.createdProducts}، تنوع جدید: ${summary.createdVariants}، تنوع به‌روزشده: ${summary.updatedVariants}، تنوع منتقل‌شده: ${summary.movedVariants}`,
     );
+    for (const slug of summary.archivedProducts) {
+      console.log(`▣ بایگانی شد (ادغام شده در محصول دیگر): ${slug}`);
+    }
   } finally {
     await app.close();
   }
